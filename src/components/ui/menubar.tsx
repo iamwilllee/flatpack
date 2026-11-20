@@ -5,9 +5,14 @@ import { MenuEntries, type MenuEntry } from '@/components/ui/context-menu'
 export type MenubarMenu = { label: string; entries: MenuEntry[] }
 
 /** A desktop-style menu bar: File, Edit, View … Hovering moves between open menus. */
-export function Menubar({ menus }: { menus: MenubarMenu[] }) {
+export type MenubarProps = Omit<BaseMenubar.Props, 'className' | 'children'> & {
+  menus: MenubarMenu[]
+  className?: string
+}
+
+export function Menubar({ menus, className, ...props }: MenubarProps) {
   return (
-    <BaseMenubar data-slot="menubar">
+    <BaseMenubar data-slot="menubar" className={className} {...props}>
       {menus.map((m) => (
         <BaseMenu.Root key={m.label}>
           <BaseMenu.Trigger data-slot="menubar-trigger">{m.label}</BaseMenu.Trigger>

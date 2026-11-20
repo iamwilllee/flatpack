@@ -11,6 +11,7 @@ globalThis.ResizeObserver ??= class {
   disconnect() {}
 }
 Element.prototype.scrollIntoView ??= () => {}
+Element.prototype.scrollTo ??= () => {}
 globalThis.matchMedia ??= ((query: string) => ({
   matches: false,
   media: query,

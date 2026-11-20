@@ -26,10 +26,18 @@ export function MenuEntries({ entries, Item, Separator }: {
 }
 
 /** Right-click (or long-press) menu over an area. */
-export function ContextMenu({ children, entries }: { children: React.ReactNode; entries: MenuEntry[] }) {
+export type ContextMenuProps = Omit<BaseContextMenu.Root.Props, 'children'> & {
+  children: React.ReactNode
+  entries: MenuEntry[]
+  /** Class of the area that opens the menu. */
+  className?: string
+}
+
+/** Controlled (`open` + `onOpenChange`) or uncontrolled. Base UI root props pass through. */
+export function ContextMenu({ children, entries, className, ...props }: ContextMenuProps) {
   return (
-    <BaseContextMenu.Root>
-      <BaseContextMenu.Trigger data-slot="context-menu-trigger">{children}</BaseContextMenu.Trigger>
+    <BaseContextMenu.Root {...props}>
+      <BaseContextMenu.Trigger data-slot="context-menu-trigger" className={className}>{children}</BaseContextMenu.Trigger>
       <BaseContextMenu.Portal>
         <BaseContextMenu.Positioner data-slot="context-menu-positioner">
           <BaseContextMenu.Popup data-slot="menu-content">

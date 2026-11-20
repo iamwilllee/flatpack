@@ -4,7 +4,8 @@ import { Toggle } from '@base-ui/react/toggle'
 
 type Segment<T extends string> = { value: T; label: React.ReactNode; disabled?: boolean }
 export type SegmentedProps<T extends string> = Omit<React.HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'onChange'> & {
-  size?: 'sm' | 'md' | 'lg'
+  /** sm 32 / md 40 / lg 48. `default` is an alias of `md`. */
+  size?: 'sm' | 'md' | 'default' | 'lg'
   options: Segment<T>[]
   value?: T
   defaultValue?: T
@@ -29,7 +30,7 @@ export function Segmented<T extends string>({ options, value, defaultValue, onVa
       }}
       disabled={disabled}
       data-slot="segmented"
-      data-size={size}
+      data-size={size === 'default' ? 'md' : size}
       role="tablist"
       {...rest}
     >

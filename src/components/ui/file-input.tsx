@@ -9,16 +9,45 @@ export type FileInputProps = {
   title?: React.ReactNode
   hint?: React.ReactNode
   disabled?: boolean
+  /** Controlled list (`value` + `onFilesChange`) or uncontrolled. */
+  value?: File[]
   onFilesChange?: (files: File[]) => void
   onReject?: (files: File[]) => void
+  /** The chosen files are also set on the real <input>, so a surrounding <form> submits them under this name. */
+  name?: string
+  id?: string
+  required?: boolean
+  className?: string
+  'aria-label'?: string
+  'aria-labelledby'?: string
+  /** Accessible name of each remove button, for localized products. */
+  removeLabel?: (fileName: string) => string
 }
 
 const size = (n: number) => (n < 1024 ? `${n} B` : n < 1048576 ? `${(n / 1024).toFixed(1)} KB` : `${(n / 1048576).toFixed(1)} MB`)
 
 /** Drop zone plus a file list. Click or drop; it only collects files, uploading is up to you. */
-export function FileInput({ accept, multiple, maxSize, title = 'Drop files here or click to browse', hint, disabled, onFilesChange, onReject }: FileInputProps) {
-  const [files, setFiles] = React.useState<File[]>([])
+export function FileInput({
+  accept, multiple, maxSize, title = 'Drop files here or click to browse', hint, disabled, value, onFilesChange, onReject,
+  name, id, required, className, 'aria-label': ariaLabel, 'aria-labelledby': labelledBy, removeLabel = (n) => `Remove ${n}`,
+}: FileInputProps) {
+  const [inner, setInner] = React.useState<File[]>([])
+  const files = value ?? inner
   const [dragging, setDragging] = React.useState(false)
+  const input = React.useRef<HTMLInputElement>(null)
+
+  const commit = (next: File[]) => {
+    if (value === undefined) setInner(next)
+    onFilesChange?.(next)
+  }
+  // Keep the real input in step with the list so native form submission and validation see it.
+  React.useEffect(() => {
+    const el = input.current
+    if (!el || typeof DataTransfer === 'undefined') return
+    const dt = new DataTransfer()
+    files.forEach((f) => dt.items.add(f))
+    el.files = dt.files
+  }, [files])
 
   const add = (list: FileList | null) => {
     if (!list) return
@@ -26,18 +55,12 @@ export function FileInput({ accept, multiple, maxSize, title = 'Drop files here 
     const ok = all.filter((f) => !maxSize || f.size <= maxSize)
     const bad = all.filter((f) => maxSize && f.size > maxSize)
     if (bad.length) onReject?.(bad)
-    const next = multiple ? [...files, ...ok] : ok.slice(0, 1)
-    setFiles(next)
-    onFilesChange?.(next)
+    commit(multiple ? [...files, ...ok] : ok.slice(0, 1))
   }
-  const remove = (i: number) => {
-    const next = files.filter((_, j) => j !== i)
-    setFiles(next)
-    onFilesChange?.(next)
-  }
+  const remove = (i: number) => commit(files.filter((_, j) => j !== i))
 
   return (
-    <div style={{ width: '100%' }}>
+    <div style={{ width: '100%' }} className={className}>
       <label
         data-slot="file-input"
         data-dragging={dragging}
@@ -50,7 +73,19 @@ export function FileInput({ accept, multiple, maxSize, title = 'Drop files here 
         <Upload size={16} />
         <span data-slot="file-input-title">{title}</span>
         {hint && <span>{hint}</span>}
-        <input type="file" accept={accept} multiple={multiple} disabled={disabled} onChange={(e) => { add(e.target.files); e.target.value = '' }} />
+        <input
+          ref={input}
+          type="file"
+          id={id}
+          name={name}
+          required={required}
+          aria-label={ariaLabel}
+          aria-labelledby={labelledBy}
+          accept={accept}
+          multiple={multiple}
+          disabled={disabled}
+          onChange={(e) => add(e.target.files)}
+        />
       </label>
       {files.length > 0 && (
         <ul data-slot="file-list">
@@ -59,7 +94,7 @@ export function FileInput({ accept, multiple, maxSize, title = 'Drop files here 
               <FileIcon size={16} />
               <span>{f.name}</span>
               <span data-slot="file-list-size">{size(f.size)}</span>
-              <button type="button" data-slot="button" data-variant="ghost" data-size="icon" aria-label={`Remove ${f.name}`} onClick={() => remove(i)} style={{ width: 'var(--fp-control-sm)', height: 'var(--fp-control-sm)' }}><X size={16} /></button>
+              <button type="button" data-slot="button" data-variant="ghost" data-size="icon" aria-label={removeLabel(f.name)} onClick={() => remove(i)} style={{ width: 'var(--fp-control-sm)', height: 'var(--fp-control-sm)' }}><X size={16} /></button>
             </li>
           ))}
         </ul>

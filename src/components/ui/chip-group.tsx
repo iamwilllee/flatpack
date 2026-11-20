@@ -7,7 +7,7 @@ export type ChipOption = { value: string; label: React.ReactNode; count?: number
 type Common = {
   options: ChipOption[]
   /** sm 32 / md 40 / lg 48, same as Button */
-  size?: 'sm' | 'md' | 'lg'
+  size?: 'sm' | 'md' | 'default' | 'lg'
   disabled?: boolean
   'aria-label'?: string
 }
@@ -32,7 +32,7 @@ export function ChipGroup(props: ChipGroupProps) {
   return (
     <BaseToggleGroup
       data-slot="chip-group"
-      data-size={size}
+      data-size={size === 'default' ? 'md' : size}
       aria-label={props['aria-label']}
       value={current}
       multiple={!!multiple}

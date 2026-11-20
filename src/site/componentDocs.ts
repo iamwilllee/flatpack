@@ -733,6 +733,9 @@ export const docs: ComponentDoc[] = [
       { prop: 'open / onOpenChange', type: 'boolean / (open) => void', desc: '受控打开', descEn: 'Controlled open state' },
       { prop: 'hotkey', type: 'boolean', default: 'true', desc: '绑定 ⌘K / Ctrl+K', descEn: 'Bind ⌘K / Ctrl+K' },
       { prop: 'placeholder / emptyText', type: 'string', desc: '输入框占位 / 无结果文案', descEn: 'Input placeholder / no-results text' },
+      { prop: 'label / closeHint', type: 'string', desc: '对话框的可访问名称、右侧按键提示，用于本地化', descEn: 'Dialog accessible name and the key hint, for localization' },
+      { prop: 'filter', type: '(command, query) => boolean', desc: '自定义匹配规则，替换默认的"包含"匹配', descEn: 'Custom matching, replacing the default contains-match' },
+      { prop: 'hotkeyKey / className', type: 'string', desc: '与 ⌘/Ctrl 一起打开的按键（默认 k）、样式', descEn: 'The key that opens it with ⌘/Ctrl (default k), and a class' }
     ],
   },
   {
@@ -810,6 +813,8 @@ export const docs: ComponentDoc[] = [
       { prop: 'min / max', type: 'Date', desc: '可选范围', descEn: 'Selectable range' },
       { prop: 'weekStartsOn', type: '0 | 1', default: '1', desc: '周日或周一开始', descEn: 'Week starts on Sunday or Monday' },
       { prop: 'locale', type: 'string', desc: '月份和星期的语言', descEn: 'Locale for month and weekday names' },
+      { prop: 'month / onMonthChange', type: 'Date / (month) => void', desc: '受控的当前月份', descEn: 'Controlled visible month' },
+      { prop: 'previousMonthLabel / nextMonthLabel', type: 'string', desc: '翻月按钮的可访问名称，用于本地化', descEn: 'Accessible names of the month buttons, for localization' }
     ],
   },
   {
@@ -826,6 +831,9 @@ export const docs: ComponentDoc[] = [
       { prop: 'onValueChange', type: '(value) => void', desc: '选择回调', descEn: 'Selection callback' },
       { prop: 'placeholder', type: 'string', desc: '未选择时的文字', descEn: 'Text when empty' },
       { prop: 'min / max / locale / disabled', type: '—', desc: '同 Calendar', descEn: 'Same as Calendar' },
+      { prop: 'open / onOpenChange', type: 'boolean / (open) => void', desc: '受控地打开弹层', descEn: 'Control the popover' },
+      { prop: 'name', type: 'string', desc: '用隐藏输入提交 ISO 日期（范围为 from/to），可放进 <form>', descEn: 'A hidden input carries the ISO date (from/to for a range) so it submits with a <form>' },
+      { prop: 'id / aria-label / aria-labelledby / className / weekStartsOn', type: '', desc: '触发按钮的 id、可访问名称、样式和一周起始日', descEn: 'Trigger id, accessible name, class and week start' }
     ],
   },
   {
@@ -843,6 +851,9 @@ export const docs: ComponentDoc[] = [
       { prop: 'title / hint', type: 'ReactNode', desc: '主文案 / 辅助说明', descEn: 'Main text / hint' },
       { prop: 'onFilesChange', type: '(files: File[]) => void', desc: '当前文件列表', descEn: 'Current file list' },
       { prop: 'onReject', type: '(files: File[]) => void', desc: '被拒绝的文件', descEn: 'Rejected files' },
+      { prop: 'value / onFilesChange', type: 'File[] / (files) => void', desc: '受控的文件列表', descEn: 'Controlled file list' },
+      { prop: 'name / id / required / aria-label', type: 'string | boolean', desc: '文件同步到真实的 <input type="file">，所在 <form> 可直接提交、校验', descEn: 'Files are set on the real <input type="file">, so a surrounding <form> submits and validates them' },
+      { prop: 'removeLabel', type: '(name) => string', desc: '删除按钮的可访问名称，用于本地化', descEn: 'Accessible name of each remove button, for localization' }
     ],
   },
   {
@@ -875,6 +886,8 @@ export const docs: ComponentDoc[] = [
       { prop: 'defaultExpanded', type: 'string[]', desc: '默认展开的 id', descEn: 'Ids expanded by default' },
       { prop: 'selected / defaultSelected', type: 'string | null', desc: '受控 / 默认选中', descEn: 'Controlled / default selection' },
       { prop: 'onSelect', type: '(id: string) => void', desc: '选择回调', descEn: 'Selection callback' },
+      { prop: 'expanded / onExpandedChange', type: 'string[] / (ids) => void', desc: '受控展开：当前打开的文件夹 id', descEn: 'Controlled expansion: the ids of the open folders' },
+      { prop: 'className / aria-labelledby', type: 'string', desc: '透传到根节点', descEn: 'Passed to the root' }
     ],
   },
   {
@@ -903,6 +916,8 @@ export const docs: ComponentDoc[] = [
     api: [
       { prop: 'entries', type: 'MenuEntry[]', desc: '{ label; shortcut?; icon?; danger?; disabled?; onSelect? } 或 { type: "separator" }', descEn: '{ label; shortcut?; icon?; danger?; disabled?; onSelect? } or { type: "separator" }' },
       { prop: 'children', type: 'ReactNode', desc: '可右键的区域', descEn: 'The right-clickable area' },
+      { prop: 'open / defaultOpen / onOpenChange', type: 'boolean / (open) => void', desc: '受控或非受控地打开', descEn: 'Controlled or uncontrolled open state' },
+      { prop: 'className', type: 'string', desc: '触发区域的样式', descEn: 'Class of the trigger area' }
     ],
   },
   {
@@ -916,6 +931,7 @@ export const docs: ComponentDoc[] = [
     ],
     api: [
       { prop: 'menus', type: '{ label: string; entries: MenuEntry[] }[]', desc: '菜单列表，菜单项同 ContextMenu', descEn: 'Menus; entries as in ContextMenu' },
+      { prop: 'aria-label / className / orientation / loop', type: '', desc: '透传给 Base UI Menubar', descEn: 'Passed to the Base UI Menubar' }
     ],
   },
   {
@@ -930,6 +946,8 @@ export const docs: ComponentDoc[] = [
     api: [
       { prop: 'slides', type: 'ReactNode[]', desc: '每一页内容', descEn: 'One node per slide' },
       { prop: 'aria-label', type: 'string', default: '"Carousel"', desc: '区域名称', descEn: 'Region label' },
+      { prop: 'index / defaultIndex / onIndexChange', type: 'number / (index) => void', desc: '受控或非受控的当前页（从 0 开始）', descEn: 'Controlled or uncontrolled current slide (0-based)' },
+      { prop: 'previousLabel / nextLabel / slideLabel', type: 'string / (i, n) => string', desc: '按钮和每一页的可访问名称，用于本地化', descEn: 'Accessible names of the buttons and each slide, for localization' }
     ],
   },
   {
@@ -946,6 +964,8 @@ export const docs: ComponentDoc[] = [
       { prop: 'open / index', type: 'boolean / number', desc: 'Lightbox：是否打开 / 当前第几张', descEn: 'Lightbox: open state / current index' },
       { prop: 'onOpenChange / onIndexChange', type: '(v) => void', desc: 'Lightbox：回调', descEn: 'Lightbox: callbacks' },
       { prop: 'columns', type: 'number', default: '3', desc: 'LightboxGallery：列数', descEn: 'LightboxGallery: columns' },
+      { prop: 'label / closeLabel / previousLabel / nextLabel', type: 'string', desc: '可访问名称，用于本地化。label 是对话框的角色描述，名称取当前图片的 alt', descEn: "Accessible names, for localization. label is the dialog's role description; its name is the current image's alt" },
+      { prop: 'openLabel', type: '(alt) => string', desc: 'LightboxGallery：缩略图按钮的可访问名称', descEn: 'LightboxGallery: accessible name of each thumbnail button' }
     ],
   },
   {

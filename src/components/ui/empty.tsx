@@ -5,13 +5,15 @@ export type EmptyProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> & {
   description?: string
   action?: React.ReactNode
   icon?: React.ReactNode
+  /** The element of the title. Use a heading level when the empty state is a section of the page. */
+  titleAs?: 'div' | 'h2' | 'h3' | 'h4'
 }
 
-export function Empty({ title = 'Nothing here yet', description, action, icon, ...props }: EmptyProps) {
+export function Empty({ title = 'Nothing here yet', description, action, icon, titleAs: Title = 'div', ...props }: EmptyProps) {
   return (
     <div data-slot="empty" {...props}>
       <div data-slot="empty-graphic">{icon ?? <DefaultGraphic />}</div>
-      <div data-slot="empty-title">{title}</div>
+      <Title data-slot="empty-title">{title}</Title>
       {description && <div data-slot="empty-description">{description}</div>}
       {action && <div data-slot="empty-action">{action}</div>}
     </div>

@@ -16,6 +16,13 @@ type Common = {
   /** 0 = Sunday, 1 = Monday */
   weekStartsOn?: 0 | 1
   locale?: string
+  /** Controlled visible month. Pair with onMonthChange. */
+  month?: Date
+  onMonthChange?: (month: Date) => void
+  className?: string
+  /** Accessible names of the month buttons, for localized products. */
+  previousMonthLabel?: string
+  nextMonthLabel?: string
 }
 export type CalendarProps =
   | (Common & { mode?: 'single'; value?: Date | null; onValueChange?: (d: Date) => void })
@@ -23,12 +30,17 @@ export type CalendarProps =
 
 /** A month grid. Arrow keys move by day / week, PageUp / PageDown by month. */
 export function Calendar(props: CalendarProps) {
-  const { min, max, weekStartsOn = 1, locale } = props
+  const { min, max, weekStartsOn = 1, locale, className, previousMonthLabel = 'Previous month', nextMonthLabel = 'Next month' } = props
   const selected = props.mode === 'range' ? props.value?.from ?? null : props.value ?? null
-  const [month, setMonth] = React.useState(() => {
+  const [monthState, setMonthState] = React.useState(() => {
     const d = props.defaultMonth ?? selected ?? new Date()
     return new Date(d.getFullYear(), d.getMonth(), 1)
   })
+  const month = props.month ? new Date(props.month.getFullYear(), props.month.getMonth(), 1) : monthState
+  const setMonth = (next: Date) => {
+    if (!props.month) setMonthState(next)
+    props.onMonthChange?.(next)
+  }
   const [focus, setFocus] = React.useState<Date>(() => startOfDay(selected ?? new Date()))
   const [hover, setHover] = React.useState<Date | null>(null)
   const grid = React.useRef<HTMLDivElement>(null)
@@ -80,11 +92,11 @@ export function Calendar(props: CalendarProps) {
   }
 
   return (
-    <div data-slot="calendar">
+    <div data-slot="calendar" className={className}>
       <div data-slot="calendar-header">
-        <button type="button" data-slot="button" data-variant="ghost" data-size="icon" aria-label="Previous month" onClick={() => setMonth(addMonths(month, -1))} style={{ width: 'var(--fp-control-sm)', height: 'var(--fp-control-sm)' }}><ChevronLeft size={16} /></button>
+        <button type="button" data-slot="button" data-variant="ghost" data-size="icon" aria-label={previousMonthLabel} onClick={() => setMonth(addMonths(month, -1))} style={{ width: 'var(--fp-control-sm)', height: 'var(--fp-control-sm)' }}><ChevronLeft size={16} /></button>
         <span data-slot="calendar-title" aria-live="polite">{title}</span>
-        <button type="button" data-slot="button" data-variant="ghost" data-size="icon" aria-label="Next month" onClick={() => setMonth(addMonths(month, 1))} style={{ width: 'var(--fp-control-sm)', height: 'var(--fp-control-sm)' }}><ChevronRight size={16} /></button>
+        <button type="button" data-slot="button" data-variant="ghost" data-size="icon" aria-label={nextMonthLabel} onClick={() => setMonth(addMonths(month, 1))} style={{ width: 'var(--fp-control-sm)', height: 'var(--fp-control-sm)' }}><ChevronRight size={16} /></button>
       </div>
       <div data-slot="calendar-grid" role="grid" ref={grid} onKeyDown={onKeyDown} onMouseLeave={() => setHover(null)}>
         {weekdays.map((w, i) => <span key={i} data-slot="calendar-weekday" role="columnheader">{w}</span>)}

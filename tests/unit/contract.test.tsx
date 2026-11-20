@@ -20,6 +20,16 @@ import { Alert } from '@/components/ui/alert'
 import { Button, buttonProps } from '@/components/ui/button'
 import { TooltipProvider, TooltipRoot, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip'
 import { ToastProvider, useToast } from '@/components/ui/toast'
+import { Tree } from '@/components/ui/tree'
+import { Carousel } from '@/components/ui/carousel'
+import { Calendar } from '@/components/ui/calendar'
+import { DatePicker } from '@/components/ui/date-picker'
+import { FileInput } from '@/components/ui/file-input'
+import { CommandPalette } from '@/components/ui/command-palette'
+import { ContextMenu } from '@/components/ui/context-menu'
+import { Menubar } from '@/components/ui/menubar'
+import { Lightbox } from '@/components/ui/lightbox'
+import { Empty } from '@/components/ui/empty'
 
 describe('Checkbox', () => {
   it('is controlled by `checked` and reports changes', async () => {
@@ -329,5 +339,91 @@ describe('ToastProvider and useToast', () => {
     expect(screen.getByText('All good')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Schließen' })).toBeInTheDocument()
     expect(screen.getByLabelText('Hinweise')).toBeInTheDocument()
+  })
+})
+
+describe('Tree, Carousel, Calendar', () => {
+  const nodes = [{ id: 'src', label: 'src', children: [{ id: 'a', label: 'a.ts' }] }]
+  it('Tree follows `expanded` and reports changes', async () => {
+    const onExpandedChange = vi.fn()
+    render(<Tree aria-label="Files" nodes={nodes} expanded={[]} onExpandedChange={onExpandedChange} />)
+    await userEvent.click(screen.getByRole('treeitem', { name: 'src' }))
+    expect(onExpandedChange).toHaveBeenCalledWith(['src'])
+    expect(screen.queryByRole('treeitem', { name: 'a.ts' })).toBeNull() // controlled: the parent decides
+  })
+  it('Carousel reports index changes and takes localized labels', async () => {
+    const onIndexChange = vi.fn()
+    render(<Carousel aria-label="Photos" previousLabel="Zurück" nextLabel="Weiter" slideLabel={(i, n) => `Bild ${i} von ${n}`} onIndexChange={onIndexChange} slides={['a', 'b', 'c']} />)
+    await userEvent.click(screen.getByRole('button', { name: 'Weiter' }))
+    expect(onIndexChange).toHaveBeenCalledWith(1)
+    expect(screen.getByRole('group', { name: 'Bild 2 von 3' })).toBeInTheDocument()
+  })
+  it('Calendar follows `month` and localizes its buttons', async () => {
+    const onMonthChange = vi.fn()
+    render(<Calendar month={new Date(2026, 0, 1)} onMonthChange={onMonthChange} locale="en" previousMonthLabel="Vorheriger Monat" nextMonthLabel="Nächster Monat" />)
+    expect(screen.getByText('January 2026')).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Nächster Monat' }))
+    expect(onMonthChange).toHaveBeenCalled()
+    expect(screen.getByText('January 2026')).toBeInTheDocument() // still January: controlled
+  })
+})
+
+describe('DatePicker and FileInput in forms', () => {
+  it('DatePicker submits its date under `name`', () => {
+    const { container } = render(<form><DatePicker name="due" defaultValue={new Date(2026, 10, 5)} aria-label="Due date" locale="en" /></form>)
+    expect((container.querySelector('input[name="due"]') as HTMLInputElement).value).toBe('2026-11-05')
+    expect(screen.getByRole('button', { name: 'Due date' })).toBeInTheDocument()
+  })
+  it('DatePicker opens under parent control', async () => {
+    const onOpenChange = vi.fn()
+    render(<DatePicker open aria-label="Due" onOpenChange={onOpenChange} locale="en" />)
+    expect(await screen.findByRole('grid')).toBeInTheDocument()
+  })
+  it('FileInput is controlled, named and localizable', async () => {
+    const file = new File(['x'], 'plan.pdf', { type: 'application/pdf' })
+    const onFilesChange = vi.fn()
+    const { container } = render(<FileInput name="attachment" aria-label="Attachment" value={[file]} onFilesChange={onFilesChange} removeLabel={(n) => `Entfernen ${n}`} />)
+    expect(container.querySelector('input[type="file"]')).toHaveAttribute('name', 'attachment')
+    await userEvent.click(screen.getByRole('button', { name: 'Entfernen plan.pdf' }))
+    expect(onFilesChange).toHaveBeenCalledWith([])
+    expect(screen.getByText('plan.pdf')).toBeInTheDocument() // controlled: still listed
+  })
+})
+
+describe('menus and palettes', () => {
+  it('CommandPalette uses a custom filter and label', async () => {
+    const onSelect = vi.fn()
+    render(<CommandPalette open hotkey={false} label="Befehle" closeHint="Esc" filter={(c, q) => c.id.startsWith(q)} commands={[{ id: 'new', label: 'Create', onSelect }, { id: 'open', label: 'Open', onSelect }]} />)
+    const box = await screen.findByRole('combobox', { name: 'Befehle' })
+    await userEvent.type(box, 'ne')
+    expect(screen.getAllByRole('option')).toHaveLength(1)
+    expect(screen.getByRole('option', { name: 'Create' })).toBeInTheDocument()
+  })
+  it('ContextMenu opens under parent control', async () => {
+    render(<ContextMenu open entries={[{ label: 'Copy' }]}><div>Area</div></ContextMenu>)
+    expect(await screen.findByRole('menuitem', { name: 'Copy' })).toBeInTheDocument()
+  })
+  it('Menubar takes aria-label and className', () => {
+    render(<Menubar aria-label="App" className="bar" menus={[{ label: 'File', entries: [{ label: 'New' }] }]} />)
+    expect(screen.getByRole('menubar', { name: 'App' })).toHaveClass('bar')
+  })
+  it('Lightbox labels are localizable', () => {
+    render(<Lightbox open index={0} onOpenChange={() => {}} onIndexChange={() => {}} label="Bildbetrachter" closeLabel="Schließen" images={[{ src: '/a.png', alt: 'A' }, { src: '/b.png', alt: 'B' }]} />)
+    expect(screen.getByRole('dialog', { name: 'A' })).toHaveAttribute('aria-roledescription', 'Bildbetrachter')
+    expect(screen.getByRole('button', { name: 'Schließen' })).toBeInTheDocument()
+  })
+})
+
+describe('Empty', () => {
+  it('can render its title as a heading', () => {
+    render(<Empty title="No results" titleAs="h2" />)
+    expect(screen.getByRole('heading', { level: 2, name: 'No results' })).toBeInTheDocument()
+  })
+})
+
+describe('size naming', () => {
+  it('Button accepts md as an alias of default', () => {
+    render(<Button size="md">Go</Button>)
+    expect(screen.getByRole('button', { name: 'Go' })).toHaveAttribute('data-size', 'default')
   })
 })

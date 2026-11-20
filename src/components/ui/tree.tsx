@@ -9,21 +9,28 @@ export type TreeProps = {
   selected?: string | null
   defaultSelected?: string | null
   onSelect?: (id: string) => void
+  /** Controlled: ids of the open folders. Pair with onExpandedChange. */
+  expanded?: string[]
+  onExpandedChange?: (ids: string[]) => void
+  className?: string
   'aria-label'?: string
+  'aria-labelledby'?: string
 }
 
 /** A file tree. Click a folder to open it; the selected row is an ink block. Arrow keys work like a file manager. */
-export function Tree({ nodes, defaultExpanded = [], selected, defaultSelected = null, onSelect, 'aria-label': ariaLabel }: TreeProps) {
-  const [open, setOpen] = React.useState<Set<string>>(() => new Set(defaultExpanded))
+export function Tree({ nodes, defaultExpanded = [], expanded: expandedProp, onExpandedChange, selected, defaultSelected = null, onSelect, className, 'aria-label': ariaLabel, 'aria-labelledby': labelledBy }: TreeProps) {
+  const [openState, setOpenState] = React.useState<Set<string>>(() => new Set(defaultExpanded))
+  const open = React.useMemo(() => (expandedProp ? new Set(expandedProp) : openState), [expandedProp, openState])
   const [inner, setInner] = React.useState<string | null>(defaultSelected)
   const current = selected !== undefined ? selected : inner
   const root = React.useRef<HTMLUListElement>(null)
 
-  const toggle = (id: string, to?: boolean) => setOpen((s) => {
-    const n = new Set(s)
+  const toggle = (id: string, to?: boolean) => {
+    const n = new Set(open)
     if (to ?? !n.has(id)) n.add(id); else n.delete(id)
-    return n
-  })
+    if (!expandedProp) setOpenState(n)
+    onExpandedChange?.([...n])
+  }
   const pick = (id: string) => { setInner(id); onSelect?.(id) }
 
   const onKeyDown = (e: React.KeyboardEvent) => {
@@ -40,7 +47,7 @@ export function Tree({ nodes, defaultExpanded = [], selected, defaultSelected = 
   }
 
   const render = (list: TreeNode[], depth: number): React.ReactNode => (
-    <ul data-slot="tree" role={depth === 0 ? 'tree' : 'group'} aria-label={depth === 0 ? ariaLabel : undefined} ref={depth === 0 ? root : undefined} onKeyDown={depth === 0 ? onKeyDown : undefined}>
+    <ul data-slot="tree" role={depth === 0 ? 'tree' : 'group'} className={depth === 0 ? className : undefined} aria-label={depth === 0 ? ariaLabel : undefined} aria-labelledby={depth === 0 ? labelledBy : undefined} ref={depth === 0 ? root : undefined} onKeyDown={depth === 0 ? onKeyDown : undefined}>
       {list.map((n) => {
         const branch = !!n.children?.length
         const expanded = open.has(n.id)
