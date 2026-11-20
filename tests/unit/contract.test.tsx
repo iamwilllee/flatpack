@@ -18,6 +18,8 @@ import { Progress } from '@/components/ui/progress'
 import { Input } from '@/components/ui/input'
 import { Alert } from '@/components/ui/alert'
 import { Button, buttonProps } from '@/components/ui/button'
+import { TooltipProvider, TooltipRoot, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip'
+import { ToastProvider, useToast } from '@/components/ui/toast'
 
 describe('Checkbox', () => {
   it('is controlled by `checked` and reports changes', async () => {
@@ -40,6 +42,25 @@ describe('Checkbox', () => {
     const input = container.querySelector('input[type="checkbox"]') as HTMLInputElement
     expect(input.name).toBe('agree')
     expect(input.required).toBe(true)
+  })
+})
+
+describe('Checkbox and Switch without a label prop', () => {
+  it('are named by an enclosing <label> instead of an empty wrapper', () => {
+    render(
+      <>
+        <label>
+          <Checkbox />
+          Include this
+        </label>
+        <label>
+          <Switch />
+          Show details
+        </label>
+      </>,
+    )
+    expect(screen.getByRole('checkbox', { name: 'Include this' })).toBeInTheDocument()
+    expect(screen.getByRole('switch', { name: 'Show details' })).toBeInTheDocument()
   })
 })
 
@@ -273,5 +294,40 @@ describe('presentational components pass props through', () => {
     expect(link).toHaveAttribute('data-slot', 'button')
     expect(link).toHaveAttribute('data-variant', 'outline')
     expect(link).toHaveAttribute('data-size', 'lg')
+  })
+})
+
+describe('Tooltip (compound)', () => {
+  it('describes its trigger and opens under parent control', () => {
+    render(
+      <TooltipProvider>
+        <TooltipRoot defaultOpen>
+          <TooltipTrigger render={<button type="button" aria-label="Filters" />}>F</TooltipTrigger>
+          <TooltipContent>Filter the list</TooltipContent>
+        </TooltipRoot>
+      </TooltipProvider>,
+    )
+    const tip = screen.getByRole('tooltip')
+    expect(tip).toHaveTextContent('Filter the list')
+    expect(screen.getByRole('button', { name: 'Filters' })).toHaveAttribute('aria-describedby', tip.id)
+  })
+})
+
+describe('ToastProvider and useToast', () => {
+  it('shows a request-local toast with localized labels', async () => {
+    function Trigger() {
+      const toast = useToast()
+      return <button onClick={() => toast.add({ title: 'Saved', description: 'All good', type: 'success' })}>Go</button>
+    }
+    render(
+      <ToastProvider dismissLabel="Schließen" regionLabel="Hinweise">
+        <Trigger />
+      </ToastProvider>,
+    )
+    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
+    expect(await screen.findByText('Saved')).toBeInTheDocument()
+    expect(screen.getByText('All good')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Schließen' })).toBeInTheDocument()
+    expect(screen.getByLabelText('Hinweise')).toBeInTheDocument()
   })
 })

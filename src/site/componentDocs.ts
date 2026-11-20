@@ -351,7 +351,8 @@ export const docs: ComponentDoc[] = [
       { prop: 'content', type: 'ReactNode', desc: '提示内容', descEn: 'Tooltip content' },
       { prop: 'side', type: '"top" | "bottom"', default: '"top"', desc: '显示方向', descEn: 'Placement' },
       { prop: 'open / defaultOpen / onOpenChange', type: 'boolean / (open) => void', desc: '受控或非受控地显示', descEn: 'Controlled or uncontrolled visibility' },
-      { prop: 'side / align / sideOffset / delay / disabled', type: 'string / number / boolean', desc: '位置、延迟、禁用', descEn: 'Placement, delay, disabled' }
+      { prop: 'side / align / sideOffset / delay / disabled', type: 'string / number / boolean', desc: '位置、延迟、禁用', descEn: 'Placement, delay, disabled' },
+      { prop: 'TooltipProvider, TooltipRoot, TooltipTrigger, TooltipContent', type: 'compound', desc: '组合式写法：触发器自动带 aria-describedby 指向内容，支持 render 换成自己的元素', descEn: 'Compound form: the trigger gets aria-describedby pointing at the content, and render swaps in your own element' }
     ],
   },
   {
@@ -684,6 +685,8 @@ export const docs: ComponentDoc[] = [
       { prop: 'action', type: '{ label; onClick }', desc: '附带一个操作按钮（如撤销）', descEn: 'One action button, e.g. Undo' },
       { prop: 'toast.close(id)', type: '(id: string) => void', desc: '手动关闭', descEn: 'Close programmatically' },
       { prop: 'Toaster', type: '{ timeout?: number; limit?: number }', default: '4000 / 3', desc: '挂载点：默认时长与同时显示的条数', descEn: 'Mount point: default timeout and max visible' },
+      { prop: 'ToastProvider / useToast()', type: '() => manager', desc: '请求内的 toast：根部包一层 ToastProvider，组件里 useToast().add({ title, type })。模块加载时不创建任何状态，适合 SSR', descEn: 'Request-local toasts: wrap the app in ToastProvider, call useToast().add({ title, type }). Nothing is created at module load, so it suits SSR' },
+      { prop: 'dismissLabel / regionLabel', type: 'string', desc: '关闭按钮和通知区域的可访问名称，用于本地化', descEn: 'Accessible names of the close button and the notification region, for localization' }
     ],
   },
   {

@@ -10,7 +10,7 @@
     {
       "path": "src/components/ui/textarea.tsx",
       "type": "registry:ui",
-      "content": "import * as React from 'react'\n\nexport function Textarea({ className, ...props }: React.TextareaHTMLAttributes<HTMLTextAreaElement>) {\n  return <textarea data-slot=\"textarea\" className={className} {...props} />\n}\n"
+      "content": "import * as React from 'react'\n\nexport function Textarea({ className, ...props }: React.ComponentProps<'textarea'>) {\n  return <textarea data-slot=\"textarea\" className={className} {...props} />\n}\n"
     }
   ]
 }

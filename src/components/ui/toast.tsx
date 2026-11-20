@@ -2,11 +2,14 @@ import * as React from 'react'
 import { Toast as BaseToast } from '@base-ui/react/toast'
 import { CircleCheck, CircleAlert, Info, X } from 'lucide-react'
 
-/**
- * Global toast manager. Mount <Toaster /> once near the root, then call
- * toast({ title, description, type }) from anywhere.
+/*
+ * Two ways to use toasts.
+ *
+ * 1. Request-local (apps with SSR): wrap the app in <ToastProvider> and call
+ *    const toast = useToast(); toast.add({ title, description, type }) from components.
+ *    Nothing is created at module load, so server rendering shares no state.
+ * 2. Global (static sites, demos): mount <Toaster /> once, then call toast({ … }) from anywhere.
  */
-const manager = BaseToast.createToastManager()
 
 export type ToastOptions = {
   title: React.ReactNode
@@ -17,8 +20,12 @@ export type ToastOptions = {
   action?: { label: string; onClick: () => void }
 }
 
+// Created on first use, never at import time.
+let manager: ReturnType<typeof BaseToast.createToastManager> | undefined
+const getManager = () => (manager ??= BaseToast.createToastManager())
+
 export function toast({ title, description, type = 'default', timeout, action }: ToastOptions) {
-  return manager.add({
+  return getManager().add({
     title,
     description,
     type,
@@ -26,11 +33,14 @@ export function toast({ title, description, type = 'default', timeout, action }:
     actionProps: action ? { children: action.label, onClick: action.onClick } : undefined,
   })
 }
-toast.close = (id: string) => manager.close(id)
+toast.close = (id: string) => getManager().close(id)
+
+/** The toast manager of the nearest <ToastProvider>: add, close, update, promise. */
+export const useToast = BaseToast.useToastManager
 
 const ICON = { default: Info, success: CircleCheck, error: CircleAlert }
 
-function ToastList() {
+function ToastList({ dismissLabel }: { dismissLabel: string }) {
   const { toasts } = BaseToast.useToastManager()
   return toasts.map((t) => {
     const type = (t.type ?? 'default') as keyof typeof ICON
@@ -38,25 +48,49 @@ function ToastList() {
     return (
       <BaseToast.Root key={t.id} toast={t} data-slot="toast" data-type={type}>
         <span data-slot="toast-icon"><Icon size={16} /></span>
-        <div data-slot="toast-body">
+        <BaseToast.Content data-slot="toast-body">
           <BaseToast.Title data-slot="toast-title" />
           <BaseToast.Description data-slot="toast-description" />
           {t.actionProps && <BaseToast.Action data-slot="button" data-variant="outline" data-size="sm" />}
-        </div>
-        <BaseToast.Close data-slot="toast-close" aria-label="Close"><X size={16} /></BaseToast.Close>
+        </BaseToast.Content>
+        <BaseToast.Close data-slot="toast-close" aria-hidden={false} aria-label={dismissLabel}><X size={16} /></BaseToast.Close>
       </BaseToast.Root>
     )
   })
 }
 
-export function Toaster({ timeout = 4000, limit = 3 }: { timeout?: number; limit?: number }) {
+export type ToastViewportProps = {
+  /** Accessible name of each close button, for localized products. */
+  dismissLabel?: string
+  /** Accessible name of the notification region. */
+  regionLabel?: string
+}
+
+function ToastPortal({ dismissLabel = 'Close', regionLabel = 'Notifications' }: ToastViewportProps) {
   return (
-    <BaseToast.Provider toastManager={manager} timeout={timeout} limit={limit}>
-      <BaseToast.Portal>
-        <BaseToast.Viewport data-slot="toast-viewport">
-          <ToastList />
-        </BaseToast.Viewport>
-      </BaseToast.Portal>
+    <BaseToast.Portal>
+      <BaseToast.Viewport data-slot="toast-viewport" aria-label={regionLabel}>
+        <ToastList dismissLabel={dismissLabel} />
+      </BaseToast.Viewport>
+    </BaseToast.Portal>
+  )
+}
+
+/** Request-local toasts: provide once near the root, then use useToast() below it. */
+export function ToastProvider({ children, timeout = 5000, limit = 3, ...labels }: ToastViewportProps & { children?: React.ReactNode; timeout?: number; limit?: number }) {
+  return (
+    <BaseToast.Provider timeout={timeout} limit={limit}>
+      {children}
+      <ToastPortal {...labels} />
+    </BaseToast.Provider>
+  )
+}
+
+/** Global toasts: mount once, then call toast({ … }) from anywhere. */
+export function Toaster({ timeout = 4000, limit = 3, ...labels }: ToastViewportProps & { timeout?: number; limit?: number }) {
+  return (
+    <BaseToast.Provider toastManager={getManager()} timeout={timeout} limit={limit}>
+      <ToastPortal {...labels} />
     </BaseToast.Provider>
   )
 }
