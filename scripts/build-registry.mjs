@@ -27,7 +27,7 @@ for (const file of files) {
   const content = fs.readFileSync(path.join(UI_DIR, file), 'utf8')
   const title = name.replace(/(^|-)(\w)/g, (_, __, c) => ' ' + c.toUpperCase()).trim()
   const deps = []
-  if (/@base-ui-components\/react/.test(content)) deps.push('@base-ui-components/react')
+  if (/@base-ui\/react/.test(content)) deps.push('@base-ui/react')
   if (/lucide-react/.test(content)) deps.push('lucide-react')
   if (/clsx|cn\(/.test(content)) deps.push('clsx')
   const registryDeps = []

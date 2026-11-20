@@ -51,6 +51,8 @@ for (const d of DIALS) {
   if (o.gray) T.gray = o.gray
 }
 
+// A color token is `gray.N`, a reference to another semantic color (`ink`, `bg`), or a literal.
+const colorVal = (v) => (v.startsWith('gray.') ? `var(--fp-gray-${v.slice(5)})` : /^[a-z-]+$/.test(v) ? `var(--fp-${v})` : v)
 const resolve = (v) => (typeof v === 'string' && v.startsWith('gray.') ? T.gray[v.slice(5)] : v)
 const px = (n) => (typeof n === 'number' && n !== 0 ? `${n}px` : String(n))
 
@@ -70,7 +72,7 @@ function css() {
   for (const [k, v] of Object.entries(T.gray)) L.push(`  --fp-gray-${k}: ${v};`)
   L.push('')
   for (const [k, v] of Object.entries(T.color)) {
-    const lv = v.light.startsWith('gray.') ? `var(--fp-gray-${v.light.slice(5)})` : v.light
+    const lv = colorVal(v.light)
     L.push(`  --fp-${k}: ${lv};`.padEnd(40) + ` /* ${v.en} */`)
   }
   L.push(`  --fp-shadow-pop: ${T.shadow.pop.light};`)
@@ -94,7 +96,7 @@ function css() {
   L.push('')
   L.push('[data-theme="dark"] {', '  color-scheme: dark;')
   for (const [k, v] of Object.entries(T.color)) {
-    const dv = v.dark.startsWith('gray.') ? `var(--fp-gray-${v.dark.slice(5)})` : v.dark
+    const dv = colorVal(v.dark)
     L.push(`  --fp-${k}: ${dv};`)
   }
   L.push(`  --fp-shadow-pop: ${T.shadow.pop.dark};`)
@@ -104,8 +106,7 @@ function css() {
   const block = (sel, mode) => {
     L.push(`${sel} {`)
     for (const [k, v] of Object.entries(T.color)) {
-      const val = v[mode].startsWith('gray.') ? `var(--fp-gray-${v[mode].slice(5)})` : v[mode]
-      L.push(`  --fp-${k}: ${val};`)
+      L.push(`  --fp-${k}: ${colorVal(v[mode])};`)
     }
     L.push('  background: var(--fp-bg);', '  color: var(--fp-ink);', '}')
   }
@@ -118,12 +119,21 @@ function css() {
     for (const [k, v] of Object.entries(ROOT_VARS)) L.push(`  --fp-${k}: ${v};`)
     L.push('}')
   }
+  // a chosen theme also sets its light and dark palette at the root
+  for (const d of DIALS) {
+    const o = opt(d, CHOSEN[d.id])
+    if (!o.light) continue
+    L.push('', `/* theme: ${o.value} */`, ':root {')
+    for (const [k, v] of Object.entries(o.light)) L.push(`  --fp-${k}: ${v};`)
+    L.push('}', '[data-theme="dark"] {')
+    for (const [k, v] of Object.entries(o.dark)) L.push(`  --fp-${k}: ${v};`)
+    L.push('}')
+  }
 
   // every tune option as a local switch: <div data-fp-density="compact">
   L.push('', '/* tune dials (Create page): set data-fp-<dial> on any element */')
   const semantic = (mode) => Object.entries(T.color).map(([k, v]) => {
-    const val = v[mode].startsWith('gray.') ? `var(--fp-gray-${v[mode].slice(5)})` : v[mode]
-    return `  --fp-${k}: ${val};`
+    return `  --fp-${k}: ${colorVal(v[mode])};`
   })
   for (const d of DIALS) {
     for (const o of d.options) {
@@ -134,6 +144,18 @@ function css() {
         for (const [k, v] of Object.entries(o.gray)) L.push(`  --fp-gray-${k}: ${v};`)
         L.push(...semantic('light'), '}')
         L.push(`[data-theme="dark"] ${sel}, [data-theme="dark"]${sel} {`, ...semantic('dark'), '}')
+        continue
+      }
+      if (o.light) {
+        // A theme sets palette and shape together. The dark block is more specific than the light one,
+        // so a dark page stays dark even when the theme attribute sits on <html>.
+        L.push(`${sel} {`)
+        for (const [k, v] of Object.entries(o.light)) L.push(`  --fp-${k}: ${v};`)
+        for (const [k, v] of Object.entries(o.vars)) L.push(`  --fp-${k}: ${v};`)
+        L.push('}')
+        L.push(`[data-theme="dark"] ${sel}, [data-theme="dark"]${sel} {`)
+        for (const [k, v] of Object.entries(o.dark)) L.push(`  --fp-${k}: ${v};`)
+        L.push('}')
         continue
       }
       if (!Object.keys(o.vars).length) continue
@@ -148,7 +170,7 @@ function css() {
 // ---- Figma (Tokens Studio) ------------------------------------------------
 function figma() {
   const colorSet = (mode) => Object.fromEntries(Object.entries(T.color).map(([k, v]) => [
-    k, { value: v[mode].startsWith('gray.') ? `{gray.${v[mode].slice(5)}}` : v[mode], type: 'color', description: v.zh },
+    k, { value: v[mode].startsWith('gray.') ? `{gray.${v[mode].slice(5)}}` : /^[a-z-]+$/.test(v[mode]) ? `{${v[mode]}}` : v[mode], type: 'color', description: v.zh },
   ]))
   return {
     $description: 'Flatpack UI design tokens, generated from tokens/flatpack.tokens.json. Import with the Tokens Studio plugin.',
@@ -175,9 +197,16 @@ function figma() {
       `density-${o.value}`,
       Object.fromEntries(Object.entries(o.vars).map(([k, v]) => [k, { value: v.replace('px', ''), type: k.startsWith('control') ? 'sizing' : 'spacing' }])),
     ]))),
+    ...Object.fromEntries(DIALS.filter((d) => d.id === 'theme').flatMap((d) => d.options.filter((o) => o.light).flatMap((o) => ['light', 'dark'].map((m) => [
+      `theme-${o.value}-${m}`,
+      {
+        ...Object.fromEntries(Object.entries(o[m]).map(([k, v]) => [k, { value: v, type: 'color' }])),
+        ...(m === 'light' ? Object.fromEntries(Object.entries(o.vars).filter(([k]) => k.startsWith('radius')).map(([k, v]) => [k, { value: String(parseInt(v, 10)), type: 'borderRadius' }])) : {}),
+      },
+    ])))),
     'gray-warm': Object.fromEntries(Object.entries(opt(DIALS.find((d) => d.id === 'gray'), 'warm').gray).map(([k, v]) => [k, { value: v, type: 'color', description: '可选暖灰，替换 global.gray' }])),
     $themes: [],
-    $metadata: { tokenSetOrder: ['global', 'light', 'dark', 'density-compact', 'density-roomy', 'gray-warm'] },
+    $metadata: { tokenSetOrder: ['global', 'light', 'dark', 'density-compact', 'density-roomy', 'gray-warm', ...DIALS.filter((d) => d.id === 'theme').flatMap((d) => d.options.filter((o) => o.light).flatMap((o) => [`theme-${o.value}-light`, `theme-${o.value}-dark`]))] },
   }
 }
 
@@ -196,7 +225,8 @@ function markdown(lang) {
   L.push(zh ? '| Token | 浅色 | 深色 | 用途 |' : '| Token | Light | Dark | Use |')
   L.push('|---|---|---|---|')
   for (const [k, v] of Object.entries(T.color)) {
-    L.push(`| \`--fp-${k}\` | \`${resolve(v.light)}\` | \`${resolve(v.dark)}\` | ${zh ? v.zh : v.en} |`)
+    const show = (x) => (/^[a-z-]+$/.test(x) ? `--fp-${x}` : resolve(x))
+    L.push(`| \`--fp-${k}\` | \`${show(v.light)}\` | \`${show(v.dark)}\` | ${zh ? v.zh : v.en} |`)
   }
   L.push('')
   L.push((zh ? '灰阶 10 级：' : 'Gray scale, 10 steps: ') + Object.values(T.gray).map((v) => `\`${v}\``).join(' · '))
@@ -227,12 +257,24 @@ function markdown(lang) {
   L.push('')
   L.push(zh ? '### 可调项（Create 页）' : '### Tunable (Create page)')
   L.push('')
-  L.push(zh ? '只开放不破坏三条原则的项。形状只能在胶囊和直角之间切换，内容面始终是直角；强调色、阴影、模糊、厚度不开放。' : 'Only dials that keep the three rules. Shape switches controls between pill and square, surfaces stay square; accent color, shadow, blur and thickness are not tunable.')
+  L.push(zh ? '只开放不破坏三条原则的项。形状只能在胶囊和直角之间切换；阴影、模糊、厚度不开放。强调色和内容面圆角只能通过「主题」整体更换，不能单独调。' : 'Only dials that keep the three rules. Shape switches controls between pill and square; shadow, blur and thickness are not tunable. Accent color and surface radius change only through a theme, never one by one.')
   L.push('')
   L.push(zh ? '| 设置 | 选项 | 默认 |' : '| Dial | Options | Default |')
   L.push('|---|---|---|')
   for (const d of DIALS) {
     L.push(`| ${zh ? d.zh : d.en}${d.optional ? (zh ? '（可选）' : ' (optional)') : ''} | ${d.options.map((o) => (zh ? o.zh : o.en)).join(' / ')} | ${zh ? opt(d, d.default).zh : opt(d, d.default).en} |`)
+  }
+  L.push('')
+  const themes = DIALS.find((d) => d.id === 'theme').options
+  L.push(zh ? '### 主题' : '### Themes')
+  L.push('')
+  L.push(zh ? '主题是一整套配色、强调色、内容面圆角和字体栈，不改组件代码。在任意元素上写 `data-fp-theme="sage"` 即可局部切换；浅深色仍由 `data-theme` 决定。' : 'A theme is a whole palette, accent, surface radius and font stack; component code does not change. Set `data-fp-theme="sage"` on any element to switch a subtree; light and dark still come from `data-theme`.')
+  L.push('')
+  L.push(zh ? '| 主题 | 说明 | 强调色（浅 / 深） | 内容面圆角 |' : '| Theme | Use | Accent (light / dark) | Surface radius |')
+  L.push('|---|---|---|---|')
+  for (const o of themes) {
+    const acc = o.light ? `\`${o.light.accent}\` / \`${o.dark.accent}\`` : `\`ink\``
+    L.push(`| \`${o.value}\` | ${zh ? o.zhDesc : o.enDesc} | ${acc} | ${o.vars['radius-surface'] ?? '0'} |`)
   }
   L.push('')
   L.push(zh

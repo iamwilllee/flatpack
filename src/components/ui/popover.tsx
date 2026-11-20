@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Popover as BasePopover } from '@base-ui-components/react/popover'
+import { Popover as BasePopover } from '@base-ui/react/popover'
 
 export function Popover({ children, defaultOpen = false }: { children: React.ReactNode; defaultOpen?: boolean }) {
   return (

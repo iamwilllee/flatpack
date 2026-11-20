@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { ChevronDown } from 'lucide-react'
-import { Menu as BaseMenu } from '@base-ui-components/react/menu'
+import { Menu as BaseMenu } from '@base-ui/react/menu'
 
 export function DropdownMenu({ children }: { children: React.ReactNode }) {
   return (

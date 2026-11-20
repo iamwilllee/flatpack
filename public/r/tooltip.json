@@ -5,14 +5,14 @@
   "title": "Tooltip",
   "description": "Flatpack UI Tooltip component.",
   "dependencies": [
-    "@base-ui-components/react"
+    "@base-ui/react"
   ],
   "registryDependencies": [],
   "files": [
     {
       "path": "src/components/ui/tooltip.tsx",
       "type": "registry:ui",
-      "content": "import * as React from 'react'\nimport { Tooltip as BaseTooltip } from '@base-ui-components/react/tooltip'\n\nexport type TooltipProps = {\n  content: React.ReactNode\n  side?: 'top' | 'bottom'\n  children: React.ReactElement\n}\n\nexport function Tooltip({ content, side = 'top', children }: TooltipProps) {\n  const [open, setOpen] = React.useState(false)\n\n  return (\n    <BaseTooltip.Provider delay={120}>\n      <BaseTooltip.Root open={open} onOpenChange={setOpen}>\n        <BaseTooltip.Trigger\n          render={<span data-slot=\"tooltip\">{children}</span>}\n        />\n        <BaseTooltip.Portal>\n          <BaseTooltip.Positioner side={side} sideOffset={8}>\n            <BaseTooltip.Popup data-slot=\"tooltip-content\" data-side={side} role=\"tooltip\" style={{ pointerEvents: 'none' }}>\n              {content}\n            </BaseTooltip.Popup>\n          </BaseTooltip.Positioner>\n        </BaseTooltip.Portal>\n      </BaseTooltip.Root>\n    </BaseTooltip.Provider>\n  )\n}\n"
+      "content": "import * as React from 'react'\nimport { Tooltip as BaseTooltip } from '@base-ui/react/tooltip'\n\nexport type TooltipProps = {\n  content: React.ReactNode\n  side?: 'top' | 'bottom'\n  children: React.ReactElement\n}\n\nexport function Tooltip({ content, side = 'top', children }: TooltipProps) {\n  const [open, setOpen] = React.useState(false)\n\n  return (\n    <BaseTooltip.Provider delay={120}>\n      <BaseTooltip.Root open={open} onOpenChange={setOpen}>\n        <BaseTooltip.Trigger\n          render={<span data-slot=\"tooltip\">{children}</span>}\n        />\n        <BaseTooltip.Portal>\n          <BaseTooltip.Positioner side={side} sideOffset={8}>\n            <BaseTooltip.Popup data-slot=\"tooltip-content\" data-side={side} role=\"tooltip\" style={{ pointerEvents: 'none' }}>\n              {content}\n            </BaseTooltip.Popup>\n          </BaseTooltip.Positioner>\n        </BaseTooltip.Portal>\n      </BaseTooltip.Root>\n    </BaseTooltip.Provider>\n  )\n}\n"
     }
   ]
 }

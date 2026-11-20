@@ -1,4 +1,4 @@
-import { Select as BaseSelect } from '@base-ui-components/react/select'
+import { Select as BaseSelect } from '@base-ui/react/select'
 import { Check, ChevronDown } from 'lucide-react'
 
 type Option = { value: string; label: string }

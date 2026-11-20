@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ScrollArea as BaseScrollArea } from '@base-ui-components/react/scroll-area'
+import { ScrollArea as BaseScrollArea } from '@base-ui/react/scroll-area'
 
 /** A scroll container with a thin square scrollbar that appears on hover. */
 export function ScrollArea({ children, style, horizontal }: { children: React.ReactNode; style?: React.CSSProperties; horizontal?: boolean }) {

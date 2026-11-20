@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { ChevronDown } from 'lucide-react'
-import { Accordion } from '@base-ui-components/react/accordion'
+import { Accordion } from '@base-ui/react/accordion'
 
 type CollapseItem = { key: string; title: React.ReactNode; children: React.ReactNode }
 export function Collapse({ items, defaultActive, multiple = false }: {

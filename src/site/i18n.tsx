@@ -137,7 +137,7 @@ const dict = {
   'create.share': { zh: '复制分享链接', en: 'Copy share link' },
   'create.export': { zh: '导出', en: 'Export' },
   'create.exportDesc': { zh: '把 overrides.json 放进 tokens/，或直接运行下面的命令，CSS、Figma 和文档会一起更新。', en: 'Put overrides.json in tokens/, or run the command below; CSS, Figma and docs update together.' },
-  'create.locked': { zh: '不开放：圆角的中间值、强调色、阴影、模糊、厚度。形状只在胶囊和直角之间切换，内容面始终是直角。', en: 'Not tunable: in-between radii, accent color, shadow, blur, thickness. Shape only switches between pill and square; surfaces stay square.' },
+  'create.locked': { zh: '不开放：圆角的中间值、单独的强调色、阴影、模糊、厚度。形状只在胶囊和直角之间切换；强调色和内容面圆角只能随主题整体更换。', en: 'Not tunable: in-between radii, a standalone accent color, shadow, blur, thickness. Shape only switches between pill and square; accent color and surface radius change only with a theme.' },
   'create.previewTitle': { zh: '实时预览', en: 'Live preview' },
   'create.previewDesc': { zh: '下面是真实的整屏，设置只作用在这块区域里。', en: 'Real screens below; settings apply to this area only.' },
   'create.screenType': { zh: '字体样张', en: 'Type specimen' },

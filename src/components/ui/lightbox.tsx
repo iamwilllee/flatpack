@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Dialog as BaseDialog } from '@base-ui-components/react/dialog'
+import { Dialog as BaseDialog } from '@base-ui/react/dialog'
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
 
 export type LightboxImage = { src: string; alt: string; thumb?: string }

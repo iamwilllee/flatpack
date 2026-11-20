@@ -1,0 +1,85 @@
+/* Documentation site only: header, docs/gallery/create layouts and the hero.
+ * Not part of the library. The library is src/styles/flatpack.css. */
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+/* ==========================================================================
+ * Site layout
+ * ========================================================================== */
+/* Header brand sits flush with the container edge: no padding, no hover fill. */
+.fp-topnav-brand[data-slot="button"] { padding-inline: 0; gap: var(--fp-space-2); }
+.fp-topnav-brand[data-slot="button"]:hover { background: transparent; }
+
+@media (max-width: 720px) {
+  [data-slot="sidebar"] { display: none; }
+  .fp-topnav-links, .fp-topnav-cta { display: none !important; }
+  .fp-topnav-menu { display: inline-flex !important; }
+  .fp-topnav-mobile { display: flex !important; }
+  .fp-hide-sm { display: none !important; }
+}
+
+/* compact template preview (mobile device) */
+[data-compact-sidebar] [data-slot="sidebar"] {
+  display: flex !important; flex-direction: row !important; flex-wrap: nowrap !important;
+  width: 100%; height: auto; padding: var(--fp-space-1); border-right: 0; gap: var(--fp-space-1);
+  overflow-x: auto; scrollbar-width: none;
+}
+[data-compact-sidebar] [data-slot="sidebar"]::-webkit-scrollbar { display: none; }
+[data-compact-sidebar] [data-slot="sidebar-section"] { display: flex !important; flex-direction: row !important; align-items: center; flex: 0 0 auto; gap: var(--fp-space-1); padding: 0; }
+[data-compact-sidebar] [data-slot="sidebar-section"] > .fp-label { display: none; }
+[data-compact-sidebar] [data-slot="sidebar-item"] { flex: 0 0 auto !important; width: auto !important; white-space: nowrap; justify-content: center; padding: 0 var(--fp-space-2); font-size: var(--fp-text-xs); gap: var(--fp-space-1); }
+
+/* component gallery: mobile */
+@media (max-width: 860px) {
+  .fp-comp-layout { flex-direction: column !important; align-items: stretch !important; gap: var(--fp-space-5) !important; }
+  .fp-comp-aside {
+    width: 100% !important; position: static !important;
+    display: flex; flex-wrap: nowrap; gap: var(--fp-space-1); overflow-x: auto;
+    padding: var(--fp-space-2) 0 !important; scrollbar-width: none;
+  }
+  .fp-comp-aside::-webkit-scrollbar { display: none; }
+  .fp-comp-aside > .fp-label { display: none; }
+  .fp-comp-aside [data-slot="sidebar-item"] { flex: 0 0 auto; width: auto; white-space: nowrap; }
+}
+
+/* component doc page: mobile */
+@media (max-width: 980px) {
+  .fp-doc-layout { grid-template-columns: minmax(0, 1fr) !important; gap: var(--fp-space-5) !important; padding-block: var(--fp-space-5) var(--fp-space-8) !important; }
+  .fp-doc-layout > * { min-width: 0 !important; max-width: 100% !important; }
+  .fp-doc-layout pre { overflow-x: auto !important; max-width: 100% !important; white-space: pre !important; }
+  .fp-doc-side {
+    position: static !important; height: auto !important;
+    display: flex; flex-wrap: nowrap; gap: var(--fp-space-1); overflow-x: auto; overflow-y: hidden; scrollbar-width: none; max-width: 100%;
+    padding-bottom: var(--fp-space-2);
+  }
+  .fp-doc-side::-webkit-scrollbar { display: none; }
+  .fp-doc-side > .fp-label, .fp-doc-side > div > .fp-label { display: none; }
+  .fp-doc-side [data-slot="sidebar-item"] { flex: 0 0 auto; width: auto; white-space: nowrap; }
+  .fp-doc-toc { display: none !important; }
+}
+
+/* docs landing: drop the on-this-page column on narrow screens */
+@media (max-width: 980px) { .fp-docs-layout { grid-template-columns: minmax(0, 1fr) !important; } }
+
+/* create page: mobile */
+@media (max-width: 860px) {
+  .fp-create-layout { flex-direction: column !important; align-items: stretch !important; gap: var(--fp-space-6) !important; }
+  .fp-create-side { width: 100% !important; position: static !important; }
+}
+
+/* home: stack the showcase on narrow screens */
+@media (max-width: 960px) {
+  .fp-home-grid { grid-template-columns: minmax(0, 1fr) !important; }
+  .fp-home-grid > * { grid-column: auto !important; }
+}
+
+/* home hero: the one big thing on the page */
+.fp-hero-title {
+  font-family: var(--fp-heading, var(--fp-sans));
+  font-size: var(--fp-text-4xl);
+  font-weight: var(--fp-weight-semibold);
+  line-height: var(--fp-leading-heading);
+  letter-spacing: var(--fp-tracking-display);
+  max-width: 12em;
+}
+@media (max-width: 960px) { .fp-hero-title { font-size: var(--fp-text-3xl); } }
+@media (max-width: 480px) { .fp-hero-title { font-size: var(--fp-text-2xl); } }

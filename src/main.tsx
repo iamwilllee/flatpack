@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './styles/flatpack.css'
+import './styles/site.css'
 import App from './App'
 
 createRoot(document.getElementById('root')!).render(

@@ -5,14 +5,14 @@
   "title": "Avatar",
   "description": "Flatpack UI Avatar component.",
   "dependencies": [
-    "@base-ui-components/react"
+    "@base-ui/react"
   ],
   "registryDependencies": [],
   "files": [
     {
       "path": "src/components/ui/avatar.tsx",
       "type": "registry:ui",
-      "content": "import * as React from 'react'\nimport { Avatar as BaseAvatar } from '@base-ui-components/react/avatar'\n\ntype AvatarProps = React.HTMLAttributes<HTMLSpanElement> & {\n  size?: 'sm' | 'md' | 'lg'\n  name?: string\n  src?: string\n}\n\nexport function Avatar({ size = 'md', name = '', src, children, ...props }: AvatarProps) {\n  const initials = name.trim().slice(0, 2).toUpperCase() || '?'\n  return (\n    <BaseAvatar.Root data-slot=\"avatar\" data-size={size} title={name} {...props}>\n      <BaseAvatar.Image data-slot=\"avatar-image\" src={src} alt={name} />\n      <BaseAvatar.Fallback data-slot=\"avatar-fallback\">{children ?? initials}</BaseAvatar.Fallback>\n    </BaseAvatar.Root>\n  )\n}\n"
+      "content": "import * as React from 'react'\nimport { Avatar as BaseAvatar } from '@base-ui/react/avatar'\n\ntype AvatarProps = React.HTMLAttributes<HTMLSpanElement> & {\n  size?: 'sm' | 'md' | 'lg'\n  name?: string\n  src?: string\n}\n\nexport function Avatar({ size = 'md', name = '', src, children, ...props }: AvatarProps) {\n  const initials = name.trim().slice(0, 2).toUpperCase() || '?'\n  return (\n    <BaseAvatar.Root data-slot=\"avatar\" data-size={size} title={name} {...props}>\n      <BaseAvatar.Image data-slot=\"avatar-image\" src={src} alt={name} />\n      <BaseAvatar.Fallback data-slot=\"avatar-fallback\">{children ?? initials}</BaseAvatar.Fallback>\n    </BaseAvatar.Root>\n  )\n}\n"
     }
   ]
 }

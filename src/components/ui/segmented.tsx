@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { ToggleGroup } from '@base-ui-components/react/toggle-group'
-import { Toggle } from '@base-ui-components/react/toggle'
+import { ToggleGroup } from '@base-ui/react/toggle-group'
+import { Toggle } from '@base-ui/react/toggle'
 
 type Segment<T extends string> = { value: T; label: React.ReactNode; disabled?: boolean }
 export function Segmented<T extends string>({ options, value, defaultValue, onValueChange, size = 'md' }: {

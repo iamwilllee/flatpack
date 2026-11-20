@@ -169,7 +169,7 @@
       "surface": {
         "value": "0",
         "type": "borderRadius",
-        "description": "承载内容的面，始终为 0"
+        "description": "承载内容的面，默认 0，主题可以改成小圆角"
       },
       "round": {
         "value": "50%",
@@ -236,7 +236,17 @@
     "ink": {
       "value": "{gray.8}",
       "type": "color",
-      "description": "文字、主按钮、激活态、焦点框"
+      "description": "文字、边框强调"
+    },
+    "accent": {
+      "value": "{ink}",
+      "type": "color",
+      "description": "主按钮、选中、激活态、焦点框。默认就是墨色，主题可以换成品牌色"
+    },
+    "on-accent": {
+      "value": "{bg}",
+      "type": "color",
+      "description": "强调色上的文字和图标"
     },
     "danger": {
       "value": "#c62828",
@@ -288,7 +298,17 @@
     "ink": {
       "value": "{gray.1}",
       "type": "color",
-      "description": "文字、主按钮、激活态、焦点框"
+      "description": "文字、边框强调"
+    },
+    "accent": {
+      "value": "{ink}",
+      "type": "color",
+      "description": "主按钮、选中、激活态、焦点框。默认就是墨色，主题可以换成品牌色"
+    },
+    "on-accent": {
+      "value": "{bg}",
+      "type": "color",
+      "description": "强调色上的文字和图标"
     },
     "danger": {
       "value": "#ef5350",
@@ -419,6 +439,202 @@
       "type": "sizing"
     }
   },
+  "theme-catalog-light": {
+    "bg": {
+      "value": "#ffffff",
+      "type": "color"
+    },
+    "surface": {
+      "value": "#f5f5f5",
+      "type": "color"
+    },
+    "line": {
+      "value": "#e3e3e3",
+      "type": "color"
+    },
+    "line-strong": {
+      "value": "#c4c4c4",
+      "type": "color"
+    },
+    "muted": {
+      "value": "#626262",
+      "type": "color"
+    },
+    "ink": {
+      "value": "#111111",
+      "type": "color"
+    },
+    "accent": {
+      "value": "#111111",
+      "type": "color"
+    },
+    "on-accent": {
+      "value": "#ffffff",
+      "type": "color"
+    },
+    "danger": {
+      "value": "#ad2828",
+      "type": "color"
+    },
+    "success": {
+      "value": "#2e7d32",
+      "type": "color"
+    },
+    "scrim": {
+      "value": "rgba(0, 0, 0, 0.4)",
+      "type": "color"
+    },
+    "radius-surface": {
+      "value": "4",
+      "type": "borderRadius"
+    }
+  },
+  "theme-catalog-dark": {
+    "bg": {
+      "value": "#121212",
+      "type": "color"
+    },
+    "surface": {
+      "value": "#242424",
+      "type": "color"
+    },
+    "line": {
+      "value": "#383838",
+      "type": "color"
+    },
+    "line-strong": {
+      "value": "#5a5a5a",
+      "type": "color"
+    },
+    "muted": {
+      "value": "#b3b3b3",
+      "type": "color"
+    },
+    "ink": {
+      "value": "#f5f5f5",
+      "type": "color"
+    },
+    "accent": {
+      "value": "#f5f5f5",
+      "type": "color"
+    },
+    "on-accent": {
+      "value": "#121212",
+      "type": "color"
+    },
+    "danger": {
+      "value": "#ff9b9b",
+      "type": "color"
+    },
+    "success": {
+      "value": "#66bb6a",
+      "type": "color"
+    },
+    "scrim": {
+      "value": "rgba(0, 0, 0, 0.7)",
+      "type": "color"
+    }
+  },
+  "theme-sage-light": {
+    "bg": {
+      "value": "#f8f9f7",
+      "type": "color"
+    },
+    "surface": {
+      "value": "#f0f2ee",
+      "type": "color"
+    },
+    "line": {
+      "value": "#e1e6df",
+      "type": "color"
+    },
+    "line-strong": {
+      "value": "#c3ccc1",
+      "type": "color"
+    },
+    "muted": {
+      "value": "#656f66",
+      "type": "color"
+    },
+    "ink": {
+      "value": "#202722",
+      "type": "color"
+    },
+    "accent": {
+      "value": "#236b4b",
+      "type": "color"
+    },
+    "on-accent": {
+      "value": "#ffffff",
+      "type": "color"
+    },
+    "danger": {
+      "value": "#c3453d",
+      "type": "color"
+    },
+    "success": {
+      "value": "#2e7d32",
+      "type": "color"
+    },
+    "scrim": {
+      "value": "rgba(20, 26, 22, 0.4)",
+      "type": "color"
+    },
+    "radius-control": {
+      "value": "10",
+      "type": "borderRadius"
+    },
+    "radius-surface": {
+      "value": "10",
+      "type": "borderRadius"
+    }
+  },
+  "theme-sage-dark": {
+    "bg": {
+      "value": "#141a16",
+      "type": "color"
+    },
+    "surface": {
+      "value": "#1b231d",
+      "type": "color"
+    },
+    "line": {
+      "value": "#323d33",
+      "type": "color"
+    },
+    "line-strong": {
+      "value": "#4c5a4d",
+      "type": "color"
+    },
+    "muted": {
+      "value": "#a1ada0",
+      "type": "color"
+    },
+    "ink": {
+      "value": "#edf0ea",
+      "type": "color"
+    },
+    "accent": {
+      "value": "#a6d4aa",
+      "type": "color"
+    },
+    "on-accent": {
+      "value": "#16271b",
+      "type": "color"
+    },
+    "danger": {
+      "value": "#f38c85",
+      "type": "color"
+    },
+    "success": {
+      "value": "#66bb6a",
+      "type": "color"
+    },
+    "scrim": {
+      "value": "rgba(0, 0, 0, 0.7)",
+      "type": "color"
+    }
+  },
   "gray-warm": {
     "0": {
       "value": "#ffffff",
@@ -479,7 +695,11 @@
       "dark",
       "density-compact",
       "density-roomy",
-      "gray-warm"
+      "gray-warm",
+      "theme-catalog-light",
+      "theme-catalog-dark",
+      "theme-sage-light",
+      "theme-sage-dark"
     ]
   }
 }

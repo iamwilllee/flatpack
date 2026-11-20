@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ContextMenu as BaseContextMenu } from '@base-ui-components/react/context-menu'
+import { ContextMenu as BaseContextMenu } from '@base-ui/react/context-menu'
 import { Kbd } from '@/components/ui/kbd'
 
 export type MenuEntry =

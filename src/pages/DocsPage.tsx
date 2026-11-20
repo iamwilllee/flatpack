@@ -17,7 +17,7 @@ export default function DocsPage({ onNavigate }: { onNavigate: (r: 'components' 
     navigator.clipboard?.writeText(text).then(() => { setCopied(key); setTimeout(() => setCopied(null), 1500) }).catch(() => {})
   }
 
-  const INSTALL = `npm install react react-dom @base-ui-components/react clsx tailwind-merge lucide-react
+  const INSTALL = `npm install react react-dom @base-ui/react clsx tailwind-merge lucide-react
 
 # ${lang === 'zh' ? '把 src/styles/flatpack.css 复制到你的项目' : 'copy src/styles/flatpack.css into your project'}
 # ${lang === 'zh' ? '在入口引入（放在 tailwind 之后）' : 'import it in your entry (after tailwind)'}:

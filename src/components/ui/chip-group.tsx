@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { ToggleGroup as BaseToggleGroup } from '@base-ui-components/react/toggle-group'
-import { Toggle as BaseToggle } from '@base-ui-components/react/toggle'
+import { ToggleGroup as BaseToggleGroup } from '@base-ui/react/toggle-group'
+import { Toggle as BaseToggle } from '@base-ui/react/toggle'
 
 export type ChipOption = { value: string; label: React.ReactNode; count?: number; disabled?: boolean }
 

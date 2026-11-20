@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Tabs as BaseTabs } from '@base-ui-components/react/tabs'
+import { Tabs as BaseTabs } from '@base-ui/react/tabs'
 
 type Ctx = { value: string }
 const TabsValueContext = React.createContext<Ctx>({ value: '' })

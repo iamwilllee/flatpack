@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Toast as BaseToast } from '@base-ui-components/react/toast'
+import { Toast as BaseToast } from '@base-ui/react/toast'
 import { CircleCheck, CircleAlert, Info, X } from 'lucide-react'
 
 /**

@@ -5,15 +5,15 @@
       "id": "shape",
       "zh": "形状按角色",
       "en": "Shape by role",
-      "zhDesc": "可点的单行小件（按钮、筛选项、输入框、徽章）用胶囊，承载内容的面（卡片、图片、弹窗、表格）用直角，没有中间值。想要全直角，选「直角」预设。",
-      "enDesc": "Clickable single-line parts (buttons, chips, inputs, badges) are pills; surfaces that hold content (cards, images, dialogs, tables) are square. Nothing in between. For all-square, pick the Square preset."
+      "zhDesc": "可点的单行小件（按钮、筛选项、输入框、徽章）用一种圆角，承载内容的面（卡片、图片、弹窗、表格）用另一种，没有中间值。默认前者是胶囊、后者是直角；想要全直角，选「直角」预设，主题也可以给内容面一个小圆角。",
+      "enDesc": "Clickable single-line parts (buttons, chips, inputs, badges) share one radius; surfaces that hold content (cards, images, dialogs, tables) share another. Nothing in between. By default the first is a pill and the second is square. For all-square pick the Square preset; a theme may give surfaces a small radius."
     },
     {
       "id": "mono",
       "zh": "黑白",
       "en": "Black and white",
-      "zhDesc": "只有一个强调色，就是墨色。层级靠反差和字号拉开，不靠颜色。红、绿只用于状态文字和图标。",
-      "enDesc": "There is one accent, and it is ink. Hierarchy comes from contrast and size, not color. Red and green are only for status text and icons."
+      "zhDesc": "默认只有一个强调色，就是墨色。层级靠反差和字号拉开，不靠颜色。红、绿只用于状态文字和图标。主题可以把墨色换成自己的品牌色，但每个主题仍然只有一个强调色。",
+      "enDesc": "There is one accent, and by default it is ink. Hierarchy comes from contrast and size, not color. Red and green are only for status text and icons. A theme may swap ink for its own brand color, but each theme still has exactly one accent."
     },
     {
       "id": "space",
@@ -69,8 +69,20 @@
     "ink": {
       "light": "gray.8",
       "dark": "gray.1",
-      "zh": "文字、主按钮、激活态、焦点框",
-      "en": "Text, primary button, active state, focus ring"
+      "zh": "文字、边框强调",
+      "en": "Text and strong borders"
+    },
+    "accent": {
+      "light": "ink",
+      "dark": "ink",
+      "zh": "主按钮、选中、激活态、焦点框。默认就是墨色，主题可以换成品牌色",
+      "en": "Primary button, selected and active states, focus ring. Ink by default; a theme may set its brand color"
+    },
+    "on-accent": {
+      "light": "bg",
+      "dark": "bg",
+      "zh": "强调色上的文字和图标",
+      "en": "Text and icons on the accent color"
     },
     "danger": {
       "light": "#c62828",
@@ -135,12 +147,12 @@
     "round": "50%",
     "zh": {
       "control": "可点的单行小件",
-      "surface": "承载内容的面，始终为 0",
+      "surface": "承载内容的面，默认 0，主题可以改成小圆角",
       "round": "头像、单选圆点"
     },
     "en": {
       "control": "Clickable single-line parts",
-      "surface": "Surfaces that hold content, always 0",
+      "surface": "Surfaces that hold content. 0 by default; a theme may set a small radius",
       "round": "Avatars, the radio dot"
     }
   },
@@ -169,7 +181,7 @@
     "ease": "ease"
   },
   "tune": {
-    "$description": "Dials exposed on the Create page. Each option lists the CSS variables it sets. Only dials that keep the rules are here: accent color, shadow, blur and thickness are not tunable. Shape switches controls between pill and square; surfaces are always square.",
+    "$description": "Dials exposed on the Create page. Each option lists the CSS variables it sets. Only dials that keep the rules are here: shadow, blur and thickness are not tunable. Shape switches controls between pill and square. Theme swaps the palette, accent, surface radius and font stack as one unit; it is the last dial so older preset codes keep working.",
     "dials": [
       {
         "id": "density",
@@ -429,6 +441,102 @@
             }
           }
         ]
+      },
+      {
+        "id": "theme",
+        "zh": "主题",
+        "en": "Theme",
+        "default": "flatpack",
+        "zhNote": "主题一次换掉配色、强调色、内容面圆角和字体栈。形状和灰阶色温只在默认主题下生效。",
+        "enNote": "A theme swaps the palette, accent, surface radius and font stack together. The shape and gray temperature dials only apply to the default theme.",
+        "options": [
+          {
+            "value": "flatpack",
+            "code": "f",
+            "zh": "Flatpack",
+            "en": "Flatpack",
+            "zhDesc": "黑白、胶囊控件、直角内容面",
+            "enDesc": "Black and white, pill controls, square surfaces",
+            "vars": {}
+          },
+          {
+            "value": "catalog",
+            "code": "c",
+            "zh": "Catalog",
+            "en": "Catalog",
+            "zhDesc": "中性黑白、Arial 排版、内容面 4px 小圆角，适合商品目录和内容站",
+            "enDesc": "Neutral black and white, Arial, 4px surfaces. For catalogs and content sites",
+            "vars": {
+              "radius-surface": "4px",
+              "sans": "Arial, \"PingFang SC\", \"Noto Sans SC\", \"Microsoft YaHei\", sans-serif"
+            },
+            "light": {
+              "bg": "#ffffff",
+              "surface": "#f5f5f5",
+              "line": "#e3e3e3",
+              "line-strong": "#c4c4c4",
+              "muted": "#626262",
+              "ink": "#111111",
+              "accent": "#111111",
+              "on-accent": "#ffffff",
+              "danger": "#ad2828",
+              "success": "#2e7d32",
+              "scrim": "rgba(0, 0, 0, 0.4)"
+            },
+            "dark": {
+              "bg": "#121212",
+              "surface": "#242424",
+              "line": "#383838",
+              "line-strong": "#5a5a5a",
+              "muted": "#b3b3b3",
+              "ink": "#f5f5f5",
+              "accent": "#f5f5f5",
+              "on-accent": "#121212",
+              "danger": "#ff9b9b",
+              "success": "#66bb6a",
+              "scrim": "rgba(0, 0, 0, 0.7)"
+            }
+          },
+          {
+            "value": "sage",
+            "code": "s",
+            "zh": "Sage",
+            "en": "Sage",
+            "zhDesc": "绿色强调、柔和灰底、10px 圆角，适合工具、SaaS 和会员工作台",
+            "enDesc": "Green accent, soft gray-green ground, 10px radius. For tools, SaaS and member workspaces",
+            "vars": {
+              "radius-control": "10px",
+              "radius-surface": "10px",
+              "sans": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", \"PingFang SC\", \"Noto Sans SC\", \"Microsoft YaHei\", sans-serif"
+            },
+            "light": {
+              "bg": "#f8f9f7",
+              "surface": "#f0f2ee",
+              "line": "#e1e6df",
+              "line-strong": "#c3ccc1",
+              "muted": "#656f66",
+              "ink": "#202722",
+              "accent": "#236b4b",
+              "on-accent": "#ffffff",
+              "danger": "#c3453d",
+              "success": "#2e7d32",
+              "scrim": "rgba(20, 26, 22, 0.4)"
+            },
+            "dark": {
+              "bg": "#141a16",
+              "surface": "#1b231d",
+              "line": "#323d33",
+              "line-strong": "#4c5a4d",
+              "muted": "#a1ada0",
+              "ink": "#edf0ea",
+              "accent": "#a6d4aa",
+              "on-accent": "#16271b",
+              "danger": "#f38c85",
+              "success": "#66bb6a",
+              "scrim": "rgba(0, 0, 0, 0.7)"
+            }
+          }
+        ]
       }
     ],
     "presets": [
@@ -474,6 +582,26 @@
         "enDesc": "Every control square, closer to the hard x.ai look",
         "values": {
           "shape": "square"
+        }
+      },
+      {
+        "id": "catalog",
+        "zh": "Catalog",
+        "en": "Catalog",
+        "zhDesc": "商品目录、内容站",
+        "enDesc": "Catalogs and content sites",
+        "values": {
+          "theme": "catalog"
+        }
+      },
+      {
+        "id": "sage",
+        "zh": "Sage",
+        "en": "Sage",
+        "zhDesc": "工具、SaaS、工作台",
+        "enDesc": "Tools, SaaS, workspaces",
+        "values": {
+          "theme": "sage"
         }
       }
     ]

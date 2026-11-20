@@ -1,5 +1,5 @@
-import { Menubar as BaseMenubar } from '@base-ui-components/react/menubar'
-import { Menu as BaseMenu } from '@base-ui-components/react/menu'
+import { Menubar as BaseMenubar } from '@base-ui/react/menubar'
+import { Menu as BaseMenu } from '@base-ui/react/menu'
 import { MenuEntries, type MenuEntry } from '@/components/ui/context-menu'
 
 export type MenubarMenu = { label: string; entries: MenuEntry[] }

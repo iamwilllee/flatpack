@@ -3,7 +3,7 @@
 //   fp1-<one option code per dial, in dial order>
 import tokens from '../../tokens/flatpack.tokens.json'
 
-export type DialOption = { value: string; code: string; zh: string; en: string; vars: Record<string, string>; webfont?: string; gray?: Record<string, string> }
+export type DialOption = { value: string; code: string; zh: string; en: string; vars: Record<string, string>; webfont?: string; gray?: Record<string, string>; zhDesc?: string; enDesc?: string; light?: Record<string, string>; dark?: Record<string, string> }
 export type Dial = { id: string; zh: string; en: string; default: string; optional?: boolean; zhNote?: string; enNote?: string; options: DialOption[] }
 export type Preset = { id: string; zh: string; en: string; zhDesc: string; enDesc: string; values: Record<string, string> }
 export type Values = Record<string, string>
@@ -34,6 +34,12 @@ export function decodePreset(code: string): Values | null {
 /** Data attributes that switch a subtree to these values (see the tune block in flatpack.css). */
 export function scopeAttrs(values: Values) {
   return Object.fromEntries(DIALS.filter((d) => values[d.id] !== d.default).map((d) => [`data-fp-${d.id}`, values[d.id]]))
+}
+
+/** Light and dark palettes of the chosen theme, for the CSS export. Empty for the default theme. */
+export function themeColors(values: Values) {
+  const o = option(DIALS.find((d) => d.id === 'theme')!, values.theme)
+  return o?.light && o.dark ? { light: o.light, dark: o.dark } : null
 }
 
 /** Every CSS variable the chosen options set, for a plain :root override. */

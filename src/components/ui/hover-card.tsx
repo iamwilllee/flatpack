@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { PreviewCard } from '@base-ui-components/react/preview-card'
+import { PreviewCard } from '@base-ui/react/preview-card'
 
 export type HoverCardProps = {
   /** The link or text that shows the card on hover / focus. */

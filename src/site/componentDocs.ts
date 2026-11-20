@@ -27,13 +27,13 @@ export const docs: ComponentDoc[] = [
     importPath: '@/components/ui/button',
     usage: `import { Button } from "@/components/ui/button"\n\n<Button>Build your interface</Button>`,
     examples: [
-      { title: '变体', titleEn: 'Variants', code: `<Button>Primary</Button>\n<Button variant="secondary">Secondary</Button>\n<Button variant="outline">Outline</Button>\n<Button variant="ghost">Ghost</Button>\n<Button variant="link">Link</Button>`, render: 'preview' },
+      { title: '变体', titleEn: 'Variants', code: `<Button>Primary</Button>\n<Button variant="secondary">Secondary</Button>\n<Button variant="outline">Outline</Button>\n<Button variant="ghost">Ghost</Button>\n<Button variant="destructive">Delete</Button>\n<Button variant="link">Link</Button>`, render: 'preview' },
       { title: '尺寸', titleEn: 'Sizes', code: `<Button size="sm">Small</Button>\n<Button size="default">Default</Button>\n<Button size="lg">Large</Button>\n<Button size="icon"><Search size={15} /></Button>`, render: 'preview' },
       { title: '禁用', titleEn: 'Disabled', code: `<Button disabled>Disabled</Button>`, render: 'preview' },
     ],
     api: [
-      { prop: 'variant', type: '"default" | "secondary" | "outline" | "ghost" | "link"', default: '"default"', desc: '视觉变体', descEn: 'Visual variant' },
-      { prop: 'size', type: '"default" | "sm" | "lg" | "icon"', default: '"default"', desc: '尺寸', descEn: 'Size' },
+      { prop: 'variant', type: '"default" | "secondary" | "outline" | "ghost" | "destructive" | "link"', default: '"default"', desc: '视觉变体。destructive 只用红色文字和描边，不填充', descEn: 'Visual variant. destructive is red text and ring only, never a fill' },
+      { prop: 'size', type: '"default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg"', default: '"default"', desc: '尺寸（32 / 40 / 48px）', descEn: 'Size (32 / 40 / 48px)' },
       { prop: 'disabled', type: 'boolean', default: 'false', desc: '禁用状态', descEn: 'Disabled state' },
       { prop: '...props', type: 'ButtonHTMLAttributes', desc: '原生 button 属性', descEn: 'Native button attributes' },
     ],

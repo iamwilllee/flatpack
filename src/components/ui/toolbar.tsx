@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { Toolbar as BaseToolbar } from '@base-ui-components/react/toolbar'
-import { Toggle as BaseToggle } from '@base-ui-components/react/toggle'
+import { Toolbar as BaseToolbar } from '@base-ui/react/toolbar'
+import { Toggle as BaseToggle } from '@base-ui/react/toggle'
 
 /** A row of quiet actions above an editor or table. Arrow keys move between items. */
 export function Toolbar({ children, ...props }: React.ComponentProps<typeof BaseToolbar.Root>) {

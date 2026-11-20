@@ -5,14 +5,14 @@
   "title": "Tabs",
   "description": "Flatpack UI Tabs component.",
   "dependencies": [
-    "@base-ui-components/react"
+    "@base-ui/react"
   ],
   "registryDependencies": [],
   "files": [
     {
       "path": "src/components/ui/tabs.tsx",
       "type": "registry:ui",
-      "content": "import * as React from 'react'\nimport { Tabs as BaseTabs } from '@base-ui-components/react/tabs'\n\ntype Ctx = { value: string }\nconst TabsValueContext = React.createContext<Ctx>({ value: '' })\n\nexport function Tabs({ defaultValue, children }: { defaultValue: string; children: React.ReactNode }) {\n  const [value, setValue] = React.useState(defaultValue)\n  return (\n    <TabsValueContext.Provider value={{ value }}>\n      <BaseTabs.Root\n        defaultValue={defaultValue}\n        onValueChange={(next) => setValue(next as string)}\n        data-slot=\"tabs\"\n      >\n        {children}\n      </BaseTabs.Root>\n    </TabsValueContext.Provider>\n  )\n}\n\nexport function TabsList({ children }: { children: React.ReactNode }) {\n  return (\n    <BaseTabs.List data-slot=\"tabs-list\">\n      {children}\n      <BaseTabs.Indicator />\n    </BaseTabs.List>\n  )\n}\n\nexport function TabsTrigger({ value, children }: { value: string; children: React.ReactNode }) {\n  const ctx = React.useContext(TabsValueContext)\n  return (\n    <BaseTabs.Tab value={value} data-slot=\"tabs-trigger\" data-active={ctx.value === value}>\n      {children}\n    </BaseTabs.Tab>\n  )\n}\n\nexport function TabsContent({ value, children }: { value: string; children: React.ReactNode }) {\n  return (\n    <BaseTabs.Panel value={value} data-slot=\"tabs-content\" keepMounted>\n      {children}\n    </BaseTabs.Panel>\n  )\n}\n"
+      "content": "import * as React from 'react'\nimport { Tabs as BaseTabs } from '@base-ui/react/tabs'\n\ntype Ctx = { value: string }\nconst TabsValueContext = React.createContext<Ctx>({ value: '' })\n\nexport function Tabs({ defaultValue, children }: { defaultValue: string; children: React.ReactNode }) {\n  const [value, setValue] = React.useState(defaultValue)\n  return (\n    <TabsValueContext.Provider value={{ value }}>\n      <BaseTabs.Root\n        defaultValue={defaultValue}\n        onValueChange={(next) => setValue(next as string)}\n        data-slot=\"tabs\"\n      >\n        {children}\n      </BaseTabs.Root>\n    </TabsValueContext.Provider>\n  )\n}\n\nexport function TabsList({ children }: { children: React.ReactNode }) {\n  return (\n    <BaseTabs.List data-slot=\"tabs-list\">\n      {children}\n      <BaseTabs.Indicator />\n    </BaseTabs.List>\n  )\n}\n\nexport function TabsTrigger({ value, children }: { value: string; children: React.ReactNode }) {\n  const ctx = React.useContext(TabsValueContext)\n  return (\n    <BaseTabs.Tab value={value} data-slot=\"tabs-trigger\" data-active={ctx.value === value}>\n      {children}\n    </BaseTabs.Tab>\n  )\n}\n\nexport function TabsContent({ value, children }: { value: string; children: React.ReactNode }) {\n  return (\n    <BaseTabs.Panel value={value} data-slot=\"tabs-content\" keepMounted>\n      {children}\n    </BaseTabs.Panel>\n  )\n}\n"
     }
   ]
 }

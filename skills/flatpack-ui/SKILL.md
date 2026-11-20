@@ -21,7 +21,7 @@ Flatpack UI needs only its stylesheet and component source. In a target project:
    - `src/styles/flatpack.css` → target `src/styles/flatpack.css`
    - `src/components/ui/*.tsx` → target `src/components/ui/`
    - `src/lib/utils.ts` → target `src/lib/utils.ts`
-2. Install deps if missing: `react@19 react-dom@19 @base-ui-components/react clsx tailwind-merge lucide-react`. Tailwind CSS 4 and TypeScript are expected. Interactive components (Button, Checkbox, Switch, RadioGroup, Select, Dialog, Sheet, DropdownMenu, Tabs, Tooltip, Popover, Progress, Avatar, Collapse, Segmented) are built on Base UI primitives; purely visual components are self-contained. Distribution uses the shadcn registry format (`registry.json` + `public/r/`).
+2. Install deps if missing: `react@19 react-dom@19 @base-ui/react clsx tailwind-merge lucide-react`. Tailwind CSS 4 and TypeScript are expected. Interactive components (Button, Checkbox, Switch, RadioGroup, Select, Dialog, Sheet, DropdownMenu, Tabs, Tooltip, Popover, Progress, Avatar, Collapse, Segmented) are built on Base UI primitives; purely visual components are self-contained. Distribution uses the shadcn registry format (`registry.json` + `public/r/`).
 3. Import the theme **after** Tailwind:
    ```css
    @import "tailwindcss";
@@ -38,7 +38,7 @@ If the project already has the library wired, skip setup and go straight to comp
 The three rules:
 - **Shape by role**: clickable single-line parts (Button, ChipGroup, Input, Select, Segmented, Badge, Switch, Tooltip, pagination) use `--fp-radius-control` (a pill by default); surfaces that hold content (Card, Image, Dialog, menus, Table, Toast, code, Textarea) use `--fp-radius-surface` (0). No in-between radii. The "All square" preset (`data-fp-shape="square"` or shape: square in overrides) makes controls 0 too.
 - **Filters and search**: separate filter chips are `<ChipGroup options={[{ value, label, count? }]} />`; a search box is `<Input variant="filled" leading={<Search size={16} />} />`; a secondary link button is `<Button variant="outline">` (ink ring).
-- **Black and white**: ink is the only accent. No blue links (links are underlined ink), no cyan, no gradients. Red and green appear in status text and icons only, never as a fill.
+- **Black and white**: one accent per theme, and in the default theme it is ink (`--fp-accent`). No blue links (links are underlined ink), no cyan, no gradients. Red and green appear in status text and icons only, never as a fill.
 - **Whitespace**: separate sections with space (at least 96px between page sections). One 1px border. A card never contains a second bordered box. Only floating layers (Dialog, Popover, Select, Dropdown) have a shadow.
 
 Type: body 16px at 1.6, headings 1.1, weights 400/500/600. Monospace only for numbers, IDs and code (`.fp-num`), never for section titles; no uppercase labels. Icons are lucide at 16px. Interaction changes color only, never position; no looping animation.
@@ -67,7 +67,7 @@ All imports are from `@/components/ui/<name>` (adjust the alias to the target pr
 
 63 components total. If a need isn't in the table, compose from these before adding new source. Not provided on purpose: rich text editor, Markdown renderer, Cascader, Transfer. For AI chat screens, copy the `assistant` block in `src/blocks/BlockScreens.tsx`.
 
-Density, fonts and the optional warm gray are token-level: set `data-fp-density="compact"` (or `data-fp-font`, `data-fp-heading`, `data-fp-gray`) on any element, or write a preset code into `tokens/overrides.json` and run `npm run build:tokens`. Never add radius, accent colors, shadows or blur.
+Density, fonts and the optional warm gray are token-level: set `data-fp-density="compact"` (or `data-fp-font`, `data-fp-heading`, `data-fp-gray`) on any element, or write a preset code into `tokens/overrides.json` and run `npm run build:tokens`. Themes (`flatpack`, `catalog`, `sage`) swap palette, accent, surface radius and font stack as one unit: set `data-fp-theme="sage"` on any element. Fill and selected states use `--fp-accent` / `--fp-on-accent`, text uses `--fp-ink`. Never add one-off radius, accent colors, shadows or blur outside a theme.
 
 ## Copy-paste patterns
 

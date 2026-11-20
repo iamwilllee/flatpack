@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Popover as BasePopover } from '@base-ui-components/react/popover'
+import { Popover as BasePopover } from '@base-ui/react/popover'
 import { CalendarDays } from 'lucide-react'
 import { Calendar, type DateRange } from '@/components/ui/calendar'
 

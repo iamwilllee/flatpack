@@ -1,6 +1,6 @@
 # Flatpack UI → Base UI integration spec (for contributors/agents)
 
-Goal: make Flatpack UI components genuinely built on Base UI primitives (`@base-ui-components/react` 1.0.0-rc.0) **without changing the public API or the CSS/data-slot contract**. Demo pages, docs, SKILL, and `data-slot` styling must keep working unchanged.
+Goal: make Flatpack UI components genuinely built on Base UI primitives (`@base-ui/react` 1.9.0) **without changing the public API or the CSS/data-slot contract**. Demo pages, docs, SKILL, and `data-slot` styling must keep working unchanged.
 
 ## Golden rule
 
@@ -10,11 +10,11 @@ Goal: make Flatpack UI components genuinely built on Base UI primitives (`@base-
 - Base UI's own state attributes (`data-checked`, `data-disabled`, etc.) may be added in ADDITION to our `data-state`.
 - Base UI components accept `className` as a function `(state) => string`; you can also pass `data-*` props directly — they land on the DOM node.
 
-## Base UI usage patterns (verified against 1.0.0-rc.0)
+## Base UI usage patterns (verified against 1.9.0)
 
-Compound components are exported as namespaces: `import { Checkbox } from '@base-ui-components/react/checkbox'` then `<Checkbox.Root>`, `<Checkbox.Indicator>`. Simple ones are direct: `import { Button } from '@base-ui-components/react/button'` then `<Button>`.
+Compound components are exported as namespaces: `import { Checkbox } from '@base-ui/react/checkbox'` then `<Checkbox.Root>`, `<Checkbox.Indicator>`. Simple ones are direct: `import { Button } from '@base-ui/react/button'` then `<Button>`.
 
-Useful parts per primitive (check `node_modules/@base-ui-components/react/<name>/index.d.ts`):
+Useful parts per primitive (check `node_modules/@base-ui/react/<name>/index.d.ts`):
 - dialog: `Dialog.Root / Trigger / Portal / Backdrop / Popup / Title / Description / Close`
 - checkbox: `Checkbox.Root / Indicator`
 - switch: `Switch.Root / Thumb`

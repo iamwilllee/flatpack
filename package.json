@@ -11,10 +11,11 @@
     "build:registry": "node scripts/build-registry.mjs",
     "check:design": "node scripts/check-design.mjs",
     "preview": "vite preview --host 0.0.0.0",
-    "typecheck": "tsc -b --noEmit"
+    "typecheck": "tsc -b --noEmit",
+    "test": "playwright test"
   },
   "dependencies": {
-    "@base-ui-components/react": "^1.0.0-beta.2",
+    "@base-ui/react": "1.9.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.468.0",
     "react": "^19.0.0",
@@ -22,6 +23,7 @@
     "tailwind-merge": "^3.0.0"
   },
   "devDependencies": {
+    "@playwright/test": "1.64.1",
     "@tailwindcss/vite": "^4.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",

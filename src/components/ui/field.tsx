@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { Field as BaseField } from '@base-ui-components/react/field'
-import { Fieldset as BaseFieldset } from '@base-ui-components/react/fieldset'
+import { Field as BaseField } from '@base-ui/react/field'
+import { Fieldset as BaseFieldset } from '@base-ui/react/fieldset'
 
 export type FieldProps = {
   label?: React.ReactNode

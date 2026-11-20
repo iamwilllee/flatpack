@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Slider as BaseSlider } from '@base-ui-components/react/slider'
+import { Slider as BaseSlider } from '@base-ui/react/slider'
 
 export type SliderProps<V extends number | number[]> = {
   value?: V

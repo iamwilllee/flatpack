@@ -12,10 +12,10 @@ import { Slider } from '@/components/ui/slider'
 import { Badge } from '@/components/ui/badge'
 import { screenMap } from '@/blocks/BlockScreens'
 import { useTheme, setTheme, followSystem, hasSavedTheme } from '@/site/theme'
-import { DIALS, PRESETS, DEFAULTS, encodePreset, decodePreset, scopeAttrs, cssVars, webfonts, matchPreset, type Values } from '@/lib/preset'
+import { DIALS, PRESETS, DEFAULTS, encodePreset, decodePreset, scopeAttrs, cssVars, themeColors, webfonts, matchPreset, type Values } from '@/lib/preset'
 
-// Only dials that keep the three rules are exposed. Radius (always 0), accent
-// color (always ink), shadow, blur and thickness are the rules themselves.
+// Only dials that keep the three rules are exposed. Shadow, blur and thickness are the rules
+// themselves; accent color and surface radius change only through a theme, as one unit.
 
 const SCREENS = ['type', 'storefront', 'dashboard', 'assistant', 'login', 'settings'] as const
 type Screen = (typeof SCREENS)[number]
@@ -105,7 +105,9 @@ export default function CreatePage() {
     const vars = cssVars(vals)
     const fonts = webfonts(vals).map((h) => `@import url("${h}");`)
     const body = Object.entries(vars).map(([k, v]) => `  ${k}: ${v};`)
-    return [...fonts, ...(fonts.length ? [''] : []), ':root {', ...(body.length ? body : ['  /* defaults: nothing to override */']), '}'].join('\n')
+    const tc = themeColors(vals)
+    const palette = tc ? ['', ...[['', tc.light], ['[data-theme="dark"]', tc.dark]].flatMap(([sel, c]) => [`${sel || ':root'} {`, ...Object.entries(c as Record<string, string>).map(([k, v]) => `  --fp-${k}: ${v};`), '}'])] : []
+    return [...fonts, ...(fonts.length ? [''] : []), ':root {', ...(body.length ? body : ['  /* defaults: nothing to override */']), '}', ...palette].join('\n')
   }, [vals])
 
   const Preview = screen === 'type' ? TypeSpecimen : screenMap[screen]
@@ -152,7 +154,7 @@ export default function CreatePage() {
                 ) : (
                   <Segmented value={vals[dial.id]} options={dial.options.map((o) => ({ value: o.value, label: L(o) }))} onValueChange={(v: string) => setVals({ ...vals, [dial.id]: v })} />
                 )}
-                {dial.optional && (dial.zhNote || dial.enNote) && (
+                {(dial.zhNote || dial.enNote) && (
                   <p style={{ fontSize: 'var(--fp-text-xs)', color: 'var(--fp-muted)', marginTop: 'var(--fp-space-2)' }}>{lang === 'zh' ? dial.zhNote : dial.enNote}</p>
                 )}
               </div>
