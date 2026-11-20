@@ -14,9 +14,8 @@ export type CheckboxProps = Omit<BaseCheckbox.Root.Props, 'className' | 'childre
  * root prop passes through: id, name, value, required, readOnly, form, inputRef, aria-*.
  */
 export function Checkbox({ label, className, ...props }: CheckboxProps) {
-  return (
-    <label data-slot="checkbox" data-disabled={props.disabled ? 'true' : 'false'} className={className}>
-      <BaseCheckbox.Root aria-label={typeof label === 'string' ? label : undefined} {...props}>
+  const root = (
+    <BaseCheckbox.Root aria-label={typeof label === 'string' ? label : undefined} className={label == null ? className : undefined} {...props}>
         <BaseCheckbox.Indicator
           keepMounted
           data-slot="checkbox-box"
@@ -33,8 +32,15 @@ export function Checkbox({ label, className, ...props }: CheckboxProps) {
             </span>
           )}
         />
-      </BaseCheckbox.Root>
-      {label != null && <span data-slot="checkbox-label">{label}</span>}
+    </BaseCheckbox.Root>
+  )
+  // Without a label the box stands alone, so an outer <Label> or aria-label can name it.
+  // An empty wrapping <label> would otherwise become its (empty) accessible name.
+  if (label == null) return root
+  return (
+    <label data-slot="checkbox" data-disabled={props.disabled ? 'true' : 'false'} className={className}>
+      {root}
+      <span data-slot="checkbox-label">{label}</span>
     </label>
   )
 }
