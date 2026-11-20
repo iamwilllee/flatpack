@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "file-input",
+  "type": "registry:ui",
+  "title": "File Input",
+  "description": "Flatpack UI File Input component.",
+  "dependencies": [
+    "lucide-react"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/file-input.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nimport { Upload, File as FileIcon, X } from 'lucide-react'\n\nexport type FileInputProps = {\n  accept?: string\n  multiple?: boolean\n  /** Bytes. Larger files are rejected and reported through onReject. */\n  maxSize?: number\n  title?: React.ReactNode\n  hint?: React.ReactNode\n  disabled?: boolean\n  onFilesChange?: (files: File[]) => void\n  onReject?: (files: File[]) => void\n}\n\nconst size = (n: number) => (n < 1024 ? `${n} B` : n < 1048576 ? `${(n / 1024).toFixed(1)} KB` : `${(n / 1048576).toFixed(1)} MB`)\n\n/** Drop zone plus a file list. Click or drop; it only collects files, uploading is up to you. */\nexport function FileInput({ accept, multiple, maxSize, title = 'Drop files here or click to browse', hint, disabled, onFilesChange, onReject }: FileInputProps) {\n  const [files, setFiles] = React.useState<File[]>([])\n  const [dragging, setDragging] = React.useState(false)\n\n  const add = (list: FileList | null) => {\n    if (!list) return\n    const all = Array.from(list)\n    const ok = all.filter((f) => !maxSize || f.size <= maxSize)\n    const bad = all.filter((f) => maxSize && f.size > maxSize)\n    if (bad.length) onReject?.(bad)\n    const next = multiple ? [...files, ...ok] : ok.slice(0, 1)\n    setFiles(next)\n    onFilesChange?.(next)\n  }\n  const remove = (i: number) => {\n    const next = files.filter((_, j) => j !== i)\n    setFiles(next)\n    onFilesChange?.(next)\n  }\n\n  return (\n    <div style={{ width: '100%' }}>\n      <label\n        data-slot=\"file-input\"\n        data-dragging={dragging}\n        aria-disabled={disabled}\n        style={disabled ? { opacity: 0.4, pointerEvents: 'none' } : undefined}\n        onDragOver={(e) => { e.preventDefault(); setDragging(true) }}\n        onDragLeave={() => setDragging(false)}\n        onDrop={(e) => { e.preventDefault(); setDragging(false); add(e.dataTransfer.files) }}\n      >\n        <Upload size={16} />\n        <span data-slot=\"file-input-title\">{title}</span>\n        {hint && <span>{hint}</span>}\n        <input type=\"file\" accept={accept} multiple={multiple} disabled={disabled} onChange={(e) => { add(e.target.files); e.target.value = '' }} />\n      </label>\n      {files.length > 0 && (\n        <ul data-slot=\"file-list\">\n          {files.map((f, i) => (\n            <li key={`${f.name}-${i}`} data-slot=\"file-list-item\">\n              <FileIcon size={16} />\n              <span>{f.name}</span>\n              <span data-slot=\"file-list-size\">{size(f.size)}</span>\n              <button type=\"button\" data-slot=\"button\" data-variant=\"ghost\" data-size=\"icon\" aria-label={`Remove ${f.name}`} onClick={() => remove(i)} style={{ width: 'var(--fp-control-sm)', height: 'var(--fp-control-sm)' }}><X size={16} /></button>\n            </li>\n          ))}\n        </ul>\n      )}\n    </div>\n  )\n}\n"
+    }
+  ]
+}

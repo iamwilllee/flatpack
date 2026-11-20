@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "field",
+  "type": "registry:ui",
+  "title": "Field",
+  "description": "Flatpack UI Field component.",
+  "dependencies": [
+    "@base-ui-components/react"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/field.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nimport { Field as BaseField } from '@base-ui-components/react/field'\nimport { Fieldset as BaseFieldset } from '@base-ui-components/react/fieldset'\n\nexport type FieldProps = {\n  label?: React.ReactNode\n  description?: React.ReactNode\n  /** Shown in red under the control; also marks the field invalid. */\n  error?: React.ReactNode\n  required?: boolean\n  disabled?: boolean\n  name?: string\n  children: React.ReactNode\n}\n\n/** Label, help text and error message around one control. */\nexport function Field({ label, description, error, required, disabled, name, children }: FieldProps) {\n  return (\n    <BaseField.Root data-slot=\"field\" invalid={error != null && error !== false} disabled={disabled} name={name}>\n      {label != null && (\n        <BaseField.Label data-slot=\"field-label\">\n          {label}\n          {required && <span data-slot=\"field-required\" aria-hidden=\"true\">*</span>}\n        </BaseField.Label>\n      )}\n      {children}\n      {description != null && !error && <BaseField.Description data-slot=\"field-description\">{description}</BaseField.Description>}\n      {error != null && error !== false && <BaseField.Error data-slot=\"field-error\" match>{error}</BaseField.Error>}\n    </BaseField.Root>\n  )\n}\n\n/** Wraps a native control so Field can label and describe it. */\nexport const FieldControl = BaseField.Control\n\n/** A titled group of fields. Space separates them; there is no box. */\nexport function Fieldset({ legend, children }: { legend: React.ReactNode; children: React.ReactNode }) {\n  return (\n    <BaseFieldset.Root data-slot=\"fieldset\">\n      <BaseFieldset.Legend data-slot=\"fieldset-legend\">{legend}</BaseFieldset.Legend>\n      {children}\n    </BaseFieldset.Root>\n  )\n}\n"
+    }
+  ]
+}

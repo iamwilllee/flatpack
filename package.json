@@ -1,0 +1,33 @@
+{
+  "name": "flatpack-ui",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "node scripts/build-tokens.mjs && node scripts/check-design.mjs && tsc -b && node scripts/build-registry.mjs && vite build",
+    "build:site": "vite build",
+    "build:tokens": "node scripts/build-tokens.mjs",
+    "build:registry": "node scripts/build-registry.mjs",
+    "check:design": "node scripts/check-design.mjs",
+    "preview": "vite preview --host 0.0.0.0",
+    "typecheck": "tsc -b --noEmit"
+  },
+  "dependencies": {
+    "@base-ui-components/react": "^1.0.0-beta.2",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.468.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^3.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.5"
+  }
+}

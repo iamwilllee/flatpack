@@ -1,0 +1,486 @@
+{
+  "$description": "Flatpack UI design tokens. Single source of truth: flatpack.css, figma/flatpack-tokens.json, README.md and DESIGN_LANGUAGE.md are generated from this file by `npm run build:tokens`. Tune choices made on the Create page go into tokens/overrides.json (or `npm run build:tokens -- --preset <code>`), and are applied on top of this file.",
+  "principles": [
+    {
+      "id": "shape",
+      "zh": "形状按角色",
+      "en": "Shape by role",
+      "zhDesc": "可点的单行小件（按钮、筛选项、输入框、徽章）用胶囊，承载内容的面（卡片、图片、弹窗、表格）用直角，没有中间值。想要全直角，选「直角」预设。",
+      "enDesc": "Clickable single-line parts (buttons, chips, inputs, badges) are pills; surfaces that hold content (cards, images, dialogs, tables) are square. Nothing in between. For all-square, pick the Square preset."
+    },
+    {
+      "id": "mono",
+      "zh": "黑白",
+      "en": "Black and white",
+      "zhDesc": "只有一个强调色，就是墨色。层级靠反差和字号拉开，不靠颜色。红、绿只用于状态文字和图标。",
+      "enDesc": "There is one accent, and it is ink. Hierarchy comes from contrast and size, not color. Red and green are only for status text and icons."
+    },
+    {
+      "id": "space",
+      "zh": "留白",
+      "en": "Whitespace",
+      "zhDesc": "分区用间距。边框只有 1px 一种，卡片里不再套第二层边框。阴影只给浮层用。",
+      "enDesc": "Space separates sections. There is one 1px border, and no second border inside a card. Shadows are for floating layers only."
+    }
+  ],
+  "gray": {
+    "0": "#ffffff",
+    "1": "#fafafa",
+    "2": "#f5f5f5",
+    "3": "#e5e5e5",
+    "4": "#a3a3a3",
+    "5": "#737373",
+    "6": "#525252",
+    "7": "#262626",
+    "8": "#0a0a0a",
+    "9": "#000000"
+  },
+  "color": {
+    "bg": {
+      "light": "gray.0",
+      "dark": "gray.9",
+      "zh": "页面底色",
+      "en": "Page background"
+    },
+    "surface": {
+      "light": "gray.2",
+      "dark": "gray.8",
+      "zh": "抬升面、占位图",
+      "en": "Raised surface, image placeholder"
+    },
+    "line": {
+      "light": "gray.3",
+      "dark": "gray.7",
+      "zh": "唯一的线色",
+      "en": "The only line color"
+    },
+    "line-strong": {
+      "light": "gray.4",
+      "dark": "gray.6",
+      "zh": "输入框、悬停时的边框",
+      "en": "Inputs and hover borders"
+    },
+    "muted": {
+      "light": "gray.5",
+      "dark": "gray.4",
+      "zh": "次要文字（只有这一个）",
+      "en": "Secondary text (the only one)"
+    },
+    "ink": {
+      "light": "gray.8",
+      "dark": "gray.1",
+      "zh": "文字、主按钮、激活态、焦点框",
+      "en": "Text, primary button, active state, focus ring"
+    },
+    "danger": {
+      "light": "#c62828",
+      "dark": "#ef5350",
+      "zh": "错误，只用于文字和图标",
+      "en": "Error, text and icons only"
+    },
+    "success": {
+      "light": "#2e7d32",
+      "dark": "#66bb6a",
+      "zh": "成功，只用于文字和图标",
+      "en": "Success, text and icons only"
+    },
+    "scrim": {
+      "light": "rgba(0, 0, 0, 0.4)",
+      "dark": "rgba(0, 0, 0, 0.7)",
+      "zh": "弹窗背后的遮罩",
+      "en": "Overlay behind dialogs"
+    }
+  },
+  "fontSize": {
+    "xs": 12,
+    "sm": 14,
+    "base": 16,
+    "lg": 20,
+    "xl": 28,
+    "2xl": 40,
+    "3xl": 64,
+    "4xl": 96
+  },
+  "lineHeight": {
+    "body": 1.6,
+    "heading": 1.1
+  },
+  "fontWeight": {
+    "regular": 400,
+    "medium": 500,
+    "semibold": 600
+  },
+  "fontFamily": {
+    "sans": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Noto Sans SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", ui-sans-serif, system-ui, sans-serif",
+    "mono": "\"IBM Plex Mono\", ui-monospace, SFMono-Regular, Menlo, monospace"
+  },
+  "tracking": {
+    "display": "-0.02em"
+  },
+  "space": {
+    "1": 4,
+    "2": 8,
+    "3": 12,
+    "4": 16,
+    "5": 24,
+    "6": 32,
+    "7": 48,
+    "8": 64,
+    "9": 96,
+    "10": 128
+  },
+  "radius": {
+    "control": "9999px",
+    "surface": 0,
+    "round": "50%",
+    "zh": {
+      "control": "可点的单行小件",
+      "surface": "承载内容的面，始终为 0",
+      "round": "头像、单选圆点"
+    },
+    "en": {
+      "control": "Clickable single-line parts",
+      "surface": "Surfaces that hold content, always 0",
+      "round": "Avatars, the radio dot"
+    }
+  },
+  "border": {
+    "width": 1
+  },
+  "shadow": {
+    "pop": {
+      "light": "0 8px 24px rgba(0, 0, 0, 0.12)",
+      "dark": "0 8px 24px rgba(0, 0, 0, 0.6)",
+      "zh": "只给 Dialog、Popover、Select、Dropdown、Tooltip 这类浮层",
+      "en": "Floating layers only: Dialog, Popover, Select, Dropdown, Tooltip"
+    }
+  },
+  "control": {
+    "sm": 32,
+    "md": 40,
+    "lg": 48
+  },
+  "icon": {
+    "size": 16,
+    "stroke": 1.5
+  },
+  "motion": {
+    "duration": "150ms",
+    "ease": "ease"
+  },
+  "tune": {
+    "$description": "Dials exposed on the Create page. Each option lists the CSS variables it sets. Only dials that keep the rules are here: accent color, shadow, blur and thickness are not tunable. Shape switches controls between pill and square; surfaces are always square.",
+    "dials": [
+      {
+        "id": "density",
+        "zh": "密度",
+        "en": "Density",
+        "default": "default",
+        "options": [
+          {
+            "value": "compact",
+            "code": "c",
+            "zh": "紧凑",
+            "en": "Compact",
+            "vars": {
+              "space-1": "4px",
+              "space-2": "6px",
+              "space-3": "8px",
+              "space-4": "12px",
+              "space-5": "16px",
+              "space-6": "24px",
+              "space-7": "32px",
+              "space-8": "48px",
+              "space-9": "64px",
+              "space-10": "96px",
+              "control-sm": "28px",
+              "control-md": "32px",
+              "control-lg": "40px"
+            }
+          },
+          {
+            "value": "default",
+            "code": "d",
+            "zh": "默认",
+            "en": "Default",
+            "vars": {}
+          },
+          {
+            "value": "roomy",
+            "code": "r",
+            "zh": "宽松",
+            "en": "Roomy",
+            "vars": {
+              "space-1": "4px",
+              "space-2": "8px",
+              "space-3": "16px",
+              "space-4": "20px",
+              "space-5": "32px",
+              "space-6": "40px",
+              "space-7": "64px",
+              "space-8": "80px",
+              "space-9": "128px",
+              "space-10": "160px",
+              "control-sm": "36px",
+              "control-md": "44px",
+              "control-lg": "56px"
+            }
+          }
+        ]
+      },
+      {
+        "id": "font",
+        "zh": "正文字体",
+        "en": "Body font",
+        "default": "system",
+        "options": [
+          {
+            "value": "system",
+            "code": "s",
+            "zh": "系统",
+            "en": "System",
+            "vars": {}
+          },
+          {
+            "value": "noto",
+            "code": "n",
+            "zh": "Noto Sans SC",
+            "en": "Noto Sans SC",
+            "webfont": "Noto+Sans+SC:wght@400;500;600",
+            "vars": {
+              "sans": "\"Noto Sans SC\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Noto Sans SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", ui-sans-serif, system-ui, sans-serif"
+            }
+          },
+          {
+            "value": "inter",
+            "code": "i",
+            "zh": "Inter + Noto Sans SC",
+            "en": "Inter + Noto Sans SC",
+            "webfont": "Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600",
+            "vars": {
+              "sans": "\"Inter\", \"Noto Sans SC\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Noto Sans SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", ui-sans-serif, system-ui, sans-serif"
+            }
+          }
+        ]
+      },
+      {
+        "id": "heading",
+        "zh": "标题字体",
+        "en": "Heading font",
+        "default": "same",
+        "options": [
+          {
+            "value": "same",
+            "code": "s",
+            "zh": "同正文",
+            "en": "Same as body",
+            "vars": {}
+          },
+          {
+            "value": "serif",
+            "code": "f",
+            "zh": "Noto Serif SC（编辑风）",
+            "en": "Noto Serif SC (editorial)",
+            "webfont": "Noto+Serif+SC:wght@500;600",
+            "vars": {
+              "heading": "\"Noto Serif SC\", \"Songti SC\", \"STSong\", serif"
+            }
+          }
+        ]
+      },
+      {
+        "id": "body",
+        "zh": "正文字号",
+        "en": "Body size",
+        "default": "16",
+        "options": [
+          {
+            "value": "15",
+            "code": "15",
+            "zh": "15px",
+            "en": "15px",
+            "vars": {
+              "text-base": "15px"
+            }
+          },
+          {
+            "value": "16",
+            "code": "16",
+            "zh": "16px",
+            "en": "16px",
+            "vars": {}
+          }
+        ]
+      },
+      {
+        "id": "weight",
+        "zh": "标题字重",
+        "en": "Heading weight",
+        "default": "600",
+        "options": [
+          {
+            "value": "500",
+            "code": "5",
+            "zh": "500",
+            "en": "500",
+            "vars": {
+              "weight-semibold": "500"
+            }
+          },
+          {
+            "value": "600",
+            "code": "6",
+            "zh": "600",
+            "en": "600",
+            "vars": {}
+          }
+        ]
+      },
+      {
+        "id": "tracking",
+        "zh": "标题字距",
+        "en": "Heading tracking",
+        "default": "-0.02em",
+        "options": [
+          {
+            "value": "-0.03em",
+            "code": "3",
+            "zh": "-0.03em",
+            "en": "-0.03em",
+            "vars": {
+              "tracking-display": "-0.03em"
+            }
+          },
+          {
+            "value": "-0.02em",
+            "code": "2",
+            "zh": "-0.02em",
+            "en": "-0.02em",
+            "vars": {}
+          },
+          {
+            "value": "0em",
+            "code": "0",
+            "zh": "0",
+            "en": "0",
+            "vars": {
+              "tracking-display": "0em"
+            }
+          }
+        ]
+      },
+      {
+        "id": "gray",
+        "zh": "灰阶色温",
+        "en": "Gray temperature",
+        "default": "neutral",
+        "optional": true,
+        "zhNote": "可选项。暖灰更接近宜家的纸感，但偏离了「中性不带色调」这一条，默认不用。",
+        "enNote": "Optional. Warm gray feels closer to IKEA paper, but it departs from the neutral rule, so it is off by default.",
+        "options": [
+          {
+            "value": "neutral",
+            "code": "n",
+            "zh": "中性",
+            "en": "Neutral",
+            "vars": {}
+          },
+          {
+            "value": "warm",
+            "code": "w",
+            "zh": "暖灰",
+            "en": "Warm",
+            "gray": {
+              "0": "#ffffff",
+              "1": "#fafaf9",
+              "2": "#f5f5f4",
+              "3": "#e7e5e4",
+              "4": "#a8a29e",
+              "5": "#78716c",
+              "6": "#57534e",
+              "7": "#292524",
+              "8": "#0c0a09",
+              "9": "#000000"
+            },
+            "vars": {}
+          }
+        ]
+      },
+      {
+        "id": "shape",
+        "zh": "形状",
+        "en": "Shape",
+        "default": "pill",
+        "options": [
+          {
+            "value": "pill",
+            "code": "p",
+            "zh": "胶囊",
+            "en": "Pill",
+            "vars": {}
+          },
+          {
+            "value": "square",
+            "code": "q",
+            "zh": "直角",
+            "en": "Square",
+            "vars": {
+              "radius-control": "0"
+            }
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "id": "default",
+        "zh": "默认",
+        "en": "Default",
+        "zhDesc": "规范默认值",
+        "enDesc": "The rules as shipped",
+        "values": {}
+      },
+      {
+        "id": "dashboard",
+        "zh": "后台紧凑",
+        "en": "Compact dashboard",
+        "zhDesc": "紧凑间距、Inter、15px 正文",
+        "enDesc": "Tight spacing, Inter, 15px body",
+        "values": {
+          "density": "compact",
+          "font": "inter",
+          "body": "15"
+        }
+      },
+      {
+        "id": "editorial",
+        "zh": "编辑长文",
+        "en": "Editorial",
+        "zhDesc": "宽松间距、衬线标题、字重 500",
+        "enDesc": "Roomy spacing, serif headings, weight 500",
+        "values": {
+          "density": "roomy",
+          "font": "noto",
+          "heading": "serif",
+          "weight": "500",
+          "tracking": "0em"
+        }
+      },
+      {
+        "id": "square",
+        "zh": "全直角",
+        "en": "All square",
+        "zhDesc": "所有控件改成直角，接近 x.ai 的硬朗风格",
+        "enDesc": "Every control square, closer to the hard x.ai look",
+        "values": {
+          "shape": "square"
+        }
+      }
+    ]
+  },
+  "layout": {
+    "pageMax": 1280,
+    "zh": "页面容器最大宽度：顶栏、页面、页脚共用，左右边对齐",
+    "en": "Page container max width: shared by header, pages and footer so their edges line up"
+  }
+}

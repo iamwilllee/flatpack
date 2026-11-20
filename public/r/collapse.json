@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "collapse",
+  "type": "registry:ui",
+  "title": "Collapse",
+  "description": "Flatpack UI Collapse component.",
+  "dependencies": [
+    "@base-ui-components/react",
+    "lucide-react"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/collapse.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nimport { ChevronDown } from 'lucide-react'\nimport { Accordion } from '@base-ui-components/react/accordion'\n\ntype CollapseItem = { key: string; title: React.ReactNode; children: React.ReactNode }\nexport function Collapse({ items, defaultActive, multiple = false }: {\n  items: CollapseItem[]\n  defaultActive?: string[]\n  multiple?: boolean\n}) {\n  const [active, setActive] = React.useState<string[]>(defaultActive ?? [])\n  return (\n    <Accordion.Root\n      defaultValue={defaultActive}\n      multiple={multiple}\n      onValueChange={(next) => setActive(next as string[])}\n      data-slot=\"collapse\"\n    >\n      {items.map((item) => {\n        const open = active.includes(item.key)\n        return (\n          <Accordion.Item value={item.key} data-slot=\"collapse-item\" data-open={open} key={item.key}>\n            <Accordion.Header render={(props) => <div {...props} />}>\n              <Accordion.Trigger data-slot=\"collapse-trigger\">\n                <span>{item.title}</span>\n                <ChevronDown data-slot=\"collapse-icon\" size={16} />\n              </Accordion.Trigger>\n            </Accordion.Header>\n            <Accordion.Panel data-slot=\"collapse-content\" keepMounted>\n              {item.children}\n            </Accordion.Panel>\n          </Accordion.Item>\n        )\n      })}\n    </Accordion.Root>\n  )\n}\n"
+    }
+  ]
+}

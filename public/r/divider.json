@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "divider",
+  "type": "registry:ui",
+  "title": "Divider",
+  "description": "Flatpack UI Divider component.",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/divider.tsx",
+      "type": "registry:ui",
+      "content": "export function Divider({ label, orientation = 'horizontal' }: { label?: string; orientation?: 'horizontal' | 'vertical' }) {\n  if (orientation === 'vertical') return <span data-slot=\"divider\" data-orientation=\"vertical\" aria-hidden=\"true\" />\n  if (label) return <div data-slot=\"divider\" data-orientation=\"horizontal\" data-with-label=\"true\"><span>{label}</span></div>\n  return <hr data-slot=\"divider\" data-orientation=\"horizontal\" />\n}\n"
+    }
+  ]
+}

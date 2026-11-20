@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "breadcrumb",
+  "type": "registry:ui",
+  "title": "Breadcrumb",
+  "description": "Flatpack UI Breadcrumb component.",
+  "dependencies": [
+    "lucide-react"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/breadcrumb.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nimport { ChevronRight } from 'lucide-react'\n\nexport function Breadcrumb({ children }: { children: React.ReactNode }) {\n  return <nav data-slot=\"breadcrumb\" aria-label=\"面包屑\"><ol data-slot=\"breadcrumb-list\">{children}</ol></nav>\n}\nexport function BreadcrumbItem({ children }: { children: React.ReactNode }) {\n  return <li data-slot=\"breadcrumb-item\">{children}</li>\n}\nexport function BreadcrumbLink({ children, href = '#' }: { children: React.ReactNode; href?: string }) {\n  return <a data-slot=\"breadcrumb-link\" href={href}>{children}</a>\n}\nexport function BreadcrumbCurrent({ children }: { children: React.ReactNode }) {\n  return <span data-slot=\"breadcrumb-current\" aria-current=\"page\">{children}</span>\n}\nexport function BreadcrumbSeparator() {\n  return <ChevronRight data-slot=\"breadcrumb-separator\" size={16} aria-hidden=\"true\" />\n}\n"
+    }
+  ]
+}

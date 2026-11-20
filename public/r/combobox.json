@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "combobox",
+  "type": "registry:ui",
+  "title": "Combobox",
+  "description": "Flatpack UI Combobox component.",
+  "dependencies": [
+    "@base-ui-components/react",
+    "lucide-react"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/combobox.tsx",
+      "type": "registry:ui",
+      "content": "import { Combobox as BaseCombobox } from '@base-ui-components/react/combobox'\nimport { Check, ChevronDown, X } from 'lucide-react'\n\nexport type ComboboxOption = { value: string; label: string }\n\nexport type ComboboxProps = {\n  options: ComboboxOption[]\n  value?: string | null\n  defaultValue?: string | null\n  onValueChange?: (value: string | null) => void\n  placeholder?: string\n  emptyText?: string\n  disabled?: boolean\n  'aria-label'?: string\n  /** sm 32 / md 40 / lg 48, same as Button */\n  size?: 'sm' | 'md' | 'lg'\n}\n\nconst byValue = (options: ComboboxOption[], v?: string | null) => (v == null ? v : options.find((o) => o.value === v) ?? null)\n\n/** A select you can type into. Filters as you type (Typeahead). */\nexport function Combobox({ options, value, defaultValue, onValueChange, placeholder = 'Search…', emptyText = 'No matches', disabled, 'aria-label': ariaLabel, size = 'md' }: ComboboxProps) {\n  return (\n    <BaseCombobox.Root\n      items={options}\n      value={value === undefined ? undefined : (byValue(options, value) as ComboboxOption)}\n      defaultValue={byValue(options, defaultValue) ?? undefined}\n      itemToStringLabel={(o: ComboboxOption) => o.label}\n      isItemEqualToValue={(a: ComboboxOption, b: ComboboxOption) => a.value === b.value}\n      onValueChange={(o) => onValueChange?.(o ? o.value : null)}\n      disabled={disabled}\n    >\n      <div data-slot=\"combobox\">\n        <div data-slot=\"combobox-control\" data-size={size}>\n          <BaseCombobox.Input data-slot=\"combobox-input\" placeholder={placeholder} aria-label={ariaLabel} />\n          <BaseCombobox.Clear data-slot=\"combobox-clear\" aria-label=\"Clear\"><X size={16} /></BaseCombobox.Clear>\n          <BaseCombobox.Trigger data-slot=\"combobox-trigger\" aria-label=\"Open\"><ChevronDown size={16} /></BaseCombobox.Trigger>\n        </div>\n      </div>\n      <BaseCombobox.Portal>\n        <BaseCombobox.Positioner sideOffset={4} style={{ zIndex: 50 }}>\n          <BaseCombobox.Popup data-slot=\"combobox-content\">\n            <BaseCombobox.Empty data-slot=\"combobox-empty\">{emptyText}</BaseCombobox.Empty>\n            <BaseCombobox.List>\n              {(o: ComboboxOption) => (\n                <BaseCombobox.Item key={o.value} value={o} data-slot=\"combobox-item\">\n                  {o.label}\n                  <BaseCombobox.ItemIndicator><Check size={16} /></BaseCombobox.ItemIndicator>\n                </BaseCombobox.Item>\n              )}\n            </BaseCombobox.List>\n          </BaseCombobox.Popup>\n        </BaseCombobox.Positioner>\n      </BaseCombobox.Portal>\n    </BaseCombobox.Root>\n  )\n}\n"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "badge",
+  "type": "registry:ui",
+  "title": "Badge",
+  "description": "Flatpack UI Badge component.",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/badge.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\n\nexport type BadgeProps = React.HTMLAttributes<HTMLSpanElement> & {\n  variant?: 'default' | 'outline' | 'success' | 'danger'\n}\n\nexport function Badge({ variant = 'default', className, ...props }: BadgeProps) {\n  return <span data-slot=\"badge\" data-variant={variant} className={className} {...props} />\n}\n"
+    }
+  ]
+}

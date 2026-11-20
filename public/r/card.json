@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "card",
+  "type": "registry:ui",
+  "title": "Card",
+  "description": "Flatpack UI Card component.",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/card.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\n\nexport function Card({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {\n  return <div data-slot=\"card\" className={className} {...props} />\n}\nexport function CardHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {\n  return <div data-slot=\"card-header\" className={className} {...props} />\n}\nexport function CardTitle({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {\n  return <h3 data-slot=\"card-title\" className={className} {...props} />\n}\nexport function CardDescription({ className, ...props }: React.HTMLAttributes<HTMLParagraphElement>) {\n  return <p data-slot=\"card-description\" className={className} {...props} />\n}\nexport function CardContent({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {\n  return <div data-slot=\"card-content\" className={className} {...props} />\n}\nexport function CardFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {\n  return <div data-slot=\"card-footer\" className={className} {...props} />\n}\n"
+    }
+  ]
+}

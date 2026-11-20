@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "code-block",
+  "type": "registry:ui",
+  "title": "Code Block",
+  "description": "Flatpack UI Code Block component.",
+  "dependencies": [
+    "lucide-react"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/code-block.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nimport { Check, Copy } from 'lucide-react'\n\n/** Inline code. */\nexport function Code({ children }: { children: React.ReactNode }) {\n  return <code data-slot=\"code\">{children}</code>\n}\n\n/** A code sample on a light surface, with a copy button. */\nexport function CodeBlock({ code, label = 'TSX', copyLabel = 'Copy' }: { code: string; label?: string; copyLabel?: string }) {\n  const [copied, setCopied] = React.useState(false)\n  const copy = () => {\n    navigator.clipboard?.writeText(code).then(() => {\n      setCopied(true)\n      setTimeout(() => setCopied(false), 1500)\n    }).catch(() => {})\n  }\n  return (\n    <div data-slot=\"code-block\">\n      <div data-slot=\"code-block-header\">\n        <span data-slot=\"code-block-label\">{label}</span>\n        <button data-slot=\"button\" data-variant=\"ghost\" data-size=\"icon\" type=\"button\" onClick={copy} title={copyLabel} aria-label={copyLabel} style={{ width: 'var(--fp-control-sm)', height: 'var(--fp-control-sm)', color: 'var(--fp-muted)' }}>\n          {copied ? <Check size={16} /> : <Copy size={16} />}\n        </button>\n      </div>\n      <pre data-slot=\"code-block-pre\">{code}</pre>\n    </div>\n  )\n}\n"
+    }
+  ]
+}

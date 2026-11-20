@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "statistic",
+  "type": "registry:ui",
+  "title": "Statistic",
+  "description": "Flatpack UI Statistic component.",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/statistic.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\n\nexport function Statistic({ label, value, suffix, prefix, trend, hint }: {\n  label: string\n  value: React.ReactNode\n  suffix?: string\n  prefix?: string\n  trend?: { value: number; direction?: 'up' | 'down' }\n  hint?: string\n}) {\n  return (\n    <div data-slot=\"statistic\">\n      <div data-slot=\"statistic-label\">{label}</div>\n      <div data-slot=\"statistic-value\">\n        {prefix && <span data-slot=\"statistic-affix\">{prefix}</span>}\n        <span data-slot=\"statistic-number\">{value}</span>\n        {suffix && <span data-slot=\"statistic-affix\">{suffix}</span>}\n      </div>\n      {(trend || hint) && (\n        <div data-slot=\"statistic-footer\">\n          {trend && (\n            <span data-slot=\"statistic-trend\" data-direction={trend.direction ?? (trend.value >= 0 ? 'up' : 'down')}>\n              {trend.value >= 0 ? '↑' : '↓'} {Math.abs(trend.value)}%\n            </span>\n          )}\n          {hint && <span data-slot=\"statistic-hint\">{hint}</span>}\n        </div>\n      )}\n    </div>\n  )\n}\n"
+    }
+  ]
+}

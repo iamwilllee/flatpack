@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "carousel",
+  "type": "registry:ui",
+  "title": "Carousel",
+  "description": "Flatpack UI Carousel component.",
+  "dependencies": [
+    "lucide-react"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/carousel.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nimport { ChevronLeft, ChevronRight } from 'lucide-react'\n\nexport type CarouselProps = {\n  slides: React.ReactNode[]\n  'aria-label'?: string\n}\n\n/** Horizontal slides with scroll snapping. No autoplay: the reader moves it. */\nexport function Carousel({ slides, 'aria-label': ariaLabel = 'Carousel' }: CarouselProps) {\n  const view = React.useRef<HTMLDivElement>(null)\n  const [index, setIndex] = React.useState(0)\n\n  const go = (i: number) => {\n    const el = view.current\n    if (!el) return\n    const n = Math.max(0, Math.min(slides.length - 1, i))\n    el.scrollTo({ left: (el.children[n] as HTMLElement).offsetLeft - el.offsetLeft, behavior: 'smooth' })\n  }\n  const onScroll = () => {\n    const el = view.current\n    if (!el) return\n    const w = (el.children[0] as HTMLElement | undefined)?.offsetWidth ?? 1\n    setIndex(Math.round(el.scrollLeft / w))\n  }\n\n  return (\n    <div data-slot=\"carousel\" role=\"region\" aria-roledescription=\"carousel\" aria-label={ariaLabel}>\n      <div data-slot=\"carousel-viewport\" ref={view} onScroll={onScroll} tabIndex={0}\n        onKeyDown={(e) => { if (e.key === 'ArrowRight') { e.preventDefault(); go(index + 1) } if (e.key === 'ArrowLeft') { e.preventDefault(); go(index - 1) } }}>\n        {slides.map((s, i) => (\n          <div key={i} data-slot=\"carousel-slide\" role=\"group\" aria-roledescription=\"slide\" aria-label={`${i + 1} / ${slides.length}`}>{s}</div>\n        ))}\n      </div>\n      <div data-slot=\"carousel-footer\">\n        <div data-slot=\"carousel-dots\">\n          {slides.map((_, i) => <button key={i} type=\"button\" data-slot=\"carousel-dot\" data-active={i === index} aria-label={`Slide ${i + 1}`} onClick={() => go(i)} />)}\n        </div>\n        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--fp-space-2)' }}>\n          <span data-slot=\"carousel-count\">{index + 1} / {slides.length}</span>\n          <button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"icon\" aria-label=\"Previous\" disabled={index === 0} onClick={() => go(index - 1)} style={{ width: 'var(--fp-control-sm)', height: 'var(--fp-control-sm)' }}><ChevronLeft size={16} /></button>\n          <button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"icon\" aria-label=\"Next\" disabled={index === slides.length - 1} onClick={() => go(index + 1)} style={{ width: 'var(--fp-control-sm)', height: 'var(--fp-control-sm)' }}><ChevronRight size={16} /></button>\n        </div>\n      </div>\n    </div>\n  )\n}\n"
+    }
+  ]
+}

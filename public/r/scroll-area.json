@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "scroll-area",
+  "type": "registry:ui",
+  "title": "Scroll Area",
+  "description": "Flatpack UI Scroll Area component.",
+  "dependencies": [
+    "@base-ui-components/react"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/scroll-area.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nimport { ScrollArea as BaseScrollArea } from '@base-ui-components/react/scroll-area'\n\n/** A scroll container with a thin square scrollbar that appears on hover. */\nexport function ScrollArea({ children, style, horizontal }: { children: React.ReactNode; style?: React.CSSProperties; horizontal?: boolean }) {\n  return (\n    <BaseScrollArea.Root data-slot=\"scroll-area\" style={style}>\n      <BaseScrollArea.Viewport data-slot=\"scroll-area-viewport\">{children}</BaseScrollArea.Viewport>\n      <BaseScrollArea.Scrollbar data-slot=\"scroll-area-scrollbar\" orientation=\"vertical\">\n        <BaseScrollArea.Thumb data-slot=\"scroll-area-thumb\" />\n      </BaseScrollArea.Scrollbar>\n      {horizontal && (\n        <BaseScrollArea.Scrollbar data-slot=\"scroll-area-scrollbar\" orientation=\"horizontal\">\n          <BaseScrollArea.Thumb data-slot=\"scroll-area-thumb\" />\n        </BaseScrollArea.Scrollbar>\n      )}\n    </BaseScrollArea.Root>\n  )\n}\n"
+    }
+  ]
+}

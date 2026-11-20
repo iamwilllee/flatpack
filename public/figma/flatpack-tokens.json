@@ -1,0 +1,485 @@
+{
+  "$description": "Flatpack UI design tokens, generated from tokens/flatpack.tokens.json. Import with the Tokens Studio plugin.",
+  "$license": "MIT",
+  "global": {
+    "gray": {
+      "0": {
+        "value": "#ffffff",
+        "type": "color"
+      },
+      "1": {
+        "value": "#fafafa",
+        "type": "color"
+      },
+      "2": {
+        "value": "#f5f5f5",
+        "type": "color"
+      },
+      "3": {
+        "value": "#e5e5e5",
+        "type": "color"
+      },
+      "4": {
+        "value": "#a3a3a3",
+        "type": "color"
+      },
+      "5": {
+        "value": "#737373",
+        "type": "color"
+      },
+      "6": {
+        "value": "#525252",
+        "type": "color"
+      },
+      "7": {
+        "value": "#262626",
+        "type": "color"
+      },
+      "8": {
+        "value": "#0a0a0a",
+        "type": "color"
+      },
+      "9": {
+        "value": "#000000",
+        "type": "color"
+      }
+    },
+    "fontSize": {
+      "xs": {
+        "value": "12",
+        "type": "fontSizes"
+      },
+      "sm": {
+        "value": "14",
+        "type": "fontSizes"
+      },
+      "base": {
+        "value": "16",
+        "type": "fontSizes"
+      },
+      "lg": {
+        "value": "20",
+        "type": "fontSizes"
+      },
+      "xl": {
+        "value": "28",
+        "type": "fontSizes"
+      },
+      "2xl": {
+        "value": "40",
+        "type": "fontSizes"
+      },
+      "3xl": {
+        "value": "64",
+        "type": "fontSizes"
+      },
+      "4xl": {
+        "value": "96",
+        "type": "fontSizes"
+      }
+    },
+    "lineHeight": {
+      "body": {
+        "value": "160%",
+        "type": "lineHeights"
+      },
+      "heading": {
+        "value": "110.00000000000001%",
+        "type": "lineHeights"
+      }
+    },
+    "fontWeight": {
+      "regular": {
+        "value": "400",
+        "type": "fontWeights"
+      },
+      "medium": {
+        "value": "500",
+        "type": "fontWeights"
+      },
+      "semibold": {
+        "value": "600",
+        "type": "fontWeights"
+      }
+    },
+    "fontFamily": {
+      "sans": {
+        "value": "Noto Sans SC",
+        "type": "fontFamilies"
+      },
+      "mono": {
+        "value": "IBM Plex Mono",
+        "type": "fontFamilies"
+      }
+    },
+    "letterSpacing": {
+      "display": {
+        "value": "-0.02em",
+        "type": "letterSpacing"
+      }
+    },
+    "spacing": {
+      "1": {
+        "value": "4",
+        "type": "spacing"
+      },
+      "2": {
+        "value": "8",
+        "type": "spacing"
+      },
+      "3": {
+        "value": "12",
+        "type": "spacing"
+      },
+      "4": {
+        "value": "16",
+        "type": "spacing"
+      },
+      "5": {
+        "value": "24",
+        "type": "spacing"
+      },
+      "6": {
+        "value": "32",
+        "type": "spacing"
+      },
+      "7": {
+        "value": "48",
+        "type": "spacing"
+      },
+      "8": {
+        "value": "64",
+        "type": "spacing"
+      },
+      "9": {
+        "value": "96",
+        "type": "spacing"
+      },
+      "10": {
+        "value": "128",
+        "type": "spacing"
+      }
+    },
+    "borderRadius": {
+      "control": {
+        "value": "9999",
+        "type": "borderRadius",
+        "description": "可点的单行小件（直角预设下为 0）"
+      },
+      "surface": {
+        "value": "0",
+        "type": "borderRadius",
+        "description": "承载内容的面，始终为 0"
+      },
+      "round": {
+        "value": "50%",
+        "type": "borderRadius",
+        "description": "头像、单选圆点"
+      }
+    },
+    "borderWidth": {
+      "default": {
+        "value": "1",
+        "type": "borderWidth"
+      }
+    },
+    "sizing": {
+      "control-sm": {
+        "value": "32",
+        "type": "sizing"
+      },
+      "control-md": {
+        "value": "40",
+        "type": "sizing"
+      },
+      "control-lg": {
+        "value": "48",
+        "type": "sizing"
+      },
+      "icon": {
+        "value": "16",
+        "type": "sizing"
+      },
+      "page-max": {
+        "value": "1280",
+        "type": "sizing",
+        "description": "页面容器最大宽度：顶栏、页面、页脚共用，左右边对齐"
+      }
+    }
+  },
+  "light": {
+    "bg": {
+      "value": "{gray.0}",
+      "type": "color",
+      "description": "页面底色"
+    },
+    "surface": {
+      "value": "{gray.2}",
+      "type": "color",
+      "description": "抬升面、占位图"
+    },
+    "line": {
+      "value": "{gray.3}",
+      "type": "color",
+      "description": "唯一的线色"
+    },
+    "line-strong": {
+      "value": "{gray.4}",
+      "type": "color",
+      "description": "输入框、悬停时的边框"
+    },
+    "muted": {
+      "value": "{gray.5}",
+      "type": "color",
+      "description": "次要文字（只有这一个）"
+    },
+    "ink": {
+      "value": "{gray.8}",
+      "type": "color",
+      "description": "文字、主按钮、激活态、焦点框"
+    },
+    "danger": {
+      "value": "#c62828",
+      "type": "color",
+      "description": "错误，只用于文字和图标"
+    },
+    "success": {
+      "value": "#2e7d32",
+      "type": "color",
+      "description": "成功，只用于文字和图标"
+    },
+    "scrim": {
+      "value": "rgba(0, 0, 0, 0.4)",
+      "type": "color",
+      "description": "弹窗背后的遮罩"
+    },
+    "shadowPop": {
+      "value": "0 8px 24px rgba(0, 0, 0, 0.12)",
+      "type": "boxShadow",
+      "description": "只给 Dialog、Popover、Select、Dropdown、Tooltip 这类浮层"
+    }
+  },
+  "dark": {
+    "bg": {
+      "value": "{gray.9}",
+      "type": "color",
+      "description": "页面底色"
+    },
+    "surface": {
+      "value": "{gray.8}",
+      "type": "color",
+      "description": "抬升面、占位图"
+    },
+    "line": {
+      "value": "{gray.7}",
+      "type": "color",
+      "description": "唯一的线色"
+    },
+    "line-strong": {
+      "value": "{gray.6}",
+      "type": "color",
+      "description": "输入框、悬停时的边框"
+    },
+    "muted": {
+      "value": "{gray.4}",
+      "type": "color",
+      "description": "次要文字（只有这一个）"
+    },
+    "ink": {
+      "value": "{gray.1}",
+      "type": "color",
+      "description": "文字、主按钮、激活态、焦点框"
+    },
+    "danger": {
+      "value": "#ef5350",
+      "type": "color",
+      "description": "错误，只用于文字和图标"
+    },
+    "success": {
+      "value": "#66bb6a",
+      "type": "color",
+      "description": "成功，只用于文字和图标"
+    },
+    "scrim": {
+      "value": "rgba(0, 0, 0, 0.7)",
+      "type": "color",
+      "description": "弹窗背后的遮罩"
+    },
+    "shadowPop": {
+      "value": "0 8px 24px rgba(0, 0, 0, 0.6)",
+      "type": "boxShadow",
+      "description": "只给 Dialog、Popover、Select、Dropdown、Tooltip 这类浮层"
+    }
+  },
+  "density-compact": {
+    "space-1": {
+      "value": "4",
+      "type": "spacing"
+    },
+    "space-2": {
+      "value": "6",
+      "type": "spacing"
+    },
+    "space-3": {
+      "value": "8",
+      "type": "spacing"
+    },
+    "space-4": {
+      "value": "12",
+      "type": "spacing"
+    },
+    "space-5": {
+      "value": "16",
+      "type": "spacing"
+    },
+    "space-6": {
+      "value": "24",
+      "type": "spacing"
+    },
+    "space-7": {
+      "value": "32",
+      "type": "spacing"
+    },
+    "space-8": {
+      "value": "48",
+      "type": "spacing"
+    },
+    "space-9": {
+      "value": "64",
+      "type": "spacing"
+    },
+    "space-10": {
+      "value": "96",
+      "type": "spacing"
+    },
+    "control-sm": {
+      "value": "28",
+      "type": "sizing"
+    },
+    "control-md": {
+      "value": "32",
+      "type": "sizing"
+    },
+    "control-lg": {
+      "value": "40",
+      "type": "sizing"
+    }
+  },
+  "density-roomy": {
+    "space-1": {
+      "value": "4",
+      "type": "spacing"
+    },
+    "space-2": {
+      "value": "8",
+      "type": "spacing"
+    },
+    "space-3": {
+      "value": "16",
+      "type": "spacing"
+    },
+    "space-4": {
+      "value": "20",
+      "type": "spacing"
+    },
+    "space-5": {
+      "value": "32",
+      "type": "spacing"
+    },
+    "space-6": {
+      "value": "40",
+      "type": "spacing"
+    },
+    "space-7": {
+      "value": "64",
+      "type": "spacing"
+    },
+    "space-8": {
+      "value": "80",
+      "type": "spacing"
+    },
+    "space-9": {
+      "value": "128",
+      "type": "spacing"
+    },
+    "space-10": {
+      "value": "160",
+      "type": "spacing"
+    },
+    "control-sm": {
+      "value": "36",
+      "type": "sizing"
+    },
+    "control-md": {
+      "value": "44",
+      "type": "sizing"
+    },
+    "control-lg": {
+      "value": "56",
+      "type": "sizing"
+    }
+  },
+  "gray-warm": {
+    "0": {
+      "value": "#ffffff",
+      "type": "color",
+      "description": "可选暖灰，替换 global.gray"
+    },
+    "1": {
+      "value": "#fafaf9",
+      "type": "color",
+      "description": "可选暖灰，替换 global.gray"
+    },
+    "2": {
+      "value": "#f5f5f4",
+      "type": "color",
+      "description": "可选暖灰，替换 global.gray"
+    },
+    "3": {
+      "value": "#e7e5e4",
+      "type": "color",
+      "description": "可选暖灰，替换 global.gray"
+    },
+    "4": {
+      "value": "#a8a29e",
+      "type": "color",
+      "description": "可选暖灰，替换 global.gray"
+    },
+    "5": {
+      "value": "#78716c",
+      "type": "color",
+      "description": "可选暖灰，替换 global.gray"
+    },
+    "6": {
+      "value": "#57534e",
+      "type": "color",
+      "description": "可选暖灰，替换 global.gray"
+    },
+    "7": {
+      "value": "#292524",
+      "type": "color",
+      "description": "可选暖灰，替换 global.gray"
+    },
+    "8": {
+      "value": "#0c0a09",
+      "type": "color",
+      "description": "可选暖灰，替换 global.gray"
+    },
+    "9": {
+      "value": "#000000",
+      "type": "color",
+      "description": "可选暖灰，替换 global.gray"
+    }
+  },
+  "$themes": [],
+  "$metadata": {
+    "tokenSetOrder": [
+      "global",
+      "light",
+      "dark",
+      "density-compact",
+      "density-roomy",
+      "gray-warm"
+    ]
+  }
+}

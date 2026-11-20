@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "dialog",
+  "type": "registry:ui",
+  "title": "Dialog",
+  "description": "Flatpack UI Dialog component.",
+  "dependencies": [
+    "@base-ui-components/react"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/dialog.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nimport { Dialog as BaseDialog } from '@base-ui-components/react/dialog'\n\nexport function Dialog({ children, defaultOpen = false }: { children: React.ReactNode; defaultOpen?: boolean }) {\n  return <BaseDialog.Root defaultOpen={defaultOpen}>{children}</BaseDialog.Root>\n}\n\nexport function DialogTrigger({ children, size = 'md', variant = 'outline', ...props }: React.ButtonHTMLAttributes<HTMLButtonElement> & { size?: 'sm' | 'md' | 'lg'; variant?: 'default' | 'secondary' | 'outline' | 'ghost' }) {\n  return (\n    <BaseDialog.Trigger\n      {...props}\n      render={<button data-slot=\"button\" data-variant={variant} data-size={size === 'md' ? 'default' : size} type=\"button\">{children}</button>}\n    />\n  )\n}\n\nexport function DialogContent({ children }: { children: React.ReactNode }) {\n  return (\n    <BaseDialog.Portal>\n      <BaseDialog.Backdrop data-slot=\"dialog-overlay\" />\n      <BaseDialog.Popup data-slot=\"dialog-content\" role=\"dialog\" aria-modal=\"true\">\n        {children}\n      </BaseDialog.Popup>\n    </BaseDialog.Portal>\n  )\n}\n\nexport function DialogHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {\n  return <div data-slot=\"dialog-header\" className={className} {...props} />\n}\n\nexport function DialogTitle({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {\n  return <BaseDialog.Title data-slot=\"dialog-title\" className={className} {...props} />\n}\n\nexport function DialogDescription({ className, ...props }: React.HTMLAttributes<HTMLParagraphElement>) {\n  return <BaseDialog.Description data-slot=\"dialog-description\" className={className} {...props} />\n}\n\nexport function DialogFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {\n  return <div data-slot=\"dialog-footer\" className={className} {...props} />\n}\n\nexport function DialogClose({ children, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) {\n  return (\n    <BaseDialog.Close\n      {...props}\n      render={<button data-slot=\"button\" data-variant=\"ghost\" type=\"button\">{children}</button>}\n    />\n  )\n}\n"
+    }
+  ]
+}

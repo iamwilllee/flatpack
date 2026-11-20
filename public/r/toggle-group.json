@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "toggle-group",
+  "type": "registry:ui",
+  "title": "Toggle Group",
+  "description": "Flatpack UI Toggle Group component.",
+  "dependencies": [
+    "@base-ui-components/react"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/toggle-group.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nimport { ToggleGroup as BaseToggleGroup } from '@base-ui-components/react/toggle-group'\nimport { Toggle as BaseToggle } from '@base-ui-components/react/toggle'\n\nexport type ToggleOption = { value: string; label: React.ReactNode; 'aria-label'?: string; disabled?: boolean }\n\nexport type ToggleGroupProps = {\n  options: ToggleOption[]\n  value?: string[]\n  defaultValue?: string[]\n  /** Allow several pressed at once (e.g. bold + italic). */\n  multiple?: boolean\n  size?: 'sm' | 'md'\n  disabled?: boolean\n  onValueChange?: (value: string[]) => void\n}\n\n/** Joined toggle buttons. Pressed items turn into an ink block. */\nexport function ToggleGroup({ options, value, defaultValue, multiple, size = 'md', disabled, onValueChange }: ToggleGroupProps) {\n  return (\n    <BaseToggleGroup\n      data-slot=\"toggle-group\"\n      data-size={size}\n      value={value}\n      defaultValue={defaultValue}\n      multiple={multiple}\n      disabled={disabled}\n      onValueChange={(v) => onValueChange?.(v as string[])}\n    >\n      {options.map((o) => (\n        <BaseToggle key={o.value} value={o.value} data-slot=\"toggle\" aria-label={o['aria-label']} disabled={o.disabled}>\n          {o.label}\n        </BaseToggle>\n      ))}\n    </BaseToggleGroup>\n  )\n}\n\n/** A single on/off button. */\nexport function Toggle({ children, ...props }: React.ComponentProps<typeof BaseToggle>) {\n  return <BaseToggle data-slot=\"toggle\" {...props}>{children}</BaseToggle>\n}\n\n/** Buttons joined edge to edge, sharing one border. */\nexport function ButtonGroup({ children, ...props }: React.HTMLAttributes<HTMLDivElement>) {\n  return <div data-slot=\"button-group\" role=\"group\" {...props}>{children}</div>\n}\n"
+    }
+  ]
+}

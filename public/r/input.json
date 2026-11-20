@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "input",
+  "type": "registry:ui",
+  "title": "Input",
+  "description": "Flatpack UI Input component.",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/input.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\n\nexport type ControlSize = 'sm' | 'md' | 'lg'\n\nexport type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> & {\n  /** sm 32 / md 40 / lg 48, same as Button. Controls in one row share one size. */\n  size?: ControlSize\n  /** outline: 1px border (default). filled: light grey fill, no border, e.g. a search box. */\n  variant?: 'outline' | 'filled'\n  /** Icon before the text, e.g. <Search />. */\n  leading?: React.ReactNode\n  /** Icon or short text after the text, e.g. a unit or <Kbd>. */\n  trailing?: React.ReactNode\n}\n\nexport function Input({ className, style, size = 'md', variant = 'outline', leading, trailing, ...props }: InputProps) {\n  if (leading == null && trailing == null) {\n    return <input data-slot=\"input\" data-size={size} data-variant={variant} className={className} style={style} {...props} />\n  }\n  // With icons the group draws the field; the inner input is bare.\n  return (\n    <div data-slot=\"input-group\" data-size={size} data-variant={variant} data-disabled={props.disabled ? 'true' : undefined} className={className} style={style}>\n      {leading != null && <span data-slot=\"input-adornment\" aria-hidden=\"true\">{leading}</span>}\n      <input data-slot=\"input-bare\" {...props} />\n      {trailing != null && <span data-slot=\"input-adornment\">{trailing}</span>}\n    </div>\n  )\n}\n\nexport function Label({ className, ...props }: React.LabelHTMLAttributes<HTMLLabelElement>) {\n  return <label data-slot=\"label\" className={className} {...props} />\n}\n"
+    }
+  ]
+}

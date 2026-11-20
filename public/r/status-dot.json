@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "status-dot",
+  "type": "registry:ui",
+  "title": "Status Dot",
+  "description": "Flatpack UI Status Dot component.",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/status-dot.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\n\nexport type Status = 'default' | 'success' | 'danger' | 'idle'\n\n/** An 8px square status mark with a label. Red and green only tint the mark and text. */\nexport function StatusDot({ status = 'default', children, ...props }: React.HTMLAttributes<HTMLSpanElement> & { status?: Status }) {\n  return (\n    <span data-slot=\"status-dot\" data-status={status} {...props}>\n      <span data-slot=\"status-dot-mark\" aria-hidden=\"true\" />\n      {children}\n    </span>\n  )\n}\n"
+    }
+  ]
+}

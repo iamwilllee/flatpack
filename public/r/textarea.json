@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "textarea",
+  "type": "registry:ui",
+  "title": "Textarea",
+  "description": "Flatpack UI Textarea component.",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/textarea.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\n\nexport function Textarea({ className, ...props }: React.TextareaHTMLAttributes<HTMLTextAreaElement>) {\n  return <textarea data-slot=\"textarea\" className={className} {...props} />\n}\n"
+    }
+  ]
+}

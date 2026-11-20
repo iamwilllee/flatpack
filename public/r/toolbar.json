@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "toolbar",
+  "type": "registry:ui",
+  "title": "Toolbar",
+  "description": "Flatpack UI Toolbar component.",
+  "dependencies": [
+    "@base-ui-components/react"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/toolbar.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nimport { Toolbar as BaseToolbar } from '@base-ui-components/react/toolbar'\nimport { Toggle as BaseToggle } from '@base-ui-components/react/toggle'\n\n/** A row of quiet actions above an editor or table. Arrow keys move between items. */\nexport function Toolbar({ children, ...props }: React.ComponentProps<typeof BaseToolbar.Root>) {\n  return <BaseToolbar.Root data-slot=\"toolbar\" {...props}>{children}</BaseToolbar.Root>\n}\n\nexport function ToolbarGroup({ children, ...props }: React.ComponentProps<typeof BaseToolbar.Group>) {\n  return <BaseToolbar.Group data-slot=\"toolbar-group\" {...props}>{children}</BaseToolbar.Group>\n}\n\nexport function ToolbarButton({ children, ...props }: React.ComponentProps<typeof BaseToolbar.Button>) {\n  return <BaseToolbar.Button data-slot=\"toolbar-button\" {...props}>{children}</BaseToolbar.Button>\n}\n\n/** A toolbar button that stays pressed (bold, italic …). */\nexport function ToolbarToggle({ children, pressed, defaultPressed, onPressedChange, ...props }: Omit<React.ComponentProps<typeof BaseToolbar.Button>, 'render'> & {\n  pressed?: boolean\n  defaultPressed?: boolean\n  onPressedChange?: (pressed: boolean) => void\n}) {\n  return (\n    <BaseToolbar.Button\n      data-slot=\"toolbar-button\"\n      {...props}\n      render={<BaseToggle pressed={pressed} defaultPressed={defaultPressed} onPressedChange={(p) => onPressedChange?.(p)} />}\n    >\n      {children}\n    </BaseToolbar.Button>\n  )\n}\n\nexport function ToolbarSeparator() {\n  return <BaseToolbar.Separator data-slot=\"toolbar-separator\" />\n}\n\n/** Pushes the items after it to the far end. */\nexport function ToolbarSpacer() {\n  return <span data-slot=\"toolbar-spacer\" />\n}\n"
+    }
+  ]
+}

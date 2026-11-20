@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="mask-icon" href="./favicon.svg" color="#0a0a0a" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+    <title>Flatpack UI — 黑白、留白、形状按角色的组件系统</title>
+    <meta name="description" content="Flatpack UI：形状按角色、黑白、留白。一套让内容做主角的组件系统。" />
+    <script>
+      // Set the theme before first paint: saved choice first, then the system setting.
+      (function () {
+        var t = null
+        try { t = localStorage.getItem('fp-theme') } catch (e) {}
+        if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        document.documentElement.setAttribute('data-theme', t)
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

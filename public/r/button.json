@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "button",
+  "type": "registry:ui",
+  "title": "Button",
+  "description": "Flatpack UI Button component.",
+  "dependencies": [
+    "@base-ui-components/react"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/button.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nimport { Button as BaseButton } from '@base-ui-components/react/button'\n\ntype Variant = 'default' | 'secondary' | 'outline' | 'ghost' | 'link'\ntype Size = 'default' | 'sm' | 'lg' | 'icon' | 'icon-sm'\n\nexport type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {\n  variant?: Variant\n  size?: Size\n}\n\nexport function Button({ variant = 'default', size = 'default', className, type = 'button', ...props }: ButtonProps) {\n  return (\n    <BaseButton\n      data-slot=\"button\"\n      data-variant={variant}\n      data-size={size}\n      type={type}\n      className={className}\n      {...props}\n    />\n  )\n}\n"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "popover",
+  "type": "registry:ui",
+  "title": "Popover",
+  "description": "Flatpack UI Popover component.",
+  "dependencies": [
+    "@base-ui-components/react"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/popover.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nimport { Popover as BasePopover } from '@base-ui-components/react/popover'\n\nexport function Popover({ children, defaultOpen = false }: { children: React.ReactNode; defaultOpen?: boolean }) {\n  return (\n    <BasePopover.Root defaultOpen={defaultOpen}>\n      <div data-slot=\"popover\">{children}</div>\n    </BasePopover.Root>\n  )\n}\n\nexport function PopoverTrigger({ children, size = 'md', variant = 'outline' }: { children: React.ReactNode } & { size?: 'sm' | 'md' | 'lg'; variant?: 'default' | 'secondary' | 'outline' | 'ghost' }) {\n  return (\n    <BasePopover.Trigger render={<button data-slot=\"button\" data-variant={variant} data-size={size === 'md' ? 'default' : size} type=\"button\">{children}</button>} />\n  )\n}\n\nexport function PopoverContent({ title, children, side = 'bottom' }: { title?: string; children?: React.ReactNode; side?: 'top' | 'bottom' }) {\n  return (\n    <BasePopover.Portal>\n      <BasePopover.Backdrop />\n      <BasePopover.Positioner side={side}>\n        <BasePopover.Popup data-slot=\"popover-content\" data-side={side} role=\"dialog\">\n          {title && <BasePopover.Title render={<div data-slot=\"popover-title\">{title}</div>} />}\n          <div data-slot=\"popover-body\">{children}</div>\n        </BasePopover.Popup>\n      </BasePopover.Positioner>\n    </BasePopover.Portal>\n  )\n}\n"
+    }
+  ]
+}

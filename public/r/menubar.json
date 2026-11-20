@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "menubar",
+  "type": "registry:ui",
+  "title": "Menubar",
+  "description": "Flatpack UI Menubar component.",
+  "dependencies": [
+    "@base-ui-components/react"
+  ],
+  "registryDependencies": [
+    "context-menu"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/menubar.tsx",
+      "type": "registry:ui",
+      "content": "import { Menubar as BaseMenubar } from '@base-ui-components/react/menubar'\nimport { Menu as BaseMenu } from '@base-ui-components/react/menu'\nimport { MenuEntries, type MenuEntry } from '@/components/ui/context-menu'\n\nexport type MenubarMenu = { label: string; entries: MenuEntry[] }\n\n/** A desktop-style menu bar: File, Edit, View … Hovering moves between open menus. */\nexport function Menubar({ menus }: { menus: MenubarMenu[] }) {\n  return (\n    <BaseMenubar data-slot=\"menubar\">\n      {menus.map((m) => (\n        <BaseMenu.Root key={m.label}>\n          <BaseMenu.Trigger data-slot=\"menubar-trigger\">{m.label}</BaseMenu.Trigger>\n          <BaseMenu.Portal>\n            <BaseMenu.Positioner sideOffset={4} align=\"start\" style={{ zIndex: 50 }}>\n              <BaseMenu.Popup data-slot=\"menu-content\">\n                <MenuEntries entries={m.entries} Item={BaseMenu.Item} Separator={BaseMenu.Separator} />\n              </BaseMenu.Popup>\n            </BaseMenu.Positioner>\n          </BaseMenu.Portal>\n        </BaseMenu.Root>\n      ))}\n    </BaseMenubar>\n  )\n}\n"
+    }
+  ]
+}

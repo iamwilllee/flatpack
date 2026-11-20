@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "timestamp",
+  "type": "registry:ui",
+  "title": "Timestamp",
+  "description": "Flatpack UI Timestamp component.",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/timestamp.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\n\nconst UNITS: [Intl.RelativeTimeFormatUnit, number][] = [\n  ['year', 31536000], ['month', 2592000], ['week', 604800],\n  ['day', 86400], ['hour', 3600], ['minute', 60], ['second', 1],\n]\n\n/** \"3 minutes ago\" for a date, in the given locale. */\nexport function formatRelative(date: Date, now = new Date(), locale?: string) {\n  const diff = Math.round((date.getTime() - now.getTime()) / 1000)\n  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' })\n  for (const [unit, sec] of UNITS) {\n    if (Math.abs(diff) >= sec || unit === 'second') return rtf.format(Math.round(diff / sec), unit)\n  }\n  return ''\n}\n\nexport type TimestampProps = {\n  date: Date | string | number\n  /** relative (\"3 min ago\"), date, or datetime */\n  format?: 'relative' | 'date' | 'datetime'\n  locale?: string\n  /** Refresh relative text every N ms. Off by default. */\n  refreshMs?: number\n}\n\n/** A <time> element: relative or absolute, with the full date on hover. */\nexport function Timestamp({ date, format = 'relative', locale, refreshMs }: TimestampProps) {\n  const d = React.useMemo(() => new Date(date), [date])\n  const [now, setNow] = React.useState(() => new Date())\n  React.useEffect(() => {\n    if (!refreshMs || format !== 'relative') return\n    const id = setInterval(() => setNow(new Date()), refreshMs)\n    return () => clearInterval(id)\n  }, [refreshMs, format])\n  const full = new Intl.DateTimeFormat(locale, { dateStyle: 'long', timeStyle: 'short' }).format(d)\n  const text = format === 'relative'\n    ? formatRelative(d, now, locale)\n    : new Intl.DateTimeFormat(locale, format === 'date' ? { dateStyle: 'medium' } : { dateStyle: 'medium', timeStyle: 'short' }).format(d)\n  return <time data-slot=\"timestamp\" dateTime={d.toISOString()} title={full}>{text}</time>\n}\n"
+    }
+  ]
+}

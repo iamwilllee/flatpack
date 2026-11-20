@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "multi-select",
+  "type": "registry:ui",
+  "title": "Multi Select",
+  "description": "Flatpack UI Multi Select component.",
+  "dependencies": [
+    "@base-ui-components/react",
+    "lucide-react"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/multi-select.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nimport { Combobox as BaseCombobox } from '@base-ui-components/react/combobox'\nimport { Check, X } from 'lucide-react'\n\nexport type MultiSelectOption = { value: string; label: string }\n\nexport type MultiSelectProps = {\n  options: MultiSelectOption[]\n  value?: string[]\n  defaultValue?: string[]\n  onValueChange?: (value: string[]) => void\n  placeholder?: string\n  emptyText?: string\n  disabled?: boolean\n  'aria-label'?: string\n}\n\n/** Pick several options; each choice becomes an ink chip (Tokenizer). Backspace removes the last. */\nexport function MultiSelect({ options, value, defaultValue, onValueChange, placeholder = 'Add…', emptyText = 'No matches', disabled, 'aria-label': ariaLabel }: MultiSelectProps) {\n  const pick = (vs?: string[]) => (vs === undefined ? undefined : options.filter((o) => vs.includes(o.value)))\n  const anchor = React.useRef<HTMLDivElement>(null)\n  return (\n    <BaseCombobox.Root\n      multiple\n      items={options}\n      value={pick(value)}\n      defaultValue={pick(defaultValue)}\n      itemToStringLabel={(o: MultiSelectOption) => o.label}\n      isItemEqualToValue={(a: MultiSelectOption, b: MultiSelectOption) => a.value === b.value}\n      onValueChange={(os) => onValueChange?.((os as MultiSelectOption[]).map((o) => o.value))}\n      disabled={disabled}\n    >\n      <div data-slot=\"combobox\">\n        <BaseCombobox.Chips data-slot=\"combobox-control\" data-multiple=\"true\" ref={anchor}>\n          <BaseCombobox.Value>\n            {(selected: MultiSelectOption[]) => (\n              <>\n                {selected.map((o) => (\n                  <BaseCombobox.Chip key={o.value} data-slot=\"combobox-chip\" aria-label={o.label}>\n                    {o.label}\n                    <BaseCombobox.ChipRemove data-slot=\"combobox-chip-remove\" aria-label={`Remove ${o.label}`}><X size={12} /></BaseCombobox.ChipRemove>\n                  </BaseCombobox.Chip>\n                ))}\n                <BaseCombobox.Input data-slot=\"combobox-input\" placeholder={selected.length ? '' : placeholder} aria-label={ariaLabel} />\n              </>\n            )}\n          </BaseCombobox.Value>\n        </BaseCombobox.Chips>\n      </div>\n      <BaseCombobox.Portal>\n        <BaseCombobox.Positioner sideOffset={4} anchor={anchor} style={{ zIndex: 50 }}>\n          <BaseCombobox.Popup data-slot=\"combobox-content\">\n            <BaseCombobox.Empty data-slot=\"combobox-empty\">{emptyText}</BaseCombobox.Empty>\n            <BaseCombobox.List>\n              {(o: MultiSelectOption) => (\n                <BaseCombobox.Item key={o.value} value={o} data-slot=\"combobox-item\">\n                  {o.label}\n                  <BaseCombobox.ItemIndicator><Check size={16} /></BaseCombobox.ItemIndicator>\n                </BaseCombobox.Item>\n              )}\n            </BaseCombobox.List>\n          </BaseCombobox.Popup>\n        </BaseCombobox.Positioner>\n      </BaseCombobox.Portal>\n    </BaseCombobox.Root>\n  )\n}\n"
+    }
+  ]
+}

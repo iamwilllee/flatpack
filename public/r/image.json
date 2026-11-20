@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "image",
+  "type": "registry:ui",
+  "title": "Image",
+  "description": "Flatpack UI Image component.",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/image.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\n\ntype ImageProps = React.ImgHTMLAttributes<HTMLImageElement> & {\n  ratio?: 'square' | '4:3' | '16:9' | '3:4'\n  fallback?: React.ReactNode\n}\n\nexport function Image({ ratio = '4:3', alt = '', className, fallback, ...props }: ImageProps) {\n  const [failed, setFailed] = React.useState(false)\n  return (\n    <div data-slot=\"image\" data-ratio={ratio} className={className}>\n      {failed || !props.src\n        ? (fallback ?? <span data-slot=\"image-fallback\" role=\"img\" aria-label={alt || undefined} />)\n        : <img data-slot=\"image-element\" alt={alt} onError={() => setFailed(true)} {...props} />}\n    </div>\n  )\n}\n"
+    }
+  ]
+}

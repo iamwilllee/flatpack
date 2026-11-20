@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "kbd",
+  "type": "registry:ui",
+  "title": "Kbd",
+  "description": "Flatpack UI Kbd component.",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/kbd.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\n\nexport function Kbd({ children, ...props }: React.HTMLAttributes<HTMLElement>) {\n  return <kbd data-slot=\"kbd\" {...props}>{children}</kbd>\n}\n\n/** A shortcut such as ⌘ K: one key per box. */\nexport function KbdGroup({ keys }: { keys: string[] }) {\n  return (\n    <span data-slot=\"kbd-group\">\n      {keys.map((k) => <Kbd key={k}>{k}</Kbd>)}\n    </span>\n  )\n}\n"
+    }
+  ]
+}
