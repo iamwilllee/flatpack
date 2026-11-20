@@ -12,7 +12,7 @@
     {
       "path": "src/components/ui/avatar-group.tsx",
       "type": "registry:ui",
-      "content": "import { Avatar } from '@/components/ui/avatar'\n\nexport type AvatarGroupProps = {\n  people: { name: string; src?: string }[]\n  max?: number\n  size?: 'sm' | 'md' | 'lg'\n}\n\n/** Overlapping avatars; anything past `max` collapses into a +N count. */\nexport function AvatarGroup({ people, max = 4, size = 'md' }: AvatarGroupProps) {\n  const shown = people.slice(0, max)\n  const rest = people.length - shown.length\n  return (\n    <span data-slot=\"avatar-group\" aria-label={people.map((p) => p.name).join(', ')}>\n      {shown.map((p) => <Avatar key={p.name} name={p.name} src={p.src} size={size} />)}\n      {rest > 0 && <Avatar size={size} name={`+${rest}`}><span data-slot=\"avatar-group-more\">+{rest}</span></Avatar>}\n    </span>\n  )\n}\n"
+      "content": "import * as React from 'react'\nimport { Avatar } from '@/components/ui/avatar'\n\nexport type AvatarGroupProps = Omit<React.HTMLAttributes<HTMLSpanElement>, 'children'> & {\n  people: { name: string; src?: string }[]\n  max?: number\n  size?: 'sm' | 'md' | 'lg'\n}\n\n/** Overlapping avatars; anything past `max` collapses into a +N count. */\nexport function AvatarGroup({ people, max = 4, size = 'md', ...props }: AvatarGroupProps) {\n  const shown = people.slice(0, max)\n  const rest = people.length - shown.length\n  return (\n    <span data-slot=\"avatar-group\" aria-label={people.map((p) => p.name).join(', ')} {...props}>\n      {shown.map((p) => <Avatar key={p.name} name={p.name} src={p.src} size={size} />)}\n      {rest > 0 && <Avatar size={size} name={`+${rest}`}><span data-slot=\"avatar-group-more\">+{rest}</span></Avatar>}\n    </span>\n  )\n}\n"
     }
   ]
 }

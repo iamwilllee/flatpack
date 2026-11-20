@@ -12,6 +12,7 @@ export function Skeleton({ width, height, circle, className, style, ...props }: 
     <div
       data-slot="skeleton"
       data-circle={circle ? 'true' : 'false'}
+      aria-hidden="true"
       className={cn(className)}
       style={{ width, height, ...style }}
       {...props}

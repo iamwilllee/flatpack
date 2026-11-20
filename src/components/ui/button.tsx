@@ -1,10 +1,10 @@
-import * as React from 'react'
 import { Button as BaseButton } from '@base-ui/react/button'
 
 export type ButtonVariant = 'default' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'link'
 export type ButtonSize = 'default' | 'sm' | 'lg' | 'icon' | 'icon-sm' | 'icon-lg'
 
-export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type ButtonProps = Omit<BaseButton.Props, 'className'> & {
+  className?: string
   variant?: ButtonVariant
   size?: ButtonSize
 }
@@ -18,5 +18,7 @@ export function buttonProps({ variant = 'default', size = 'default' }: { variant
 }
 
 export function Button({ variant = 'default', size = 'default', className, type = 'button', ...props }: ButtonProps) {
-  return <BaseButton {...buttonProps({ variant, size })} type={type} className={className} {...props} />
+  // The button identity comes last so a parent that merges its own data-slot (Dialog.Close,
+  // Menu.Trigger…) through `render` cannot turn this Button into something else.
+  return <BaseButton type={type} className={className} {...props} {...buttonProps({ variant, size })} />
 }

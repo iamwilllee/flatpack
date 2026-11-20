@@ -15,6 +15,10 @@ export function CardDescription({ className, ...props }: React.HTMLAttributes<HT
 export function CardContent({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return <div data-slot="card-content" className={className} {...props} />
 }
+/** Top-right slot of CardHeader (a menu, a badge). CardHeader becomes a two-column grid when it holds one. */
+export function CardAction({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return <div data-slot="card-action" className={className} {...props} />
+}
 export function CardFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return <div data-slot="card-footer" className={className} {...props} />
 }

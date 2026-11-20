@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Progress as BaseProgress } from '@base-ui/react/progress'
 
-export type ProgressProps = {
+export type ProgressProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
   value: number
   max?: number
   label?: React.ReactNode
@@ -9,10 +9,13 @@ export type ProgressProps = {
   size?: 'sm' | 'default' | 'lg'
 }
 
-export function Progress({ value, max = 100, label, showValue, size = 'default' }: ProgressProps) {
-  const pct = Math.max(0, Math.min(100, (value / max) * 100))
+/** Pass `aria-label` when there is no visible `label`, so the bar still has an accessible name. */
+export function Progress({ value, max = 100, label, showValue, size = 'default', ...rest }: ProgressProps) {
+  const total = Number.isFinite(max) && max > 0 ? max : 1
+  const current = Number.isFinite(value) ? Math.max(0, Math.min(total, value)) : 0
+  const pct = (current / total) * 100
   return (
-    <BaseProgress.Root value={value} max={max} data-slot="progress" data-size={size}>
+    <BaseProgress.Root value={current} max={total} data-slot="progress" data-size={size} {...rest}>
       {(label || showValue) && (
         <div data-slot="progress-header">
           {label && <span data-slot="progress-label">{label}</span>}

@@ -96,6 +96,9 @@ export const docs: ComponentDoc[] = [
     api: [
       { prop: 'defaultOpen', type: 'boolean', default: 'false', desc: 'Dialog 根组件：默认是否打开', descEn: 'Dialog root: whether it is open by default' },
       { prop: '...props', type: 'Native attributes', desc: 'Trigger/Close 接受 button 属性，其他接受 div/h 属性', descEn: 'Trigger / Close accept button attributes; the rest accept div / heading attributes' },
+      { prop: 'open / onOpenChange', type: 'boolean / (open) => void', desc: 'Dialog：受控模式；defaultOpen 为非受控', descEn: 'Dialog: controlled mode; defaultOpen for uncontrolled' },
+      { prop: 'showCloseButton / closeLabel', type: 'boolean / string', desc: 'DialogContent：右上角关闭按钮及其可访问名称，默认关闭', descEn: 'DialogContent: corner close button and its accessible name, off by default' },
+      { prop: 'render', type: 'ReactElement', desc: 'DialogTrigger / DialogClose：换成自己的元素，例如 <Button variant="destructive" />', descEn: 'DialogTrigger / DialogClose: use your own element, e.g. <Button variant="destructive" />' }
     ],
   },
   {
@@ -110,6 +113,8 @@ export const docs: ComponentDoc[] = [
     api: [
       { prop: 'defaultValue', type: 'string', desc: 'Tabs 根组件：默认激活项', descEn: 'Tabs root: tab active by default' },
       { prop: 'value', type: 'string', desc: 'Trigger/Content 的匹配值', descEn: 'Matching value for Trigger / Content' },
+      { prop: 'value / onValueChange', type: 'string / (value) => void', desc: '受控模式。不传 value 时用 defaultValue', descEn: 'Controlled mode. Without value, defaultValue is used' },
+      { prop: 'keepMounted', type: 'boolean', desc: 'TabsContent：切换后保留面板，默认 true', descEn: 'TabsContent: keep inactive panels mounted, default true' }
     ],
   },
   {
@@ -137,6 +142,9 @@ export const docs: ComponentDoc[] = [
     ],
     api: [
       { prop: 'onSelect', type: '() => void', desc: 'DropdownMenuItem：选中回调', descEn: 'DropdownMenuItem: select callback' },
+      { prop: 'open / onOpenChange', type: 'boolean / (open) => void', desc: 'DropdownMenu：受控模式', descEn: 'DropdownMenu: controlled mode' },
+      { prop: 'render / hideChevron', type: 'ReactElement / boolean', desc: 'DropdownMenuTrigger：换成自己的触发元素，或隐藏箭头', descEn: 'DropdownMenuTrigger: use your own trigger, or hide the chevron' },
+      { prop: 'destructive / disabled / onClick', type: 'boolean', desc: 'DropdownMenuItem：红色文字、禁用、点击', descEn: 'DropdownMenuItem: red text, disabled, click' }
     ],
   },
   {
@@ -240,6 +248,10 @@ export const docs: ComponentDoc[] = [
       { prop: 'onValueChange', type: '(value: string) => void', desc: '选中回调', descEn: 'Select callback' },
       { prop: 'placeholder', type: 'string', default: '"请选择"', desc: '未选中时的占位', descEn: 'Placeholder shown when nothing is selected' },
       { prop: 'disabled', type: 'boolean', default: 'false', desc: '禁用', descEn: 'Disabled' },
+      { prop: 'name / required / id', type: 'string | boolean', desc: '提交到表单、标记必填、给触发器 id', descEn: 'Submit with a form, mark required, set the trigger id' },
+      { prop: 'aria-label / aria-labelledby', type: 'string', desc: '触发器的可访问名称', descEn: 'Accessible name of the trigger' },
+      { prop: 'open / onOpenChange', type: 'boolean / (open) => void', desc: '受控地打开或关闭', descEn: 'Control the open state' },
+      { prop: 'SelectRoot, SelectTrigger, SelectContent, SelectItem, SelectValue', type: 'compound', desc: '完整的 Base UI 组合式写法，用于 options 表达不了的场景', descEn: 'The full Base UI compound form, for what options cannot express' }
     ],
   },
   {
@@ -256,6 +268,8 @@ export const docs: ComponentDoc[] = [
       { prop: 'indeterminate', type: 'boolean', default: 'false', desc: '半选状态', descEn: 'Indeterminate state' },
       { prop: 'label', type: 'ReactNode', desc: '旁边文字', descEn: 'Adjacent label text' },
       { prop: 'onCheckedChange', type: '(checked: boolean) => void', desc: '变化回调', descEn: 'Change callback' },
+      { prop: 'id / name / value / required', type: 'string | boolean', desc: '透传给表单控件，可在 <form> 中提交', descEn: 'Passed to the form control, so it submits with a <form>' },
+      { prop: '...props', type: 'Base UI Checkbox.Root props', desc: '其余 Base UI 属性原样透传（inputRef、readOnly、aria-*…）', descEn: 'Other Base UI root props pass through (inputRef, readOnly, aria-*…)' }
     ],
   },
   {
@@ -288,6 +302,8 @@ export const docs: ComponentDoc[] = [
       { prop: 'label', type: 'ReactNode', desc: '旁边文字', descEn: 'Adjacent label text' },
       { prop: 'onCheckedChange', type: '(checked: boolean) => void', desc: '变化回调', descEn: 'Change callback' },
       { prop: 'disabled', type: 'boolean', default: 'false', desc: '禁用', descEn: 'Disabled' },
+      { prop: 'id / name / required', type: 'string | boolean', desc: '透传给表单控件', descEn: 'Passed to the form control' },
+      { prop: '...props', type: 'Base UI Switch.Root props', desc: '其余 Base UI 属性原样透传', descEn: 'Other Base UI root props pass through' }
     ],
   },
   {
@@ -303,6 +319,8 @@ export const docs: ComponentDoc[] = [
       { prop: 'variant', type: '"info" | "success" | "warning" | "error"', default: '"info"', desc: '语义变体', descEn: 'Semantic variant' },
       { prop: 'title', type: 'ReactNode', desc: '标题', descEn: 'Title' },
       { prop: 'onClose', type: '() => void', desc: '提供则显示关闭按钮', descEn: 'Shows a close button when provided' },
+      { prop: 'closeLabel', type: 'string', desc: '关闭按钮的可访问名称，用于本地化', descEn: 'Accessible name of the close button, for localization' },
+      { prop: '...props', type: 'HTMLAttributes<div>', desc: '其余原生属性透传（id、className、data-*）', descEn: 'Other native attributes pass through (id, className, data-*)' }
     ],
   },
   {
@@ -332,6 +350,8 @@ export const docs: ComponentDoc[] = [
     api: [
       { prop: 'content', type: 'ReactNode', desc: '提示内容', descEn: 'Tooltip content' },
       { prop: 'side', type: '"top" | "bottom"', default: '"top"', desc: '显示方向', descEn: 'Placement' },
+      { prop: 'open / defaultOpen / onOpenChange', type: 'boolean / (open) => void', desc: '受控或非受控地显示', descEn: 'Controlled or uncontrolled visibility' },
+      { prop: 'side / align / sideOffset / delay / disabled', type: 'string / number / boolean', desc: '位置、延迟、禁用', descEn: 'Placement, delay, disabled' }
     ],
   },
   {
@@ -349,6 +369,8 @@ export const docs: ComponentDoc[] = [
       { prop: 'label', type: 'ReactNode', desc: '标签', descEn: 'Label' },
       { prop: 'showValue', type: 'boolean', desc: '显示百分比', descEn: 'Show the percentage' },
       { prop: 'size', type: '"sm" | "default" | "lg"', default: '"default"', desc: '尺寸', descEn: 'Size' },
+      { prop: 'aria-label', type: 'string', desc: '没有可见 label 时给进度条命名', descEn: 'Names the bar when there is no visible label' },
+      { prop: '...props', type: 'HTMLAttributes<div>', desc: '其余原生属性透传', descEn: 'Other native attributes pass through' }
     ],
   },
   {
@@ -364,6 +386,8 @@ export const docs: ComponentDoc[] = [
       { prop: 'defaultOpen', type: 'boolean', default: 'false', desc: 'Popover 根：默认打开', descEn: 'Popover root: open by default' },
       { prop: 'title', type: 'string', desc: 'PopoverContent：标题', descEn: 'PopoverContent: title' },
       { prop: 'side', type: '"top" | "bottom"', default: '"bottom"', desc: 'PopoverContent：方向', descEn: 'PopoverContent: placement' },
+      { prop: 'open / onOpenChange', type: 'boolean / (open) => void', desc: 'Popover：受控模式', descEn: 'Popover: controlled mode' },
+      { prop: 'side / align / sideOffset', type: 'string / number', desc: 'PopoverContent：位置', descEn: 'PopoverContent: placement' }
     ],
   },
   {
@@ -425,6 +449,7 @@ export const docs: ComponentDoc[] = [
       { prop: 'items', type: '{ key; title; children }[]', desc: '面板数组', descEn: 'Array of panels' },
       { prop: 'defaultActive', type: 'string[]', desc: '默认展开的 key', descEn: 'Keys expanded by default' },
       { prop: 'multiple', type: 'boolean', default: 'false', desc: '是否允许同时展开多项', descEn: 'Whether several panels can be open at once' },
+      { prop: 'active / onActiveChange', type: 'string[] / (keys) => void', desc: '受控模式：当前展开的 key', descEn: 'Controlled mode: the open keys' }
     ],
   },
   {
@@ -442,6 +467,8 @@ export const docs: ComponentDoc[] = [
       { prop: 'value / defaultValue', type: 'number', desc: '受控页码 / 默认页码', descEn: 'Controlled page / default page' },
       { prop: 'siblingCount', type: 'number', default: '1', desc: '当前页两侧显示的页码数', descEn: 'Page numbers shown on each side of the current page' },
       { prop: 'onValueChange', type: '(page: number) => void', desc: '翻页回调', descEn: 'Page change callback' },
+      { prop: 'label / previousLabel / nextLabel', type: 'string', desc: '导航和上一页、下一页按钮的可访问名称，用于本地化', descEn: 'Accessible names of the nav and its buttons, for localization' },
+      { prop: '...props', type: 'HTMLAttributes<nav>', desc: '其余原生属性透传', descEn: 'Other native attributes pass through' }
     ],
   },
   {
@@ -531,6 +558,8 @@ export const docs: ComponentDoc[] = [
       { prop: 'min / max / step', type: 'number', desc: '范围与步长', descEn: 'Range and step' },
       { prop: 'onValueChange', type: '(value: number | null) => void', desc: '值变化回调', descEn: 'Change callback' },
       { prop: 'disabled', type: 'boolean', default: 'false', desc: '禁用', descEn: 'Disabled' },
+      { prop: '...props', type: 'Base UI NumberField.Root props', desc: 'name、required、format、locale、readOnly 等原样透传', descEn: 'name, required, format, locale, readOnly and more pass through' },
+      { prop: 'decrementLabel / incrementLabel', type: 'string', desc: '步进按钮的可访问名称，用于本地化', descEn: 'Accessible names of the step buttons, for localization' }
     ],
   },
   {
@@ -565,6 +594,9 @@ export const docs: ComponentDoc[] = [
       { prop: 'value / defaultValue', type: 'string | null', desc: '受控值 / 默认值', descEn: 'Controlled / default value' },
       { prop: 'onValueChange', type: '(value: string | null) => void', desc: '选择回调', descEn: 'Selection callback' },
       { prop: 'placeholder / emptyText', type: 'string', desc: '占位文字 / 无匹配文案', descEn: 'Placeholder / no-match text' },
+      { prop: 'name / required / id', type: 'string | boolean', desc: '提交到表单、标记必填、给输入框 id', descEn: 'Submit with a form, mark required, set the input id' },
+      { prop: 'open / onOpenChange / onInputValueChange', type: '', desc: '受控打开状态；监听输入框文字', descEn: 'Controlled open state; listen to the typed text' },
+      { prop: 'clearLabel / openLabel', type: 'string', desc: '清除、展开按钮的可访问名称，用于本地化', descEn: 'Accessible names of the clear and open buttons, for localization' }
     ],
   },
   {

@@ -1,46 +1,21 @@
-import * as React from 'react'
 import { Tabs as BaseTabs } from '@base-ui/react/tabs'
 
-type Ctx = { value: string }
-const TabsValueContext = React.createContext<Ctx>({ value: '' })
+export type TabsProps = Omit<BaseTabs.Root.Props, 'className'> & { className?: string }
 
-export function Tabs({ defaultValue, children }: { defaultValue: string; children: React.ReactNode }) {
-  const [value, setValue] = React.useState(defaultValue)
-  return (
-    <TabsValueContext.Provider value={{ value }}>
-      <BaseTabs.Root
-        defaultValue={defaultValue}
-        onValueChange={(next) => setValue(next as string)}
-        data-slot="tabs"
-      >
-        {children}
-      </BaseTabs.Root>
-    </TabsValueContext.Provider>
-  )
+/** Controlled (`value` + `onValueChange`) or uncontrolled (`defaultValue`). The active tab is styled from Base UI's data-active. */
+export function Tabs({ className, ...props }: TabsProps) {
+  return <BaseTabs.Root data-slot="tabs" className={className} {...props} />
 }
 
-export function TabsList({ children }: { children: React.ReactNode }) {
-  return (
-    <BaseTabs.List data-slot="tabs-list">
-      {children}
-      <BaseTabs.Indicator />
-    </BaseTabs.List>
-  )
+export function TabsList({ className, ...props }: Omit<BaseTabs.List.Props, 'className'> & { className?: string }) {
+  return <BaseTabs.List data-slot="tabs-list" className={className} {...props} />
 }
 
-export function TabsTrigger({ value, children }: { value: string; children: React.ReactNode }) {
-  const ctx = React.useContext(TabsValueContext)
-  return (
-    <BaseTabs.Tab value={value} data-slot="tabs-trigger" data-active={ctx.value === value}>
-      {children}
-    </BaseTabs.Tab>
-  )
+export function TabsTrigger({ className, ...props }: Omit<BaseTabs.Tab.Props, 'className'> & { className?: string }) {
+  return <BaseTabs.Tab data-slot="tabs-trigger" className={className} {...props} />
 }
 
-export function TabsContent({ value, children }: { value: string; children: React.ReactNode }) {
-  return (
-    <BaseTabs.Panel value={value} data-slot="tabs-content" keepMounted>
-      {children}
-    </BaseTabs.Panel>
-  )
+/** Panels stay mounted by default so form state survives a tab switch. Pass keepMounted={false} to unmount. */
+export function TabsContent({ className, keepMounted = true, ...props }: Omit<BaseTabs.Panel.Props, 'className'> & { className?: string }) {
+  return <BaseTabs.Panel data-slot="tabs-content" keepMounted={keepMounted} className={className} {...props} />
 }

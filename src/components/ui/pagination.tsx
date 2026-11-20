@@ -1,14 +1,21 @@
 import * as React from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
-export function Pagination({ total, pageSize = 10, value, defaultValue = 1, onValueChange, siblingCount = 1 }: {
+export type PaginationProps = Omit<React.HTMLAttributes<HTMLElement>, 'defaultValue' | 'onChange'> & {
   total: number
   pageSize?: number
+  /** Controlled page (1-based). Pair with onValueChange. */
   value?: number
   defaultValue?: number
   onValueChange?: (page: number) => void
   siblingCount?: number
-}) {
+  /** Accessible names, for localized products. */
+  label?: string
+  previousLabel?: string
+  nextLabel?: string
+}
+
+export function Pagination({ total, pageSize = 10, value, defaultValue = 1, onValueChange, siblingCount = 1, label = 'Pagination', previousLabel = 'Previous page', nextLabel = 'Next page', ...props }: PaginationProps) {
   const [internal, setInternal] = React.useState(defaultValue)
   const page = value !== undefined ? value : internal
   const pageCount = Math.max(1, Math.ceil(total / pageSize))
@@ -30,14 +37,14 @@ export function Pagination({ total, pageSize = 10, value, defaultValue = 1, onVa
   }, [page, pageCount, siblingCount])
 
   return (
-    <nav data-slot="pagination" aria-label="分页">
-      <button data-slot="pagination-btn" data-nav="true" type="button" disabled={page <= 1} onClick={() => go(page - 1)} aria-label="上一页">
+    <nav data-slot="pagination" aria-label={label} {...props}>
+      <button data-slot="pagination-btn" data-nav="true" type="button" disabled={page <= 1} onClick={() => go(page - 1)} aria-label={previousLabel}>
         <ChevronLeft size={16} />
       </button>
       {pages.map((p, i) => p === 'ellipsis'
         ? <span data-slot="pagination-ellipsis" key={`e${i}`}>···</span>
         : <button data-slot="pagination-btn" data-active={p === page} type="button" key={p} onClick={() => go(p)}>{p}</button>)}
-      <button data-slot="pagination-btn" data-nav="true" type="button" disabled={page >= pageCount} onClick={() => go(page + 1)} aria-label="下一页">
+      <button data-slot="pagination-btn" data-nav="true" type="button" disabled={page >= pageCount} onClick={() => go(page + 1)} aria-label={nextLabel}>
         <ChevronRight size={16} />
       </button>
     </nav>

@@ -10,15 +10,19 @@ export type AlertDialogProps = {
   cancelLabel?: React.ReactNode
   /** Destructive action: the confirm button becomes an outline with red text. */
   danger?: boolean
+  /** Controlled (`open` + `onOpenChange`) or uncontrolled (`defaultOpen`). */
   open?: boolean
+  defaultOpen?: boolean
   onOpenChange?: (open: boolean) => void
   onConfirm?: () => void
+  /** Keep the confirm button inert, e.g. while a request is running. */
+  confirmDisabled?: boolean
 }
 
 /** "Delete this project?" — a modal that needs an explicit answer. */
-export function AlertDialog({ trigger, title, description, confirmLabel = 'Confirm', cancelLabel = 'Cancel', danger, open, onOpenChange, onConfirm }: AlertDialogProps) {
+export function AlertDialog({ trigger, title, description, confirmLabel = 'Confirm', cancelLabel = 'Cancel', danger, open, defaultOpen, onOpenChange, onConfirm, confirmDisabled }: AlertDialogProps) {
   return (
-    <BaseAlertDialog.Root open={open} onOpenChange={(o) => onOpenChange?.(o)}>
+    <BaseAlertDialog.Root open={open} defaultOpen={defaultOpen} onOpenChange={(o) => onOpenChange?.(o)}>
       <BaseAlertDialog.Trigger render={trigger} />
       <BaseAlertDialog.Portal>
         <BaseAlertDialog.Backdrop data-slot="dialog-overlay" />
@@ -33,6 +37,7 @@ export function AlertDialog({ trigger, title, description, confirmLabel = 'Confi
               data-slot="button"
               data-variant={danger ? 'outline' : 'default'}
               style={danger ? { color: 'var(--fp-danger)' } : undefined}
+              disabled={confirmDisabled}
               onClick={onConfirm}
             >
               {confirmLabel}

@@ -2,32 +2,27 @@ import * as React from 'react'
 import { Checkbox as BaseCheckbox } from '@base-ui/react/checkbox'
 import { Check, Minus } from 'lucide-react'
 
-export type CheckboxProps = {
-  checked?: boolean
-  defaultChecked?: boolean
-  indeterminate?: boolean
-  disabled?: boolean
+export type CheckboxProps = Omit<BaseCheckbox.Root.Props, 'className' | 'children' | 'render'> & {
+  /** Text beside the box. A string label also becomes the accessible name unless aria-label is set. */
   label?: React.ReactNode
-  onCheckedChange?: (checked: boolean) => void
+  /** Class for the wrapping label. */
+  className?: string
 }
 
-export function Checkbox({ checked, defaultChecked, indeterminate, disabled, label, onCheckedChange }: CheckboxProps) {
+/**
+ * Controlled (`checked` + `onCheckedChange`) or uncontrolled (`defaultChecked`). Every Base UI
+ * root prop passes through: id, name, value, required, readOnly, form, inputRef, aria-*.
+ */
+export function Checkbox({ label, className, ...props }: CheckboxProps) {
   return (
-    <label data-slot="checkbox" data-disabled={disabled ? 'true' : 'false'}>
-      <BaseCheckbox.Root
-        checked={checked}
-        defaultChecked={defaultChecked}
-        indeterminate={indeterminate}
-        disabled={disabled}
-        aria-label={typeof label === 'string' ? label : undefined}
-        onCheckedChange={(nextChecked) => onCheckedChange?.(nextChecked)}
-      >
+    <label data-slot="checkbox" data-disabled={props.disabled ? 'true' : 'false'} className={className}>
+      <BaseCheckbox.Root aria-label={typeof label === 'string' ? label : undefined} {...props}>
         <BaseCheckbox.Indicator
           keepMounted
           data-slot="checkbox-box"
-          render={(props, state) => (
+          render={(indicatorProps, state) => (
             <span
-              {...props}
+              {...indicatorProps}
               data-state={state.indeterminate ? 'indeterminate' : state.checked ? 'checked' : 'unchecked'}
             >
               {state.indeterminate

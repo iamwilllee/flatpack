@@ -10,7 +10,7 @@
     {
       "path": "src/components/ui/spinner.tsx",
       "type": "registry:ui",
-      "content": "/**\n * Loading indicator: three squares that change opacity in turn.\n * It only exists while something loads, so it is the one allowed animation;\n * with reduced motion it stays still.\n */\nexport function Spinner({ size = 'md', label = 'Loading' }: { size?: 'md' | 'lg'; label?: string }) {\n  return (\n    <span data-slot=\"spinner\" data-size={size} role=\"status\" aria-label={label}>\n      <span data-slot=\"spinner-dot\" />\n      <span data-slot=\"spinner-dot\" />\n      <span data-slot=\"spinner-dot\" />\n    </span>\n  )\n}\n"
+      "content": "import * as React from 'react'\n\n/**\n * Loading indicator: three squares that change opacity in turn.\n * It only exists while something loads, so it is the one allowed animation;\n * with reduced motion it stays still.\n */\nexport function Spinner({ size = 'md', label = 'Loading', ...props }: Omit<React.HTMLAttributes<HTMLSpanElement>, 'children'> & { size?: 'md' | 'lg'; label?: string }) {\n  return (\n    <span data-slot=\"spinner\" data-size={size} role=\"status\" aria-label={label} {...props}>\n      <span data-slot=\"spinner-dot\" />\n      <span data-slot=\"spinner-dot\" />\n      <span data-slot=\"spinner-dot\" />\n    </span>\n  )\n}\n"
     }
   ]
 }

@@ -1,26 +1,46 @@
 import * as React from 'react'
 import { Popover as BasePopover } from '@base-ui/react/popover'
 
-export function Popover({ children, defaultOpen = false }: { children: React.ReactNode; defaultOpen?: boolean }) {
+/** Controlled (`open` + `onOpenChange`) or uncontrolled (`defaultOpen`). */
+export function Popover({ children, ...props }: Omit<BasePopover.Root.Props, 'children'> & { children?: React.ReactNode }) {
   return (
-    <BasePopover.Root defaultOpen={defaultOpen}>
+    <BasePopover.Root {...props}>
       <div data-slot="popover">{children}</div>
     </BasePopover.Root>
   )
 }
 
-export function PopoverTrigger({ children, size = 'md', variant = 'outline' }: { children: React.ReactNode } & { size?: 'sm' | 'md' | 'lg'; variant?: 'default' | 'secondary' | 'outline' | 'ghost' }) {
+export type PopoverTriggerProps = Omit<BasePopover.Trigger.Props, 'className'> & {
+  size?: 'sm' | 'md' | 'default' | 'lg'
+  variant?: 'default' | 'secondary' | 'outline' | 'ghost'
+  className?: string
+}
+
+export function PopoverTrigger({ size = 'md', variant = 'outline', className, render, ...props }: PopoverTriggerProps) {
+  const own = render === undefined
   return (
-    <BasePopover.Trigger render={<button data-slot="button" data-variant={variant} data-size={size === 'md' ? 'default' : size} type="button">{children}</button>} />
+    <BasePopover.Trigger
+      className={className}
+      render={render}
+      {...(own ? { 'data-slot': 'button', 'data-variant': variant, 'data-size': size === 'md' ? 'default' : size } : {})}
+      {...props}
+    />
   )
 }
 
-export function PopoverContent({ title, children, side = 'bottom' }: { title?: string; children?: React.ReactNode; side?: 'top' | 'bottom' }) {
+export type PopoverContentProps = Omit<BasePopover.Popup.Props, 'className' | 'title'> & {
+  title?: string
+  side?: 'top' | 'bottom' | 'left' | 'right'
+  align?: 'start' | 'center' | 'end'
+  sideOffset?: number
+  className?: string
+}
+
+export function PopoverContent({ title, children, side = 'bottom', align, sideOffset, className, ...props }: PopoverContentProps) {
   return (
     <BasePopover.Portal>
-      <BasePopover.Backdrop />
-      <BasePopover.Positioner side={side}>
-        <BasePopover.Popup data-slot="popover-content" data-side={side} role="dialog">
+      <BasePopover.Positioner data-slot="popover-positioner" side={side} align={align} sideOffset={sideOffset}>
+        <BasePopover.Popup data-slot="popover-content" data-side={side} className={className} {...props}>
           {title && <BasePopover.Title render={<div data-slot="popover-title">{title}</div>} />}
           <div data-slot="popover-body">{children}</div>
         </BasePopover.Popup>

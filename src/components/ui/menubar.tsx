@@ -12,7 +12,7 @@ export function Menubar({ menus }: { menus: MenubarMenu[] }) {
         <BaseMenu.Root key={m.label}>
           <BaseMenu.Trigger data-slot="menubar-trigger">{m.label}</BaseMenu.Trigger>
           <BaseMenu.Portal>
-            <BaseMenu.Positioner sideOffset={4} align="start" style={{ zIndex: 50 }}>
+            <BaseMenu.Positioner data-slot="menubar-positioner" sideOffset={4} align="start">
               <BaseMenu.Popup data-slot="menu-content">
                 <MenuEntries entries={m.entries} Item={BaseMenu.Item} Separator={BaseMenu.Separator} />
               </BaseMenu.Popup>

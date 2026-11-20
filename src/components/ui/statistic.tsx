@@ -1,15 +1,17 @@
 import * as React from 'react'
 
-export function Statistic({ label, value, suffix, prefix, trend, hint }: {
+export type StatisticProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
   label: string
   value: React.ReactNode
   suffix?: string
   prefix?: string
   trend?: { value: number; direction?: 'up' | 'down' }
   hint?: string
-}) {
+}
+
+export function Statistic({ label, value, suffix, prefix, trend, hint, ...props }: StatisticProps) {
   return (
-    <div data-slot="statistic">
+    <div data-slot="statistic" {...props}>
       <div data-slot="statistic-label">{label}</div>
       <div data-slot="statistic-value">
         {prefix && <span data-slot="statistic-affix">{prefix}</span>}

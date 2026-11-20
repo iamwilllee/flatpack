@@ -12,14 +12,28 @@ export type ComboboxProps = {
   emptyText?: string
   disabled?: boolean
   'aria-label'?: string
-  /** sm 32 / md 40 / lg 48, same as Button */
-  size?: 'sm' | 'md' | 'lg'
+  'aria-labelledby'?: string
+  /** sm 32 / md 40 / lg 48, same as Button. `default` is an alias of `md`. */
+  size?: 'sm' | 'md' | 'default' | 'lg'
+  /** Form field name, submitted with the surrounding <form>. */
+  name?: string
+  required?: boolean
+  id?: string
+  className?: string
+  open?: boolean
+  defaultOpen?: boolean
+  onOpenChange?: (open: boolean) => void
+  /** Fires on every keystroke in the text box. */
+  onInputValueChange?: (text: string) => void
+  /** Accessible names of the clear and open buttons, for localized products. */
+  clearLabel?: string
+  openLabel?: string
 }
 
 const byValue = (options: ComboboxOption[], v?: string | null) => (v == null ? v : options.find((o) => o.value === v) ?? null)
 
 /** A select you can type into. Filters as you type (Typeahead). */
-export function Combobox({ options, value, defaultValue, onValueChange, placeholder = 'Search…', emptyText = 'No matches', disabled, 'aria-label': ariaLabel, size = 'md' }: ComboboxProps) {
+export function Combobox({ options, value, defaultValue, onValueChange, placeholder = 'Search…', emptyText = 'No matches', disabled, 'aria-label': ariaLabel, 'aria-labelledby': labelledBy, size = 'md', name, required, id, className, open, defaultOpen, onOpenChange, onInputValueChange, clearLabel = 'Clear', openLabel = 'Open' }: ComboboxProps) {
   return (
     <BaseCombobox.Root
       items={options}
@@ -29,16 +43,22 @@ export function Combobox({ options, value, defaultValue, onValueChange, placehol
       isItemEqualToValue={(a: ComboboxOption, b: ComboboxOption) => a.value === b.value}
       onValueChange={(o) => onValueChange?.(o ? o.value : null)}
       disabled={disabled}
+      name={name}
+      required={required}
+      open={open}
+      defaultOpen={defaultOpen}
+      onOpenChange={onOpenChange}
+      onInputValueChange={onInputValueChange}
     >
-      <div data-slot="combobox">
-        <div data-slot="combobox-control" data-size={size}>
-          <BaseCombobox.Input data-slot="combobox-input" placeholder={placeholder} aria-label={ariaLabel} />
-          <BaseCombobox.Clear data-slot="combobox-clear" aria-label="Clear"><X size={16} /></BaseCombobox.Clear>
-          <BaseCombobox.Trigger data-slot="combobox-trigger" aria-label="Open"><ChevronDown size={16} /></BaseCombobox.Trigger>
+      <div data-slot="combobox" className={className}>
+        <div data-slot="combobox-control" data-size={size === 'default' ? 'md' : size}>
+          <BaseCombobox.Input data-slot="combobox-input" id={id} placeholder={placeholder} aria-label={ariaLabel} aria-labelledby={labelledBy} />
+          <BaseCombobox.Clear data-slot="combobox-clear" aria-label={clearLabel}><X size={16} /></BaseCombobox.Clear>
+          <BaseCombobox.Trigger data-slot="combobox-trigger" aria-label={openLabel}><ChevronDown size={16} /></BaseCombobox.Trigger>
         </div>
       </div>
       <BaseCombobox.Portal>
-        <BaseCombobox.Positioner sideOffset={4} style={{ zIndex: 50 }}>
+        <BaseCombobox.Positioner data-slot="combobox-positioner" sideOffset={4}>
           <BaseCombobox.Popup data-slot="combobox-content">
             <BaseCombobox.Empty data-slot="combobox-empty">{emptyText}</BaseCombobox.Empty>
             <BaseCombobox.List>

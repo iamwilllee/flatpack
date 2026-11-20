@@ -136,7 +136,11 @@ LOGO 是一个墨色直角方块里的白色 F，没有描边和厚度。
 npm install --cache ./.npm-cache
 npm run dev       # http://localhost:5199
 npm run build     # 产物在 dist/
+npm run test:unit # 组件契约：受控/非受控、props 透传、本地化标签（vitest + jsdom）
+npm test          # 浏览器冒烟：全部文档页无报错，主要交互和主题切换（Playwright）
 ```
+
+表单控件和浮层都支持受控（`value` / `open` / `checked` + `on…Change`）和非受控（`default…`）两种用法，Base UI 的其余属性（`id`、`name`、`required`、`aria-*`、`className`、`ref`）原样透传。弹窗类的触发器和关闭按钮支持 `render`，可换成自己的元素。会被屏幕阅读器读到的文案（关闭、分页、面包屑等）都有对应的 label 属性，默认英文，产品按自己的语言传入。
 
 ## 文档站
 

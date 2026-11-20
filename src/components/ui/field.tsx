@@ -10,13 +10,14 @@ export type FieldProps = {
   required?: boolean
   disabled?: boolean
   name?: string
+  className?: string
   children: React.ReactNode
 }
 
 /** Label, help text and error message around one control. */
-export function Field({ label, description, error, required, disabled, name, children }: FieldProps) {
+export function Field({ label, description, error, required, disabled, name, className, children }: FieldProps) {
   return (
-    <BaseField.Root data-slot="field" invalid={error != null && error !== false} disabled={disabled} name={name}>
+    <BaseField.Root data-slot="field" invalid={error != null && error !== false} disabled={disabled} name={name} className={className}>
       {label != null && (
         <BaseField.Label data-slot="field-label">
           {label}
@@ -34,9 +35,9 @@ export function Field({ label, description, error, required, disabled, name, chi
 export const FieldControl = BaseField.Control
 
 /** A titled group of fields. Space separates them; there is no box. */
-export function Fieldset({ legend, children }: { legend: React.ReactNode; children: React.ReactNode }) {
+export function Fieldset({ legend, className, children }: { legend: React.ReactNode; className?: string; children: React.ReactNode }) {
   return (
-    <BaseFieldset.Root data-slot="fieldset">
+    <BaseFieldset.Root data-slot="fieldset" className={className}>
       <BaseFieldset.Legend data-slot="fieldset-legend">{legend}</BaseFieldset.Legend>
       {children}
     </BaseFieldset.Root>

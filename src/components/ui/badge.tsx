@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 export type BadgeProps = React.HTMLAttributes<HTMLSpanElement> & {
-  variant?: 'default' | 'outline' | 'success' | 'danger'
+  variant?: 'default' | 'secondary' | 'outline' | 'success' | 'danger'
 }
 
 export function Badge({ variant = 'default', className, ...props }: BadgeProps) {

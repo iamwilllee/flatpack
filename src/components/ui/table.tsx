@@ -14,7 +14,7 @@ export function TableRow({ children, className, ...props }: React.HTMLAttributes
   return <tr data-slot="table-row" className={className} {...props}>{children}</tr>
 }
 export function TableHead({ children, className, ...props }: React.ThHTMLAttributes<HTMLTableCellElement>) {
-  return <th data-slot="table-head" className={className} {...props}>{children}</th>
+  return <th data-slot="table-head" scope="col" className={className} {...props}>{children}</th>
 }
 export function TableCell({ children, className, ...props }: React.TdHTMLAttributes<HTMLTableCellElement>) {
   return <td data-slot="table-cell" className={className} {...props}>{children}</td>

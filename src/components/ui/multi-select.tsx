@@ -13,10 +13,22 @@ export type MultiSelectProps = {
   emptyText?: string
   disabled?: boolean
   'aria-label'?: string
+  'aria-labelledby'?: string
+  /** Form field name, submitted with the surrounding <form>. */
+  name?: string
+  required?: boolean
+  id?: string
+  className?: string
+  open?: boolean
+  defaultOpen?: boolean
+  onOpenChange?: (open: boolean) => void
+  onInputValueChange?: (text: string) => void
+  /** Accessible name of each chip's remove button, for localized products. */
+  removeLabel?: (label: string) => string
 }
 
 /** Pick several options; each choice becomes an ink chip (Tokenizer). Backspace removes the last. */
-export function MultiSelect({ options, value, defaultValue, onValueChange, placeholder = 'Add…', emptyText = 'No matches', disabled, 'aria-label': ariaLabel }: MultiSelectProps) {
+export function MultiSelect({ options, value, defaultValue, onValueChange, placeholder = 'Add…', emptyText = 'No matches', disabled, 'aria-label': ariaLabel, 'aria-labelledby': labelledBy, name, required, id, className, open, defaultOpen, onOpenChange, onInputValueChange, removeLabel = (label) => `Remove ${label}` }: MultiSelectProps) {
   const pick = (vs?: string[]) => (vs === undefined ? undefined : options.filter((o) => vs.includes(o.value)))
   const anchor = React.useRef<HTMLDivElement>(null)
   return (
@@ -29,8 +41,14 @@ export function MultiSelect({ options, value, defaultValue, onValueChange, place
       isItemEqualToValue={(a: MultiSelectOption, b: MultiSelectOption) => a.value === b.value}
       onValueChange={(os) => onValueChange?.((os as MultiSelectOption[]).map((o) => o.value))}
       disabled={disabled}
+      name={name}
+      required={required}
+      open={open}
+      defaultOpen={defaultOpen}
+      onOpenChange={onOpenChange}
+      onInputValueChange={onInputValueChange}
     >
-      <div data-slot="combobox">
+      <div data-slot="combobox" className={className}>
         <BaseCombobox.Chips data-slot="combobox-control" data-multiple="true" ref={anchor}>
           <BaseCombobox.Value>
             {(selected: MultiSelectOption[]) => (
@@ -38,17 +56,17 @@ export function MultiSelect({ options, value, defaultValue, onValueChange, place
                 {selected.map((o) => (
                   <BaseCombobox.Chip key={o.value} data-slot="combobox-chip" aria-label={o.label}>
                     {o.label}
-                    <BaseCombobox.ChipRemove data-slot="combobox-chip-remove" aria-label={`Remove ${o.label}`}><X size={12} /></BaseCombobox.ChipRemove>
+                    <BaseCombobox.ChipRemove data-slot="combobox-chip-remove" aria-label={removeLabel(o.label)}><X size={12} /></BaseCombobox.ChipRemove>
                   </BaseCombobox.Chip>
                 ))}
-                <BaseCombobox.Input data-slot="combobox-input" placeholder={selected.length ? '' : placeholder} aria-label={ariaLabel} />
+                <BaseCombobox.Input data-slot="combobox-input" id={id} placeholder={selected.length ? '' : placeholder} aria-label={ariaLabel} aria-labelledby={labelledBy} />
               </>
             )}
           </BaseCombobox.Value>
         </BaseCombobox.Chips>
       </div>
       <BaseCombobox.Portal>
-        <BaseCombobox.Positioner sideOffset={4} anchor={anchor} style={{ zIndex: 50 }}>
+        <BaseCombobox.Positioner data-slot="combobox-positioner" sideOffset={4} anchor={anchor}>
           <BaseCombobox.Popup data-slot="combobox-content">
             <BaseCombobox.Empty data-slot="combobox-empty">{emptyText}</BaseCombobox.Empty>
             <BaseCombobox.List>

@@ -31,7 +31,7 @@ export function ContextMenu({ children, entries }: { children: React.ReactNode; 
     <BaseContextMenu.Root>
       <BaseContextMenu.Trigger data-slot="context-menu-trigger">{children}</BaseContextMenu.Trigger>
       <BaseContextMenu.Portal>
-        <BaseContextMenu.Positioner style={{ zIndex: 50 }}>
+        <BaseContextMenu.Positioner data-slot="context-menu-positioner">
           <BaseContextMenu.Popup data-slot="menu-content">
             <MenuEntries entries={entries} Item={BaseContextMenu.Item} Separator={BaseContextMenu.Separator} />
           </BaseContextMenu.Popup>

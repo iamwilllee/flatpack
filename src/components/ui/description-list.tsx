@@ -3,9 +3,9 @@ import * as React from 'react'
 export type DescriptionItem = { term: React.ReactNode; value: React.ReactNode }
 
 /** Key / value pairs separated by hairlines. `stacked` puts the term above the value. */
-export function DescriptionList({ items, layout = 'inline' }: { items: DescriptionItem[]; layout?: 'inline' | 'stacked' }) {
+export function DescriptionList({ items, layout = 'inline', ...props }: Omit<React.HTMLAttributes<HTMLDListElement>, 'children'> & { items: DescriptionItem[]; layout?: 'inline' | 'stacked' }) {
   return (
-    <dl data-slot="description-list" data-layout={layout}>
+    <dl data-slot="description-list" data-layout={layout} {...props}>
       {items.map((it, i) => (
         <React.Fragment key={i}>
           <dt>{it.term}</dt>

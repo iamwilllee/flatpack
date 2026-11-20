@@ -3,23 +3,23 @@ import { RadioGroup as BaseRadioGroup } from '@base-ui/react/radio-group'
 import { Radio } from '@base-ui/react/radio'
 
 type RadioItem = { value: string; label: React.ReactNode; disabled?: boolean }
-export type RadioGroupProps = {
+export type RadioGroupProps = Omit<BaseRadioGroup.Props, 'className' | 'children' | 'render' | 'onValueChange'> & {
   options: RadioItem[]
-  value?: string
-  defaultValue?: string
   onValueChange?: (value: string) => void
-  name?: string
+  className?: string
 }
 
-export function RadioGroup({ options, value, defaultValue, onValueChange, name }: RadioGroupProps) {
-  const groupName = React.useMemo(() => name ?? `radio-${Math.random().toString(36).slice(2)}`, [name])
+/** Controlled (`value`) or uncontrolled (`defaultValue`). Group props such as name, required, disabled and aria-* pass through. */
+export function RadioGroup({ options, onValueChange, className, name, ...props }: RadioGroupProps) {
+  // useId keeps the generated name identical on the server and the client.
+  const generated = React.useId()
   return (
     <BaseRadioGroup
       data-slot="radio-group"
-      name={groupName}
-      value={value}
-      defaultValue={defaultValue}
+      name={name ?? `radio-${generated}`}
+      className={className}
       onValueChange={(nextValue) => onValueChange?.(nextValue as string)}
+      {...props}
     >
       {options.map((o) => (
         <label key={o.value} data-slot="radio" data-disabled={o.disabled ? 'true' : 'false'}>
@@ -31,8 +31,8 @@ export function RadioGroup({ options, value, defaultValue, onValueChange, name }
             <Radio.Indicator
               keepMounted
               data-slot="radio-circle"
-              render={(props, state) => (
-                <span {...props} data-state={state.checked ? 'checked' : 'unchecked'}>
+              render={(indicatorProps, state) => (
+                <span {...indicatorProps} data-state={state.checked ? 'checked' : 'unchecked'}>
                   {state.checked && <span data-slot="radio-dot" />}
                 </span>
               )}

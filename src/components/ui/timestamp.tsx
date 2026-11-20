@@ -15,7 +15,7 @@ export function formatRelative(date: Date, now = new Date(), locale?: string) {
   return ''
 }
 
-export type TimestampProps = {
+export type TimestampProps = Omit<React.TimeHTMLAttributes<HTMLTimeElement>, 'dateTime' | 'children'> & {
   date: Date | string | number
   /** relative ("3 min ago"), date, or datetime */
   format?: 'relative' | 'date' | 'datetime'
@@ -25,7 +25,7 @@ export type TimestampProps = {
 }
 
 /** A <time> element: relative or absolute, with the full date on hover. */
-export function Timestamp({ date, format = 'relative', locale, refreshMs }: TimestampProps) {
+export function Timestamp({ date, format = 'relative', locale, refreshMs, ...props }: TimestampProps) {
   const d = React.useMemo(() => new Date(date), [date])
   const [now, setNow] = React.useState(() => new Date())
   React.useEffect(() => {
@@ -37,5 +37,5 @@ export function Timestamp({ date, format = 'relative', locale, refreshMs }: Time
   const text = format === 'relative'
     ? formatRelative(d, now, locale)
     : new Intl.DateTimeFormat(locale, format === 'date' ? { dateStyle: 'medium' } : { dateStyle: 'medium', timeStyle: 'short' }).format(d)
-  return <time data-slot="timestamp" dateTime={d.toISOString()} title={full}>{text}</time>
+  return <time data-slot="timestamp" dateTime={d.toISOString()} title={full} {...props}>{text}</time>
 }

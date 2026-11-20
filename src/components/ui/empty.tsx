@@ -1,13 +1,15 @@
 import * as React from 'react'
 
-export function Empty({ title = '这里还空着', description, action, icon }: {
+export type EmptyProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> & {
   title?: string
   description?: string
   action?: React.ReactNode
   icon?: React.ReactNode
-}) {
+}
+
+export function Empty({ title = 'Nothing here yet', description, action, icon, ...props }: EmptyProps) {
   return (
-    <div data-slot="empty">
+    <div data-slot="empty" {...props}>
       <div data-slot="empty-graphic">{icon ?? <DefaultGraphic />}</div>
       <div data-slot="empty-title">{title}</div>
       {description && <div data-slot="empty-description">{description}</div>}

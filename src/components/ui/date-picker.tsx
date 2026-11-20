@@ -15,7 +15,7 @@ function Shell({ label, empty, disabled, open, setOpen, children }: { label: str
         <CalendarDays size={16} />
       </BasePopover.Trigger>
       <BasePopover.Portal>
-        <BasePopover.Positioner sideOffset={4} align="start" style={{ zIndex: 50 }}>
+        <BasePopover.Positioner data-slot="date-picker-positioner" sideOffset={4} align="start">
           <BasePopover.Popup data-slot="date-picker-content">{children}</BasePopover.Popup>
         </BasePopover.Positioner>
       </BasePopover.Portal>
