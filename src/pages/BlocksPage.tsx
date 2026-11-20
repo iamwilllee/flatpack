@@ -8,12 +8,14 @@ import { Kicker } from '@/components/ui/primitives'
 import { blocks, categories, type BlockCategory } from '@/blocks/definitions'
 import { useI18n } from '@/site/i18n'
 import { screenMap } from '@/blocks/BlockScreens'
+import { ThemeSwitch, themeScope, useFpTheme } from '@/site/ThemeSwitch'
 
 export default function BlocksPage() {
   const { lang, t } = useI18n()
   const [category, setCategory] = useState<'All' | BlockCategory>('All')
   const [mode, setMode] = useState<Record<string, 'preview' | 'code'>>({})
   const [fullscreen, setFullscreen] = useState<string | null>(null)
+  const [theme, setTheme] = useFpTheme()
 
   const shown = category === 'All' ? blocks : blocks.filter((b) => b.category === category)
 
@@ -30,13 +32,16 @@ export default function BlocksPage() {
         </p>
       </div>
 
-      {/* category filter */}
-      <div style={{ marginBottom: 'var(--fp-space-6)', overflowX: 'auto' }}>
-        <Segmented
-          value={category}
-          onValueChange={(v) => setCategory(v as 'All' | BlockCategory)}
-          options={categories.map((c) => ({ value: c, label: c === 'All' ? t('blocks.all') : c }))}
-        />
+      {/* category filter and theme */}
+      <div style={{ marginBottom: 'var(--fp-space-6)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 'var(--fp-space-4)', flexWrap: 'wrap' }}>
+        <div style={{ overflowX: 'auto', maxWidth: '100%' }}>
+          <Segmented
+            value={category}
+            onValueChange={(v) => setCategory(v as 'All' | BlockCategory)}
+            options={categories.map((c) => ({ value: c, label: c === 'All' ? t('blocks.all') : c }))}
+          />
+        </div>
+        <ThemeSwitch value={theme} onChange={setTheme} />
       </div>
 
       {/* gallery */}
@@ -62,7 +67,7 @@ export default function BlocksPage() {
               {isCode ? (
                 <pre style={{ margin: 0, padding: 'var(--fp-space-4)', color: 'var(--fp-ink)', background: 'var(--fp-surface)', fontFamily: 'var(--fp-mono)', fontSize: 'var(--fp-text-xs)', overflowX: 'auto', minHeight: 420 }}>{block.code}</pre>
               ) : (
-                <div style={{ maxHeight: 460, overflow: 'auto', position: 'relative', paddingBottom: 'var(--fp-space-5)' }}>
+                <div className="fp-tune-scope" {...themeScope(theme)} style={{ maxHeight: 460, overflow: 'auto', position: 'relative', paddingBottom: 'var(--fp-space-5)' }}>
                   <div style={{ minWidth: 520 }}>
                     <Screen />
                   </div>
@@ -85,8 +90,10 @@ export default function BlocksPage() {
             <span style={{ fontWeight: 'var(--fp-weight-semibold)', fontSize: 'var(--fp-text-sm)' }}>{blocks.find((b) => b.id === fullscreen)?.title}</span>
             <Button size="sm" variant="ghost" onClick={() => setFullscreen(null)} style={{ color: 'var(--fp-ink)' }}>{t('blocks.close')} <ExternalLink size={16} /></Button>
           </div>
+          <div className="fp-tune-scope" {...themeScope(theme)} style={{ minHeight: 'calc(100vh - 56px)' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto', padding: 'var(--fp-space-5)' }}>
             {(() => { const S = screenMap[fullscreen]; return S ? <S /> : null })()}
+          </div>
           </div>
         </div>
       )}

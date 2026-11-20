@@ -153,8 +153,8 @@ npm test          # 浏览器冒烟：全部文档页无报错，主要交互和
 - `#/docs` 文档页：安装 / 使用 / 设计原则 / 色板 / 主题切换 / Figma，含每个组件的入口
 - `#/docs/components/:id` **组件文档页**（59 个）：三栏布局——左侧组件列表、中间正文（live 预览 + 代码 / Installation / Usage / 各变体示例 / **API 参数表**）、右侧 On This Page 锚点，顶部有上一个/下一个组件导航。
 - `#/create` 调参页：预设（默认 / 后台紧凑 / 编辑长文 / 全直角 / Catalog / Sage）、模式、密度、正文字体、标题字体、正文字号、标题字重、标题字距、形状、主题，以及可选的暖灰色温。预览是真实整屏（商品页、后台、AI 助手、登录、设置），设置只作用在预览区域。导出 `tokens/overrides.json`、CLI 命令和 CSS 三种格式，预设码写在 URL 里可直接分享。圆角的中间值、单独的强调色、阴影、模糊、厚度不开放；强调色和内容面圆角只随主题整体更换
-- `#/blocks` 整屏示例：7 个场景（Storefront / Product detail / Cart / Dashboard / Login / Settings / AI assistant），带分类筛选、Preview↔Code 切换与全屏查看
-- `#/templates` **站点示例**：3 个可真实操作的整站（官网 / 电商 / 后台），浏览器式窗口预览，支持桌面/手机视图、全屏与重置。不是截图——导航、表单、购物车、订单状态都是真的能用。窄容器下自动切换真正的移动布局（后台侧栏改为汉堡按钮 + 抽屉菜单、网格降列、筛选条横滚），不是把桌面版硬压窄
+- `#/blocks` 整屏示例：10 个场景（Storefront / Product detail / Cart / Dashboard / Workbench / Login / Settings / Product site / Directory / AI assistant），带分类筛选、Preview↔Code 切换与全屏查看。右上角可切换 Flatpack / Catalog / Sage 主题，选择写在 URL（`#/blocks?theme=sage`）里可直接分享；Workbench、Directory、Product site 是可操作的（筛选、分页、对话框新建），不连接任何服务
+- `#/templates` **站点示例**（同样支持三个主题切换）：3 个可真实操作的整站（官网 / 电商 / 后台），浏览器式窗口预览，支持桌面/手机视图、全屏与重置。不是截图——导航、表单、购物车、订单状态都是真的能用。窄容器下自动切换真正的移动布局（后台侧栏改为汉堡按钮 + 抽屉菜单、网格降列、筛选条横滚），不是把桌面版硬压窄
 
 ### 图片来源
 

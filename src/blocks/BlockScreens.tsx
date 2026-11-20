@@ -22,6 +22,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Spinner } from '@/components/ui/spinner'
 import { Kbd } from '@/components/ui/kbd'
 import { StatusDot } from '@/components/ui/status-dot'
+import { ProductSite, Directory, Workbench } from '@/blocks/SiteScreens'
 
 const frame: React.CSSProperties = { background: 'var(--fp-bg)', padding: 'var(--fp-space-5)', minHeight: 420 }
 const row: React.CSSProperties = { display: 'flex', alignItems: 'center', justifyContent: 'space-between' }
@@ -299,6 +300,9 @@ export function Assistant() {
 }
 
 export const screenMap: Record<string, React.ComponentType> = {
+  'product-site': ProductSite,
+  directory: Directory,
+  workbench: Workbench,
   assistant: Assistant,
   storefront: Storefront,
   'product-detail': ProductDetail,

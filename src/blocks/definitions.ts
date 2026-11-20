@@ -1,7 +1,7 @@
 // Full-screen block definitions for the Blocks gallery.
 // Each block is a real screen composed entirely from Flatpack UI components.
 
-export type BlockCategory = 'Commerce' | 'Dashboard' | 'Account' | 'AI'
+export type BlockCategory = 'Commerce' | 'Dashboard' | 'Account' | 'AI' | 'Site'
 
 export type Block = {
   id: string
@@ -12,9 +12,51 @@ export type Block = {
   code: string
 }
 
-export const categories: ('All' | BlockCategory)[] = ['All', 'Commerce', 'Dashboard', 'Account', 'AI']
+export const categories: ('All' | BlockCategory)[] = ['All', 'Commerce', 'Dashboard', 'Account', 'Site', 'AI']
 
 export const blocks: Block[] = [
+  {
+    id: 'product-site', title: 'Product site', category: 'Site',
+    description: '产品官网：一个承诺、一个动作，再用特性、步骤和常见问题支撑。',
+    descriptionEn: 'Product website: one promise and one action, backed by features, steps and answers.',
+    code: `<header>Brand · Badge · nav</header>
+<section className="grid grid-cols-2">
+  <div>
+    <Kicker>NOTES FOR TEAMS</Kicker>
+    <h1>Write it down once. Find it every time.</h1>
+    <Button size="lg">Try the demo</Button>
+  </div>
+  <Card><CardHeader><CardTitle>Decision record</CardTitle></CardHeader>…</Card>
+</section>
+<section>Three features, each an icon, a title and one line</section>
+<Steps current={1} steps={[{ title: 'Write' }, { title: 'Link' }, { title: 'Review' }]} />
+<Collapse items={faq} />`,
+  },
+  {
+    id: 'directory', title: 'Directory', category: 'Site',
+    description: '目录与阅读：搜索、分类筛选、结果列表和分页，空结果有出口。',
+    descriptionEn: 'Directory: search, category filters, results and pages, with a way out of empty results.',
+    code: `<Input leading={<Search />} value={query} onChange={…} />
+<ChipGroup value={category} options={[{ value: 'Guides', label: 'Guides', count: 3 }, …]} />
+{results.length === 0
+  ? <Empty title="No matching articles" action={<Button>Clear filters</Button>} />
+  : results.map((a) => <Card>{a.title} <Badge variant="outline">{a.category}</Badge></Card>)}
+<Pagination total={results.length} pageSize={4} value={page} onValueChange={setPage} />`,
+  },
+  {
+    id: 'workbench', title: 'Workbench', category: 'Dashboard',
+    description: '数据工作台：筛选列表、查看详情、在对话框里新建，状态可改。',
+    descriptionEn: 'Data workbench: filter the list, inspect a record, add one in a dialog, change its status.',
+    code: `<Progress value={done} max={tasks.length} label="Completed" showValue />
+<Input leading={<Search />} />  <Select options={statusOptions} />
+<Table>
+  {shown.map((t) => <TableRow><Button variant="link" onClick={() => select(t.id)}>{t.name}</Button> <Badge>{t.status}</Badge></TableRow>)}
+</Table>
+<Card>Task details <Select value={current.status} /></Card>
+<Dialog open={open} onOpenChange={setOpen}>
+  <DialogContent><Field label="Name"><FieldControl render={<Input />} /></Field></DialogContent>
+</Dialog>`,
+  },
   {
     id: 'storefront', title: 'Storefront', category: 'Commerce',
     description: '商品列表页：顶栏、分类筛选与商品网格。',

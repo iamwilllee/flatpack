@@ -163,3 +163,52 @@ test('themes swap accent and surface radius, in light and dark', async ({ page }
   expect(await read('sage', 'dark')).toMatchObject({ accent: '#a6d4aa', surface: '10px' })
   expect(await read('catalog', 'dark')).toMatchObject({ accent: '#f5f5f5', surface: '4px' })
 })
+
+test.describe('gallery themes and site blocks', () => {
+  test('the theme switch restyles every block preview and survives in the URL', async ({ page }) => {
+    await page.goto('/#/blocks')
+    await page.waitForSelector('.fp-tune-scope')
+    const accent = () => page.locator('.fp-tune-scope').first().evaluate((el) => getComputedStyle(el).getPropertyValue('--fp-accent').trim())
+    const before = await accent()
+    await page.getByRole('tab', { name: 'Sage' }).click()
+    await expect.poll(accent).toBe('#236b4b')
+    expect(before).not.toBe('#236b4b')
+    expect(page.url()).toContain('theme=sage')
+    await page.reload()
+    await expect(page.getByRole('tab', { name: 'Sage' })).toHaveAttribute('aria-selected', 'true')
+    await page.getByRole('tab', { name: 'Flatpack' }).click()
+    expect(page.url()).not.toContain('theme=')
+  })
+
+  test('templates take the same theme switch', async ({ page }) => {
+    await page.goto('/#/templates?theme=catalog')
+    await page.waitForSelector('.fp-tune-scope')
+    await expect(page.locator('.fp-tune-scope').first()).toHaveAttribute('data-fp-theme', 'catalog')
+  })
+
+  test('directory filters by search and category and offers a way out of empty results', async ({ page }) => {
+    await page.goto('/#/blocks')
+    const card = page.locator('[data-slot="card"]').filter({ hasText: 'Help centre' }).first()
+    await card.scrollIntoViewIfNeeded()
+    await card.getByRole('textbox', { name: 'Search articles' }).fill('password')
+    await expect(card.getByText('Reset a forgotten password')).toBeVisible()
+    await expect(card.getByText('Keyboard shortcuts')).toHaveCount(0)
+    await card.getByRole('textbox', { name: 'Search articles' }).fill('zzzz')
+    await expect(card.getByText('No matching articles')).toBeVisible()
+    await card.getByRole('button', { name: 'Clear filters' }).click()
+    await expect(card.getByText('Getting started with your first workspace')).toBeVisible()
+  })
+
+  test('workbench adds a task through the dialog and changes its status', async ({ page }) => {
+    await page.goto('/#/blocks')
+    const card = page.locator('[data-slot="card"]').filter({ hasText: 'Launchpad' }).first()
+    await card.scrollIntoViewIfNeeded()
+    await card.getByRole('button', { name: 'New task' }).click()
+    const dialog = page.getByRole('dialog', { name: 'New task' })
+    await dialog.getByLabel('Name').fill('Write the changelog')
+    await dialog.getByRole('button', { name: 'Add task' }).click()
+    await expect(dialog).toHaveCount(0)
+    await expect(card.getByRole('button', { name: 'Write the changelog' })).toBeVisible()
+    await expect(card.getByText('TASK DETAILS')).toBeVisible()
+  })
+})

@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { Segmented } from '@/components/ui/segmented'
 import { Kicker } from '@/components/ui/primitives'
 import { useI18n } from '@/site/i18n'
+import { ThemeSwitch, themeScope, useFpTheme } from '@/site/ThemeSwitch'
 import { CorporateSite } from '@/templates/CorporateSite'
 import { CommerceSite } from '@/templates/CommerceSite'
 import { AdminSite } from '@/templates/AdminSite'
@@ -40,6 +41,7 @@ export default function TemplatesPage() {
   const [kind, setKind] = useState<Kind>('corporate')
   const [device, setDevice] = useState<'desktop' | 'mobile'>('desktop')
   const [full, setFull] = useState(false)
+  const [theme, setTheme] = useFpTheme()
   const [nonce, setNonce] = useState(0)
   const hostRef = useRef<HTMLDivElement>(null)
   const [hostW, setHostW] = useState(1200)
@@ -78,7 +80,7 @@ export default function TemplatesPage() {
           <Maximize2 size={16} />
         </button>
       </div>
-      <div key={`${kind}-${device}-${nonce}`} style={{ maxHeight: full ? 'none' : 620, overflow: 'auto' }}>
+      <div className="fp-tune-scope" {...themeScope(theme)} key={`${kind}-${device}-${nonce}`} style={{ maxHeight: full ? 'none' : 620, overflow: 'auto' }}>
         <SiteFor kind={kind} compact={isCompact} />
       </div>
     </div>
@@ -103,7 +105,8 @@ export default function TemplatesPage() {
             { value: 'admin', label: t('tpl.admin') },
           ]}
         />
-        <div style={{ display: 'flex', gap: 'var(--fp-space-2)', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: 'var(--fp-space-4)', alignItems: 'center', flexWrap: 'wrap' }}>
+          <ThemeSwitch value={theme} onChange={setTheme} />
           <div role="group" aria-label="Device" style={{ display: 'flex' }}>
             <Button size="icon-sm" variant={device === 'desktop' ? 'default' : 'ghost'} onClick={() => setDevice('desktop')} aria-label="Desktop" aria-pressed={device === 'desktop'}><Monitor size={16} /></Button>
             <Button size="icon-sm" variant={device === 'mobile' ? 'default' : 'ghost'} onClick={() => setDevice('mobile')} aria-label="Mobile" aria-pressed={device === 'mobile'}><Smartphone size={16} /></Button>
@@ -133,7 +136,7 @@ export default function TemplatesPage() {
             <Button size="sm" variant="ghost" onClick={() => setFull(false)} style={{ color: 'var(--fp-ink)', gap: 'var(--fp-space-2)' }}><X size={16} /> {t('tpl.close')}</Button>
           </div>
           <div style={{ flex: 1, overflow: 'auto' }}>
-            <div key={`${kind}-full-${nonce}`} style={{ minHeight: '100%' }}><SiteFor kind={kind} compact={isCompact} /></div>
+            <div className="fp-tune-scope" {...themeScope(theme)} key={`${kind}-full-${nonce}`} style={{ minHeight: '100%' }}><SiteFor kind={kind} compact={isCompact} /></div>
           </div>
         </div>
       )}
