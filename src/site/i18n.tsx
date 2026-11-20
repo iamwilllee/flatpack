@@ -109,6 +109,7 @@ const dict = {
   'doc.importFrom': { zh: '从以下路径导入组件：', en: 'Import the component from:' },
 
   // blocks page
+  'theme.label': { zh: '主题', en: 'Theme' },
   'blocks.kicker': { zh: '整屏示例', en: 'Full screens' },
   'blocks.title': { zh: '整屏示例', en: 'Blocks' },
   'blocks.desc': { zh: '整屏示例，全部用 Flatpack UI 组件拼成。看效果、读代码，然后复制过去改成你自己的。', en: 'Whole screens composed entirely from Flatpack UI components. Look, read, then copy and make them yours.' },

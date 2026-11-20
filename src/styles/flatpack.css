@@ -647,7 +647,7 @@ svg.lucide { stroke-width: 1.5; }
 [data-slot="step-track"] { position: absolute; left: 12px; top: 28px; bottom: 4px; width: 1px; background: var(--fp-line); }
 
 /* ---- select -------------------------------------------------------------- */
-[data-slot="select"] { position: relative; display: inline-block; min-width: 200px; }
+[data-slot="select"] { position: relative; display: inline-block; min-width: min(200px, 100%); max-width: 100%; }
 [data-slot="select-trigger"] {
   display: flex; align-items: center; justify-content: space-between; gap: var(--fp-space-2);
   width: 100%; height: var(--fp-control-md); padding: 0 var(--fp-space-3);
@@ -746,9 +746,10 @@ svg.lucide { stroke-width: 1.5; }
 [data-slot="tooltip"] { position: relative; display: inline-flex; }
 [data-slot="tooltip-content"] {
   z-index: 50;
-  padding: var(--fp-space-1) var(--fp-space-2);
+  padding: var(--fp-space-1) var(--fp-space-3);
   background: var(--fp-ink); color: var(--fp-bg);
-  border-radius: var(--fp-radius-control);
+  /* A pill for one line; a wrapped tooltip keeps a soft corner instead of becoming an oval. */
+  border-radius: min(var(--fp-radius-control), var(--fp-space-3));
   font-size: var(--fp-text-xs);
   white-space: nowrap;
   pointer-events: none;
@@ -1053,6 +1054,7 @@ svg.lucide { stroke-width: 1.5; }
   transition: opacity var(--fp-duration) var(--fp-ease);
 }
 [data-slot="toast"][data-starting-style], [data-slot="toast"][data-ending-style] { opacity: 0; }
+[data-slot="toast"][data-limited] { display: none; }
 [data-slot="toast-icon"] { flex-shrink: 0; margin-top: 2px; color: var(--fp-ink); }
 [data-slot="toast"][data-type="success"] [data-slot="toast-icon"] { color: var(--fp-success); }
 [data-slot="toast"][data-type="error"] [data-slot="toast-icon"] { color: var(--fp-danger); }
