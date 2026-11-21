@@ -753,6 +753,22 @@ export const docs: ComponentDoc[] = [
     ],
   },
   {
+    id: 'reveal', title: 'Reveal', category: '反馈', categoryEn: 'Feedback',
+    description: '入场动效（可选）：给元素加 data-reveal，页面载入或滚动到时淡入。节奏和位移由主题决定；默认主题只淡入，不位移。',
+    descriptionEn: 'Entrance motion (opt-in): add data-reveal to an element and it fades in on load or when scrolled to. The theme sets pace and distance; the default theme fades without moving.',
+    importPath: '@/components/ui/reveal',
+    usage: `import { RevealGroup } from "@/components/ui/reveal"\n\n<RevealGroup>\n  <h2 data-reveal="enter">Hello</h2>\n  <p data-reveal="enter" data-reveal-step="1">Plays once, a step later.</p>\n  <section data-reveal="scroll">Waits until it scrolls into view.</section>\n</RevealGroup>`,
+    examples: [
+      { title: '依次入场', titleEn: 'Staggered entrance', code: `<RevealGroup>\n  <h2 data-reveal="enter">Write it down once.</h2>\n  <p data-reveal="enter" data-reveal-step="1">Find it every time.</p>\n  <Button data-reveal="enter" data-reveal-step="2">Try it</Button>\n</RevealGroup>`, render: 'preview' },
+    ],
+    api: [
+      { prop: 'data-reveal', type: '"enter" | "scroll"', desc: 'enter：载入时播放一次；scroll：由 RevealGroup 在进入视口时播放', descEn: 'enter plays once on load; scroll waits until RevealGroup sees it enter the viewport' },
+      { prop: 'data-reveal-step', type: '1 | 2 | 3 | 4', desc: '错开的档位，延迟 = 档位 × 主题的 step', descEn: 'Stagger step; the delay is the step times the theme step' },
+      { prop: 'RevealGroup', type: 'HTMLAttributes<div>', desc: '容器：只给 scroll 元素挂载观察器；减少动态效果、键盘焦点、不支持观察器时内容照常可读', descEn: 'Container: observes scroll elements only; content stays readable with reduced motion, keyboard focus or no observer' },
+      { prop: '--fp-reveal-*', type: 'CSS tokens', desc: 'duration / step / distance / ease，以及手机上的 -sm 版本，由主题设置', descEn: 'duration / step / distance / ease and the -sm versions for phones, set by the theme' },
+    ],
+  },
+  {
     id: 'spinner', title: 'Spinner', category: '反馈', categoryEn: 'Feedback',
     description: '加载中：三个小方块轮流变亮，只改透明度。它只在加载时出现，所以是唯一允许的循环动效；开启"减少动态效果"时静止。',
     descriptionEn: 'Loading: three small squares light up in turn, opacity only. It only exists while loading, so it is the one allowed loop; it stays still with reduced motion.',

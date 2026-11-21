@@ -92,6 +92,9 @@ function css() {
   L.push(`  --fp-page-max: ${px(T.layout.pageMax)};`.padEnd(40) + ` /* ${T.layout.en} */`)
   L.push(`  --fp-duration: ${T.motion.duration};`)
   L.push(`  --fp-ease: ${T.motion.ease};`)
+  const rv = T.motion.reveal
+  L.push(`  --fp-reveal-duration: ${rv.duration};`, `  --fp-reveal-step: ${rv.step};`, `  --fp-reveal-distance: ${rv.distance};`, `  --fp-reveal-ease: ${rv.ease};`)
+  L.push(`  --fp-reveal-duration-sm: ${rv.durationSm};`, `  --fp-reveal-distance-sm: ${rv.distanceSm};`)
   L.push('}')
   L.push('')
   L.push('[data-theme="dark"] {', '  color-scheme: dark;')
@@ -253,6 +256,7 @@ function markdown(lang) {
   L.push(`- ${zh ? '交互只变颜色，不做位移' : 'Interaction changes color only, never position'}`)
   L.push(`- ${zh ? `图标：lucide，${T.icon.size}px，描边 ${T.icon.stroke}` : `Icons: lucide at ${T.icon.size}px, stroke ${T.icon.stroke}`}`)
   L.push(`- ${zh ? `动效：只做 ${T.motion.duration} 的颜色和透明度过渡，没有常驻动画` : `Motion: ${T.motion.duration} color and opacity transitions only, no looping animation`}`)
+  L.push(`- ${zh ? T.motion.reveal.zh : T.motion.reveal.en}`)
   L.push(`- ${zh ? '主题：默认跟随系统，选择存在 localStorage（`fp-theme`），index.html 在首屏前写入 data-theme' : 'Theme: follows the system by default, choice saved in localStorage (`fp-theme`), index.html sets data-theme before first paint'}`)
   L.push('')
   L.push(zh ? '### 可调项（Create 页）' : '### Tunable (Create page)')

@@ -178,7 +178,17 @@
   },
   "motion": {
     "duration": "150ms",
-    "ease": "ease"
+    "ease": "ease",
+    "reveal": {
+      "duration": "240ms",
+      "step": "40ms",
+      "distance": "0px",
+      "ease": "cubic-bezier(0.2, 0.75, 0.2, 1)",
+      "durationSm": "240ms",
+      "distanceSm": "0px",
+      "zh": "入场动效（可选）：只对带 data-reveal 的元素生效，默认只淡入，不位移。主题可以给出自己的节奏",
+      "en": "Entrance motion (opt-in): only elements with data-reveal animate, and by default they fade without moving. A theme may set its own pace"
+    }
   },
   "tune": {
     "$description": "Dials exposed on the Create page. Each option lists the CSS variables it sets. Only dials that keep the rules are here: shadow, blur and thickness are not tunable. Shape switches controls between pill and square. Theme swaps the palette, accent, surface radius and font stack as one unit; it is the last dial so older preset codes keep working.",
@@ -468,7 +478,12 @@
             "enDesc": "Neutral black and white, Arial, 4px surfaces. For catalogs and content sites",
             "vars": {
               "radius-surface": "4px",
-              "sans": "Arial, \"PingFang SC\", \"Noto Sans SC\", \"Microsoft YaHei\", sans-serif"
+              "sans": "Arial, \"PingFang SC\", \"Noto Sans SC\", \"Microsoft YaHei\", sans-serif",
+              "reveal-duration": "480ms",
+              "reveal-step": "50ms",
+              "reveal-distance": "10px",
+              "reveal-duration-sm": "400ms",
+              "reveal-distance-sm": "6px"
             },
             "light": {
               "bg": "#ffffff",
@@ -507,7 +522,12 @@
             "vars": {
               "radius-control": "10px",
               "radius-surface": "10px",
-              "sans": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", \"PingFang SC\", \"Noto Sans SC\", \"Microsoft YaHei\", sans-serif"
+              "sans": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", \"PingFang SC\", \"Noto Sans SC\", \"Microsoft YaHei\", sans-serif",
+              "reveal-duration": "560ms",
+              "reveal-step": "70ms",
+              "reveal-distance": "14px",
+              "reveal-duration-sm": "440ms",
+              "reveal-distance-sm": "8px"
             },
             "light": {
               "bg": "#f8f9f7",

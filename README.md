@@ -55,6 +55,7 @@
 - 交互只变颜色，不做位移
 - 图标：lucide，16px，描边 1.5
 - 动效：只做 150ms 的颜色和透明度过渡，没有常驻动画
+- 入场动效（可选）：只对带 data-reveal 的元素生效，默认只淡入，不位移。主题可以给出自己的节奏
 - 主题：默认跟随系统，选择存在 localStorage（`fp-theme`），index.html 在首屏前写入 data-theme
 
 ### 可调项（Create 页）

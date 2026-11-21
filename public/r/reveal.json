@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "reveal",
+  "type": "registry:ui",
+  "title": "Reveal",
+  "description": "Flatpack UI Reveal component.",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/reveal.tsx",
+      "type": "registry:ui",
+      "content": "import { useEffect, useRef, type ComponentPropsWithoutRef } from 'react'\n\n/** Progressive enhancement: SSR and unsupported clients keep all content readable. */\nexport function RevealGroup({ children, ...props }: ComponentPropsWithoutRef<'div'>) {\n  const root = useRef<HTMLDivElement>(null)\n  useEffect(() => {\n    const container = root.current\n    const preference = matchMedia('(prefers-reduced-motion: reduce)')\n    if (!container || preference.matches || typeof IntersectionObserver === 'undefined') return\n    const targets = Array.from(\n      container.querySelectorAll<HTMLElement>('[data-reveal=\"scroll\"]'),\n    ).filter((target) => target.closest('[data-reveal-group]') === container)\n    let observer: IntersectionObserver | undefined\n    const show = (target: HTMLElement) => {\n      if (target.dataset.revealState !== 'pending') return\n      target.dataset.revealState = 'shown'\n      observer?.unobserve(target)\n    }\n    const restore = () => {\n      observer?.disconnect()\n      targets.forEach((target) => target.removeAttribute('data-reveal-state'))\n    }\n    const focus = (event: FocusEvent) => {\n      if (!(event.target instanceof Element)) return\n      const target = event.target.closest<HTMLElement>('[data-reveal=\"scroll\"]')\n      if (target && targets.includes(target)) show(target)\n    }\n    try {\n      observer = new IntersectionObserver(\n        (entries) => {\n          entries.forEach((entry) => {\n            if (entry.isIntersecting) show(entry.target as HTMLElement)\n          })\n        },\n        { rootMargin: '0px 0px -24px 0px', threshold: 0 },\n      )\n      targets.forEach((target) => {\n        // Never hide content already visible, above the viewport, or containing focus.\n        if (\n          target.getBoundingClientRect().top < innerHeight ||\n          target.contains(document.activeElement)\n        )\n          return\n        target.dataset.revealState = 'pending'\n        observer?.observe(target)\n      })\n    } catch {\n      restore()\n    }\n    container.addEventListener('focusin', focus)\n    preference.addEventListener('change', restore)\n    return () => {\n      restore()\n      container.removeEventListener('focusin', focus)\n      preference.removeEventListener('change', restore)\n    }\n  }, [])\n  return (\n    <div {...props} ref={root} data-reveal-group=\"\">\n      {children}\n    </div>\n  )\n}\n"
+    }
+  ]
+}

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { ArrowUpRight, Search, AlignLeft, AlignCenter, AlignRight, Bold, Italic, Underline, Link2, Heart, FilePlus, Moon, BookOpen, LayoutGrid } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { RevealGroup } from '@/components/ui/reveal'
 import { Input, Label } from '@/components/ui/input'
 import { Avatar } from '@/components/ui/avatar'
 import { Image } from '@/components/ui/image'
@@ -72,6 +73,20 @@ function CommandDemo() {
         ]}
       />
     </>
+  )
+}
+
+function RevealDemo() {
+  const [run, setRun] = useState(0)
+  return (
+    <div style={{ display: 'grid', gap: 'var(--fp-space-3)', justifyItems: 'start' }}>
+      <RevealGroup key={run} style={{ display: 'grid', gap: 'var(--fp-space-2)' }}>
+        <h3 data-reveal="enter" style={{ fontSize: 'var(--fp-text-xl)' }}>Write it down once.</h3>
+        <p data-reveal="enter" data-reveal-step="1" style={{ color: 'var(--fp-muted)' }}>Find it every time.</p>
+        <div data-reveal="enter" data-reveal-step="2"><Button>Try it</Button></div>
+      </RevealGroup>
+      <Button size="sm" variant="outline" onClick={() => setRun((n) => n + 1)}>Replay</Button>
+    </div>
   )
 }
 
@@ -207,6 +222,8 @@ export function ExtraDemo({ id, variant = 0 }: { id: string; variant?: number })
           <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Close</span><Kbd>Esc</Kbd></div>
         </div>
       )
+    case 'reveal':
+      return <RevealDemo />
     case 'spinner':
       return <div style={row}><Spinner /><Spinner size="lg" /><Button disabled><Spinner /> Saving</Button></div>
     case 'avatar-group':
@@ -312,5 +329,5 @@ export const EXTRA_IDS = [
   'textarea', 'field', 'number-input', 'slider', 'combobox', 'multi-select', 'date-picker', 'calendar', 'file-input',
   'chip-group', 'toggle-group', 'toolbar', 'alert-dialog', 'toast', 'hover-card', 'command-palette', 'context-menu', 'menubar',
   'scroll-area', 'tree', 'description-list', 'carousel', 'lightbox', 'avatar-group', 'status-dot', 'timestamp',
-  'kbd', 'spinner', 'code-block', 'visually-hidden',
+  'kbd', 'spinner', 'reveal', 'code-block', 'visually-hidden',
 ]

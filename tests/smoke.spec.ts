@@ -212,3 +212,31 @@ test.describe('gallery themes and site blocks', () => {
     await expect(card.getByText('TASK DETAILS')).toBeVisible()
   })
 })
+
+test.describe('entrance reveal', () => {
+  test('plays with the theme pace and is switched off by reduced motion', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'no-preference' })
+    await page.goto('/#/docs/components/reveal')
+    const heading = page.getByRole('heading', { name: 'Write it down once.' }).first()
+    await expect(heading).toHaveAttribute('data-reveal', 'enter')
+    await page.getByRole('button', { name: 'Replay' }).first().click()
+    await expect(page.getByRole('heading', { name: 'Write it down once.' }).first()).toHaveCSS('animation-name', 'fp-reveal')
+    // The theme decides the pace: Sage moves 14px over 560ms, the default theme only fades.
+    const pace = (theme: string | null) => page.evaluate((t) => {
+      const el = document.createElement('div')
+      el.setAttribute('data-reveal', 'enter')
+      if (t) el.setAttribute('data-fp-theme', t)
+      document.body.appendChild(el)
+      const s = getComputedStyle(el)
+      const raw = s.getPropertyValue('--fp-reveal-duration').trim() // the minifier may write 240ms as .24s
+      const out = { duration: Math.round(raw.endsWith('ms') ? parseFloat(raw) : parseFloat(raw) * 1000), distance: s.getPropertyValue('--fp-reveal-distance').trim() }
+      el.remove()
+      return out
+    }, theme)
+    expect(await pace(null)).toEqual({ duration: 240, distance: '0px' })
+    expect(await pace('sage')).toEqual({ duration: 560, distance: '14px' })
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.reload()
+    await expect(page.getByRole('heading', { name: 'Write it down once.' }).first()).toHaveCSS('animation-name', 'none')
+  })
+})
