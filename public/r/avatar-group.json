@@ -6,7 +6,7 @@
   "description": "Flatpack UI Avatar Group component.",
   "dependencies": [],
   "registryDependencies": [
-    "avatar"
+    "https://iamwilllee.github.io/flatpack/r/avatar.json"
   ],
   "files": [
     {

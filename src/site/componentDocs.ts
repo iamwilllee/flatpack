@@ -1135,4 +1135,25 @@ export const docs: ComponentDoc[] = [
       { prop: 'inputLabel / sendLabel / stopLabel', type: 'string', desc: '可访问名称，默认英文', descEn: 'Accessible names, English by default' },
     ],
   },
+  {
+    id: 'data-table', title: 'DataTable', category: '数据展示', categoryEn: 'Data display',
+    description: '一组数据的表格：点表头排序（升序、降序、取消），勾选行，分页，空状态。排序、选择、页码都可受控。选择按行 id 记录，排序和翻页后仍保留。',
+    descriptionEn: 'A table for one array of rows: click a header to sort (ascending, descending, off), select rows, page through and show an empty state. Sort, selection and page are each controlled or uncontrolled. Selection is kept by row id, so it survives sorting and paging.',
+    importPath: '@/components/ui/data-table',
+    usage: `import { DataTable, type DataTableColumn } from "@/components/ui/data-table"\n\nconst columns: DataTableColumn<Order>[] = [\n  { key: 'customer', header: 'Customer', sortable: true },\n  { key: 'total', header: 'Total', sortable: true, align: 'end', cell: (o) => money(o.total) },\n]\n\n<DataTable aria-label="Orders" columns={columns} data={orders} getRowId={(o) => o.id} />`,
+    examples: [
+      { title: '排序、选择与分页', titleEn: 'Sorting, selection and paging', code: `const [selected, setSelected] = useState<string[]>([])\n\n<DataTable\n  aria-label="Orders"\n  columns={[\n    { key: 'id', header: 'Order', sortable: true },\n    { key: 'customer', header: 'Customer', sortable: true },\n    { key: 'status', header: 'Status', cell: (o) => <Badge variant="outline">{o.status}</Badge> },\n    { key: 'total', header: 'Total', sortable: true, align: 'end', cell: (o) => money(o.total) },\n  ]}\n  data={orders}\n  getRowId={(o) => o.id}\n  defaultSort={{ key: 'total', direction: 'desc' }}\n  selectable\n  selected={selected}\n  onSelectedChange={setSelected}\n  pageSize={4}\n/>`, render: 'preview' },
+    ],
+    api: [
+      { prop: 'columns', type: 'DataTableColumn<T>[]', desc: '列：key、header；可选 cell（显示）、value（排序取值）、sortable、align、width', descEn: 'Columns: key and header; optional cell (display), value (what sorting compares), sortable, align, width' },
+      { prop: 'data / getRowId', type: 'T[] / (row) => string', desc: '数据与每行的稳定 id', descEn: 'Rows and a stable id per row' },
+      { prop: 'sort / defaultSort / onSortChange', type: '{ key, direction } | null', desc: '排序，受控或非受控。空值总排在最后', descEn: 'Sort, controlled or uncontrolled. Empty values always go last' },
+      { prop: 'selectable', type: 'boolean', desc: '加一列复选框；表头的复选框作用于当前页', descEn: 'Adds a checkbox column; the header box acts on the current page' },
+      { prop: 'selected / defaultSelected / onSelectedChange', type: 'string[]', desc: '选中的行 id', descEn: 'Selected row ids' },
+      { prop: 'pageSize / page / defaultPage / onPageChange', type: 'number', desc: '每页行数与页码。不传 pageSize 时不分页', descEn: 'Rows per page and the page. Without pageSize there is no paging' },
+      { prop: 'empty', type: 'ReactNode', desc: '没有数据时显示，默认一个 Empty', descEn: 'Shown when there are no rows; an Empty by default' },
+      { prop: 'caption / aria-label', type: 'ReactNode / string', desc: '表格的名字，二选一', descEn: 'The table name; give one of the two' },
+      { prop: 'selectAllLabel / selectRowLabel / paginationLabel', type: 'string / (row) => string / string', desc: '可访问名称，默认英文', descEn: 'Accessible names, English by default' },
+    ],
+  },
 ]

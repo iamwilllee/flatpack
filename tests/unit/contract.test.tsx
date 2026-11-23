@@ -37,6 +37,7 @@ import { Form } from '@/components/ui/form'
 import { Field, FieldControl } from '@/components/ui/field'
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupButton } from '@/components/ui/input-group'
 import { Composer } from '@/components/ui/composer'
+import { DataTable } from '@/components/ui/data-table'
 
 describe('Checkbox', () => {
   it('is controlled by `checked` and reports changes', async () => {
@@ -622,5 +623,72 @@ describe('Composer', () => {
     expect(screen.queryByRole('button', { name: 'Send' })).toBeNull()
     await userEvent.click(screen.getByRole('button', { name: 'Stop' }))
     expect(onStop).toHaveBeenCalled()
+  })
+})
+
+describe('DataTable', () => {
+  type Row = { id: string; name: string; total: number | null }
+  const data: Row[] = [
+    { id: 'a', name: 'Banana', total: 30 },
+    { id: 'b', name: 'apple', total: null },
+    { id: 'c', name: 'Cherry', total: 10 },
+    { id: 'd', name: 'item 10', total: 20 },
+    { id: 'e', name: 'item 9', total: 20 },
+  ]
+  const columns = [
+    { key: 'name', header: 'Name', sortable: true },
+    { key: 'total', header: 'Total', sortable: true, align: 'end' as const },
+  ]
+
+  it('cycles a header through ascending, descending and off, with aria-sort', async () => {
+    render(<DataTable aria-label="T" columns={columns} data={data} getRowId={(r) => r.id} />)
+    const header = screen.getByRole('columnheader', { name: /Name/ })
+    expect(header).toHaveAttribute('aria-sort', 'none')
+    await userEvent.click(within(header).getByRole('button'))
+    expect(header).toHaveAttribute('aria-sort', 'ascending')
+    // Case-insensitive and numeric-aware: "item 9" before "item 10".
+    const col = () => screen.getAllByRole('row').slice(1).map((r) => within(r).getAllByRole('cell')[0].textContent)
+    expect(col()).toEqual(['apple', 'Banana', 'Cherry', 'item 9', 'item 10'])
+    await userEvent.click(within(header).getByRole('button'))
+    expect(header).toHaveAttribute('aria-sort', 'descending')
+    expect(col()[0]).toBe('item 10')
+    await userEvent.click(within(header).getByRole('button'))
+    expect(header).toHaveAttribute('aria-sort', 'none')
+    expect(col()).toEqual(data.map((r) => r.name))
+  })
+  it('keeps empty values last in both directions and ties in their original order', async () => {
+    const onSort = vi.fn()
+    const { rerender } = render(<DataTable aria-label="T" columns={columns} data={data} getRowId={(r) => r.id} sort={{ key: 'total', direction: 'asc' }} onSortChange={onSort} />)
+    const totals = () => screen.getAllByRole('row').slice(1).map((r) => within(r).getAllByRole('cell')[1].textContent)
+    expect(totals()).toEqual(['10', '20', '20', '30', ''])
+    expect(screen.getAllByRole('row')[2]).toHaveTextContent('item 10')
+    rerender(<DataTable aria-label="T" columns={columns} data={data} getRowId={(r) => r.id} sort={{ key: 'total', direction: 'desc' }} onSortChange={onSort} />)
+    expect(totals()).toEqual(['30', '20', '20', '10', ''])
+    await userEvent.click(within(screen.getByRole('columnheader', { name: /Name/ })).getByRole('button'))
+    expect(onSort).toHaveBeenCalledWith({ key: 'name', direction: 'asc' })
+    expect(totals()[0]).toBe('30') // controlled: the parent decides
+  })
+  it('selects rows by id, and the header box acts on the current page only', async () => {
+    const onSel = vi.fn()
+    render(<DataTable aria-label="T" columns={columns} data={data} getRowId={(r) => r.id} selectable pageSize={2} onSelectedChange={onSel} selectRowLabel={(r) => `Pick ${r.name}`} />)
+    await userEvent.click(screen.getByRole('checkbox', { name: 'Pick Banana' }))
+    expect(onSel).toHaveBeenLastCalledWith(['a'])
+    const all = screen.getByRole('checkbox', { name: 'Select all rows' })
+    expect(all).toHaveAttribute('aria-checked', 'mixed')
+    await userEvent.click(all)
+    expect(onSel).toHaveBeenLastCalledWith(['a', 'b'])
+    await userEvent.click(screen.getByRole('button', { name: /next/i }))
+    expect(screen.getByRole('checkbox', { name: 'Select all rows' })).toHaveAttribute('aria-checked', 'false')
+    await userEvent.click(screen.getByRole('checkbox', { name: 'Pick Cherry' }))
+    expect(onSel).toHaveBeenLastCalledWith(['a', 'b', 'c'])
+  })
+  it('pages rows, hides paging when everything fits, and shows the empty state', () => {
+    const { rerender } = render(<DataTable aria-label="T" columns={columns} data={data} getRowId={(r) => r.id} pageSize={2} defaultPage={3} />)
+    expect(screen.getAllByRole('row')).toHaveLength(2) // header + 1 row on page 3
+    expect(screen.getByRole('navigation', { name: 'Pages' })).toBeInTheDocument()
+    rerender(<DataTable aria-label="T" columns={columns} data={data} getRowId={(r) => r.id} pageSize={10} />)
+    expect(screen.queryByRole('navigation')).toBeNull()
+    rerender(<DataTable aria-label="T" columns={columns} data={[]} getRowId={(r: Row) => r.id} empty="Nothing yet" />)
+    expect(screen.getByText('Nothing yet')).toBeInTheDocument()
   })
 })

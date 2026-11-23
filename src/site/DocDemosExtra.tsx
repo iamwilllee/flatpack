@@ -43,6 +43,8 @@ import { Meter } from '@/components/ui/meter'
 import { Form } from '@/components/ui/form'
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupButton } from '@/components/ui/input-group'
 import { Composer } from '@/components/ui/composer'
+import { DataTable } from '@/components/ui/data-table'
+import { Badge } from '@/components/ui/badge'
 import { PHOTOS } from '@/site/photos'
 import { useTheme } from '@/site/theme'
 
@@ -160,6 +162,43 @@ function ComposerDemo() {
   )
 }
 
+type DemoOrder = { id: string; customer: string; status: string; total: number }
+const DEMO_ORDERS: DemoOrder[] = [
+  { id: 'A-1042', customer: 'Lena Fischer', status: 'Paid', total: 1299 },
+  { id: 'A-1041', customer: 'Tomás Ruiz', status: 'Pending', total: 499 },
+  { id: 'A-1040', customer: 'Mei Chen', status: 'Paid', total: 2398 },
+  { id: 'A-1039', customer: 'Noah Smith', status: 'Refunded', total: 199 },
+  { id: 'A-1038', customer: 'Aiko Tanaka', status: 'Paid', total: 749 },
+  { id: 'A-1037', customer: 'Omar Haddad', status: 'Pending', total: 899 },
+]
+const yuan = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'CNY', maximumFractionDigits: 0 })
+
+function DataTableDemo() {
+  const [selected, setSelected] = useState<string[]>([])
+  return (
+    <div style={{ width: '100%', maxWidth: 560, display: 'grid', gap: 'var(--fp-space-2)' }}>
+      <DataTable
+        aria-label="Orders"
+        columns={[
+          { key: 'id', header: 'Order', sortable: true, cell: (o) => <span className="fp-num">{o.id}</span> },
+          { key: 'customer', header: 'Customer', sortable: true },
+          { key: 'status', header: 'Status', cell: (o) => <Badge variant={o.status === 'Paid' ? 'default' : 'outline'}>{o.status}</Badge> },
+          { key: 'total', header: 'Total', sortable: true, align: 'end', cell: (o) => <span className="fp-num">{yuan.format(o.total)}</span> },
+        ]}
+        data={DEMO_ORDERS}
+        getRowId={(o) => o.id}
+        defaultSort={{ key: 'total', direction: 'desc' }}
+        selectable
+        selected={selected}
+        onSelectedChange={setSelected}
+        selectRowLabel={(o) => `Select order ${o.id}`}
+        pageSize={4}
+      />
+      <span style={{ fontSize: 'var(--fp-text-xs)', color: 'var(--fp-muted)' }}>{selected.length ? `Selected: ${selected.join(', ')}` : 'Nothing selected'}</span>
+    </div>
+  )
+}
+
 export function ExtraDemo({ id, variant = 0 }: { id: string; variant?: number }) {
   switch (id) {
     case 'drawer':
@@ -213,6 +252,8 @@ export function ExtraDemo({ id, variant = 0 }: { id: string; variant?: number })
       )
     case 'composer':
       return <ComposerDemo />
+    case 'data-table':
+      return <DataTableDemo />
     case 'textarea':
       return <div style={col}><div><Label>Delivery notes</Label><Textarea placeholder="Leave it at the front desk" rows={4} /></div></div>
     case 'field':
@@ -446,5 +487,5 @@ export const EXTRA_IDS = [
   'chip-group', 'toggle-group', 'toolbar', 'alert-dialog', 'toast', 'hover-card', 'command-palette', 'context-menu', 'menubar',
   'scroll-area', 'tree', 'description-list', 'carousel', 'lightbox', 'avatar-group', 'status-dot', 'timestamp',
   'kbd', 'spinner', 'reveal', 'code-block', 'visually-hidden',
-  'drawer', 'form', 'otp-field', 'meter', 'input-group', 'composer',
+  'drawer', 'form', 'otp-field', 'meter', 'input-group', 'composer', 'data-table',
 ]

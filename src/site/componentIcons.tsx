@@ -6,7 +6,7 @@ import {
   Ellipsis, LayoutDashboard, Type, FormInput, Binary, SlidersHorizontal, Search, ListChecks, CalendarRange,
   Calendar, Upload, Tags, ToggleLeft, Wrench, ShieldAlert, BellRing, PictureInPicture2, Command,
   MousePointerClick, Menu, ScrollText, FolderTree, List, GalleryHorizontal, Expand, Users, Circle, Clock,
-  Keyboard, Loader, Code, EyeOff, Sparkles, PanelBottom, ClipboardList, KeyRound, Ruler, TextCursor, SendHorizontal,
+  Keyboard, Loader, Code, EyeOff, Sparkles, PanelBottom, ClipboardList, KeyRound, Ruler, TextCursor, SendHorizontal, Sheet,
 } from 'lucide-react'
 
 /**
@@ -27,7 +27,7 @@ export const COMPONENT_ICONS: Record<string, LucideIcon> = {
   'hover-card': PictureInPicture2, 'command-palette': Command, 'context-menu': MousePointerClick, menubar: Menu,
   'scroll-area': ScrollText, tree: FolderTree, 'description-list': List, carousel: GalleryHorizontal,
   lightbox: Expand, 'avatar-group': Users, 'status-dot': Circle, timestamp: Clock, kbd: Keyboard,
-  drawer: PanelBottom, form: ClipboardList, 'otp-field': KeyRound, meter: Ruler, 'input-group': TextCursor, composer: SendHorizontal,
+  drawer: PanelBottom, form: ClipboardList, 'otp-field': KeyRound, meter: Ruler, 'input-group': TextCursor, composer: SendHorizontal, 'data-table': Sheet,
   spinner: Loader, reveal: Sparkles, 'code-block': Code, 'visually-hidden': EyeOff,
 }
 

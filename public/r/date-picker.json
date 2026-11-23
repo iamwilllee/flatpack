@@ -9,7 +9,7 @@
     "lucide-react"
   ],
   "registryDependencies": [
-    "calendar"
+    "https://iamwilllee.github.io/flatpack/r/calendar.json"
   ],
   "files": [
     {

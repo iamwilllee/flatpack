@@ -9,7 +9,7 @@
     "lucide-react"
   ],
   "registryDependencies": [
-    "kbd"
+    "https://iamwilllee.github.io/flatpack/r/kbd.json"
   ],
   "files": [
     {

@@ -62,8 +62,9 @@ All imports are from `@/components/ui/<name>` (adjust the alias to the target pr
 | Overlays | `Dialog`, `AlertDialog` (confirm; `danger` for destructive), `Sheet`, `Drawer` (swipe to close; `side`, `snapPoints`), `Popover`, `HoverCard`, `DropdownMenu`, `ContextMenu`, `Menubar`, `Tooltip`, `CommandPalette` (⌘K), `Lightbox` / `LightboxGallery` |
 | Feedback | `Alert`, `Toast` (mount `<Toaster />` once, call `toast({ title, type })`), `Spinner`, `Skeleton` + `SkeletonText`, `Progress`, `Meter` (value in a range), `Steps` |
 | Navigation | `Tabs`, `Breadcrumb`, `Pagination`, `Sidebar` + `SidebarSection/SidebarItem` |
-| Data display | `Table` (+ parts), `DescriptionList`, `Tree`, `Image`, `Carousel`, `Avatar`, `AvatarGroup`, `Statistic`, `Timestamp`, `Collapse`, `Empty`, `CodeBlock` / `Code` |
+| Data display | `DataTable` (sort, select, page; `columns`, `getRowId`), `Table` (+ parts), `DescriptionList`, `Tree`, `Image`, `Carousel`, `Avatar`, `AvatarGroup`, `Statistic`, `Timestamp`, `Collapse`, `Empty`, `CodeBlock` / `Code` |
 | Layout / utility | `Divider`, `Separator` (from `primitives`), `ScrollArea`, `Masonry` (waterfall), `VisuallyHidden`, `BorderBeam` (optional decorative border line; not used by default because the rules have no looping animation) |
+| Whole screens (blocks, `@/components/blocks/<name>`) | `Login01` (`onSignIn` may return field errors), `Settings01` (`onSave`), `DataTable01` (orders list, `onDelete`), `Chat01` (`onSend(text, signal)` returns the reply). Start from one of these before composing a screen by hand |
 
 63 components total. If a need isn't in the table, compose from these before adding new source. Not provided on purpose: rich text editor, Markdown renderer, Cascader, Transfer. For AI chat screens, copy the `assistant` block in `src/blocks/BlockScreens.tsx`.
 

@@ -14,13 +14,15 @@ const SKIP = new Set(['primitives.tsx'])
 const files = fs.readdirSync(UI_DIR).filter((f) => f.endsWith('.tsx') && !SKIP.has(f)).sort()
 
 const items = []
-items.push({
+const themeItem = {
   name: 'flatpack-theme',
   type: 'registry:file',
   title: 'Flatpack Theme',
   description: 'The whole look in one stylesheet: square corners, black and white, whitespace.',
   files: [{ path: 'src/styles/flatpack.css', type: 'registry:file', target: 'src/styles/flatpack.css', content: fs.readFileSync(path.join(ROOT, 'src/styles/flatpack.css'), 'utf8') }],
-})
+}
+items.push(themeItem)
+fs.writeFileSync(path.join(OUT_R, 'flatpack-theme.json'), JSON.stringify({ $schema: 'https://ui.shadcn.com/schema/registry-item.json', ...themeItem }, null, 2))
 
 for (const file of files) {
   const name = file.replace(/\.tsx$/, '')
@@ -30,9 +32,13 @@ for (const file of files) {
   if (/@base-ui\/react/.test(content)) deps.push('@base-ui/react')
   if (/lucide-react/.test(content)) deps.push('lucide-react')
   if (/clsx|cn\(/.test(content)) deps.push('clsx')
+  // Full URLs: a bare name such as "table" would make the shadcn CLI fetch shadcn's own component.
   const registryDeps = []
-  if (/from '@\/lib\/utils'/.test(content)) registryDeps.push('lib/utils')
-  for (const m of content.matchAll(/from '@\/components\/ui\/([\w-]+)'/g)) if (!registryDeps.includes(m[1])) registryDeps.push(m[1])
+  if (/from '@\/lib\/utils'/.test(content)) registryDeps.push(`${BASE}/r/utils.json`)
+  for (const m of content.matchAll(/from '@\/components\/ui\/([\w-]+)'/g)) {
+    const url = `${BASE}/r/${m[1]}.json`
+    if (!registryDeps.includes(url)) registryDeps.push(url)
+  }
   const item = {
     name,
     type: 'registry:ui',
@@ -46,6 +52,36 @@ for (const file of files) {
 
   const single = { $schema: 'https://ui.shadcn.com/schema/registry-item.json', ...item }
   fs.writeFileSync(path.join(OUT_R, `${name}.json`), JSON.stringify(single, null, 2))
+}
+
+// Blocks: whole screens built from the components. They install into components/blocks/.
+const BLOCK_DIR = path.join(ROOT, 'src/components/blocks')
+const BLOCKS = {
+  'login-01': 'Sign-in screen: brand panel and a validated email and password form.',
+  'settings-01': 'Account settings: section list and a profile form with switches and a toast on save.',
+  'data-table-01': 'Orders list: search, status chips with counts, a sortable and selectable table, bulk delete.',
+  'chat-01': 'Assistant screen: conversation list, messages and a Composer with stop.',
+}
+for (const file of fs.readdirSync(BLOCK_DIR).filter((f) => f.endsWith('.tsx')).sort()) {
+  const name = file.replace(/\.tsx$/, '')
+  if (!BLOCKS[name]) throw new Error(`Add a description for block ${name} in build-registry.mjs`)
+  const content = fs.readFileSync(path.join(BLOCK_DIR, file), 'utf8')
+  const deps = []
+  if (/@base-ui\/react/.test(content)) deps.push('@base-ui/react')
+  if (/lucide-react/.test(content)) deps.push('lucide-react')
+  const registryDeps = ['flatpack-theme']
+  for (const m of content.matchAll(/from '@\/components\/ui\/([\w-]+)'/g)) if (!registryDeps.includes(m[1])) registryDeps.push(m[1])
+  const item = {
+    name,
+    type: 'registry:block',
+    title: name.replace(/(^|-)(\w)/g, (_, __, c) => ' ' + c.toUpperCase()).trim(),
+    description: BLOCKS[name],
+    dependencies: deps,
+    registryDependencies: registryDeps.map((d) => (d === 'flatpack-theme' ? `${BASE}/r/flatpack-theme.json` : `${BASE}/r/${d}.json`)),
+    files: [{ path: `src/components/blocks/${file}`, type: 'registry:block', target: `components/blocks/${file}`, content }],
+  }
+  items.push(item)
+  fs.writeFileSync(path.join(OUT_R, `${name}.json`), JSON.stringify({ $schema: 'https://ui.shadcn.com/schema/registry-item.json', ...item }, null, 2))
 }
 
 // utils, needed by most components

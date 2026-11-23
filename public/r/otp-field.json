@@ -8,7 +8,7 @@
     "@base-ui/react"
   ],
   "registryDependencies": [
-    "visually-hidden"
+    "https://iamwilllee.github.io/flatpack/r/visually-hidden.json"
   ],
   "files": [
     {

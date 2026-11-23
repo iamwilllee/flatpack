@@ -1,11 +1,11 @@
 import {
   ShoppingBag, Heart, User, Package, ChevronRight,
-  Paperclip, ArrowUp, Search, FileCode, Plus, MessageSquare,
+  Search, FileCode,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Image } from '@/components/ui/image'
 import { Avatar } from '@/components/ui/avatar'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbCurrent, BreadcrumbSeparator } from '@/components/ui/breadcrumb'
@@ -13,16 +13,13 @@ import { Segmented } from '@/components/ui/segmented'
 import { Statistic } from '@/components/ui/statistic'
 import { Progress } from '@/components/ui/progress'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableCaption } from '@/components/ui/table'
-import { Switch } from '@/components/ui/switch'
-import { Checkbox } from '@/components/ui/checkbox'
-import { RadioGroup } from '@/components/ui/radio'
-import { Divider } from '@/components/ui/divider'
 import { Sidebar, SidebarSection, SidebarItem } from '@/components/ui/sidebar'
-import { Textarea } from '@/components/ui/textarea'
-import { Spinner } from '@/components/ui/spinner'
-import { Kbd } from '@/components/ui/kbd'
-import { StatusDot } from '@/components/ui/status-dot'
 import { ProductSite, Directory, Workbench } from '@/blocks/SiteScreens'
+import { toast } from '@/components/ui/toast'
+import { Login01 } from '@/components/blocks/login-01'
+import { Settings01 } from '@/components/blocks/settings-01'
+import { DataTable01 } from '@/components/blocks/data-table-01'
+import { Chat01, type ChatMessage } from '@/components/blocks/chat-01'
 
 const frame: React.CSSProperties = { background: 'var(--fp-bg)', padding: 'var(--fp-space-5)', minHeight: 420 }
 const row: React.CSSProperties = { display: 'flex', alignItems: 'center', justifyContent: 'space-between' }
@@ -171,132 +168,50 @@ export function Dashboard() {
 }
 
 // ---------- 05 Login ----------
+// The account, data and AI screens are the installable blocks in src/components/blocks, so the
+// gallery shows exactly what `npx shadcn add` gives you.
 export function Login() {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 420, background: 'var(--fp-bg)' }}>
-      <div className="fp-invert" style={{ padding: 'var(--fp-space-7)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-        <div style={{ fontWeight: 'var(--fp-weight-semibold)', fontSize: 'var(--fp-text-base)' }}>Flatpack</div>
-        <div>
-          <div style={{ fontSize: 'var(--fp-text-2xl)', fontWeight: 'var(--fp-weight-semibold)', letterSpacing: 'var(--fp-tracking-display)', lineHeight: 1.1 }}>Build with clarity.</div>
-          <p style={{ color: 'var(--fp-muted)', marginTop: 'var(--fp-space-3)', fontSize: 'var(--fp-text-sm)' }}>Square corners, black and white, plenty of space.</p>
-        </div>
-        <div className="fp-label">63 components · 2 themes</div>
-      </div>
-      <div style={{ padding: 'var(--fp-space-8) var(--fp-space-7)' }}>
-        <h3 style={{ fontSize: 'var(--fp-text-lg)', fontWeight: 'var(--fp-weight-semibold)', margin: '0 0 var(--fp-space-2)' }}>Sign in</h3>
-        <p style={muted}>Welcome back. Enter your details.</p>
-        <div style={{ marginTop: 'var(--fp-space-5)' }}>
-          <label style={{ fontSize: 'var(--fp-text-xs)', fontWeight: 'var(--fp-weight-semibold)', display: 'block', marginBottom: 'var(--fp-space-2)' }}>Email</label>
-          <Input type="email" placeholder="you@example.com" style={{ marginBottom: 'var(--fp-space-4)' }} />
-          <label style={{ fontSize: 'var(--fp-text-xs)', fontWeight: 'var(--fp-weight-semibold)', display: 'block', marginBottom: 'var(--fp-space-2)' }}>Password</label>
-          <Input type="password" placeholder="••••••••" style={{ marginBottom: 'var(--fp-space-4)' }} />
-          <Checkbox defaultChecked label="Remember me" />
-          <Button style={{ width: '100%', marginTop: 'var(--fp-space-4)' }}>Sign in</Button>
-          <div style={{ margin: 'var(--fp-space-4) 0' }}><Divider label="or" /></div>
-          <Button variant="outline" style={{ width: '100%' }}>Continue with another method</Button>
-        </div>
-      </div>
-    </div>
+    <Login01
+      onSignIn={(v) => {
+        // Stands in for the server: a short password comes back as a field error.
+        if (v.password.length < 8) return { password: 'Use at least 8 characters.' }
+        toast({ title: `Signed in as ${v.email}`, type: 'success' })
+      }}
+      onOtherMethod={() => toast({ title: 'SSO is not connected in this preview' })}
+    />
   )
 }
 
-// ---------- 06 Settings ----------
 export function Settings() {
-  return (
-    <div style={{ display: 'flex', gap: 'var(--fp-space-5)', background: 'var(--fp-bg)', minHeight: 420, padding: 'var(--fp-space-5)' }}>
-      <Sidebar>
-        <SidebarSection label="Account">
-          {['Profile', 'Notifications', 'Security', 'Billing'].map((s, i) => (
-            <SidebarItem key={s} active={i === 0}>{s}</SidebarItem>
-          ))}
-        </SidebarSection>
-      </Sidebar>
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <h3 style={{ fontSize: 'var(--fp-text-lg)', fontWeight: 'var(--fp-weight-semibold)', margin: '0 0 var(--fp-space-4)', letterSpacing: 'var(--fp-tracking-display)' }}>Profile</h3>
-        <Card>
-          <CardHeader><CardTitle>Basic info</CardTitle><CardDescription>Update your public profile.</CardDescription></CardHeader>
-          <CardContent>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--fp-space-3)', marginBottom: 'var(--fp-space-4)' }}><Avatar name="Alex Wang" size="lg" /><Button size="sm" variant="outline">Change photo</Button></div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--fp-space-3)' }}>
-              <div><label style={{ fontSize: 'var(--fp-text-xs)', fontWeight: 'var(--fp-weight-semibold)', display: 'block', marginBottom: 'var(--fp-space-2)' }}>Name</label><Input defaultValue="Alex Wang" /></div>
-              <div><label style={{ fontSize: 'var(--fp-text-xs)', fontWeight: 'var(--fp-weight-semibold)', display: 'block', marginBottom: 'var(--fp-space-2)' }}>Email</label><Input defaultValue="wang@example.com" /></div>
-            </div>
-            <div style={{ marginTop: 'var(--fp-space-4)' }}>
-              <div className="fp-label" style={{ marginBottom: 'var(--fp-space-3)' }}>Preferences</div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--fp-space-3)' }}>
-                <Switch defaultChecked label="New arrivals" />
-                <RadioGroup defaultValue="dark" options={[{ value: 'light', label: 'Light theme' }, { value: 'dark', label: 'Dark theme' }]} />
-              </div>
-            </div>
-          </CardContent>
-          <CardFooter><Button size="sm">Save changes</Button><Button size="sm" variant="ghost">Cancel</Button></CardFooter>
-        </Card>
-      </div>
-    </div>
-  )
+  return <Settings01 />
 }
 
-// ---------- 07 AI assistant ----------
-// Chat parts (message, tool call, thinking, diff, composer) live here as a block
-// until their API settles; then they become components.
-function ChatMessage({ role, children }: { role: 'user' | 'assistant'; children: React.ReactNode }) {
-  return (
-    <div data-slot="chat-message" data-role={role}>
-      {role === 'assistant' ? <Avatar name="AI" size="sm" /> : <Avatar name="Alex Wang" size="sm" />}
-      <div data-slot="chat-bubble">{children}</div>
-    </div>
-  )
+export function Orders() {
+  return <DataTable01 />
 }
+
+// Seed messages show the richer parts a reply can hold: a tool call and a diff.
+const seed: ChatMessage[] = [
+  { id: 's1', role: 'user', content: 'Which chairs are below 10 units? Lower the reorder point for the armchair to 6.' },
+  {
+    id: 's2', role: 'assistant', content: (
+      <>
+        <div data-slot="chat-tool"><Search size={16} /> Searched inventory · <span className="fp-num">3</span> results</div>
+        <p style={{ margin: 'var(--fp-space-3) 0' }}>Three chairs are low: the armchair (<span className="fp-num">4</span>), the lounge chair (<span className="fp-num">7</span>) and the oak stool (<span className="fp-num">9</span>). I changed the armchair rule:</p>
+        <div style={{ background: 'var(--fp-surface)', padding: 'var(--fp-space-2) 0' }}>
+          <div style={{ ...muted, display: 'flex', alignItems: 'center', gap: 'var(--fp-space-2)', padding: '0 var(--fp-space-3) var(--fp-space-2)' }}><FileCode size={16} /> rules/armchair.json</div>
+          <span data-slot="diff-line" data-kind="del">-  "reorderPoint": 10,</span>
+          <span data-slot="diff-line" data-kind="add">+  "reorderPoint": 6,</span>
+          <span data-slot="diff-line">   "supplier": "Nordic Wood"</span>
+        </div>
+      </>
+    ),
+  },
+]
 
 export function Assistant() {
-  return (
-    <div style={{ display: 'flex', background: 'var(--fp-bg)', minHeight: 520 }}>
-      <Sidebar>
-        <div style={{ padding: 'var(--fp-space-3)' }}><Button size="sm" variant="outline" style={{ width: '100%' }}><Plus size={16} /> New chat</Button></div>
-        <SidebarSection label="Today">
-          <SidebarItem active icon={<MessageSquare size={16} />}>Restock plan</SidebarItem>
-          <SidebarItem icon={<MessageSquare size={16} />}>Return policy copy</SidebarItem>
-        </SidebarSection>
-        <SidebarSection label="Last week">
-          <SidebarItem icon={<MessageSquare size={16} />}>Q4 price check</SidebarItem>
-        </SidebarSection>
-      </Sidebar>
-      <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
-        <div style={{ ...row, padding: 'var(--fp-space-3) var(--fp-space-5)', borderBottom: '1px solid var(--fp-line)' }}>
-          <strong style={{ fontSize: 'var(--fp-text-sm)' }}>Restock plan</strong>
-          <StatusDot status="success">Connected to inventory</StatusDot>
-        </div>
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--fp-space-5)', padding: 'var(--fp-space-5)', maxWidth: 720, width: '100%', margin: '0 auto' }}>
-          <ChatMessage role="user">Which chairs are below 10 units? Lower the reorder point for the armchair to 6.</ChatMessage>
-          <ChatMessage role="assistant">
-            <div data-slot="chat-tool"><Search size={16} /> Searched inventory · <span className="fp-num">3</span> results</div>
-            <p style={{ margin: 'var(--fp-space-3) 0' }}>Three chairs are low: the armchair (<span className="fp-num">4</span>), the lounge chair (<span className="fp-num">7</span>) and the oak stool (<span className="fp-num">9</span>). I changed the armchair rule:</p>
-            <div style={{ background: 'var(--fp-surface)', padding: 'var(--fp-space-2) 0' }}>
-              <div style={{ ...muted, display: 'flex', alignItems: 'center', gap: 'var(--fp-space-2)', padding: '0 var(--fp-space-3) var(--fp-space-2)' }}><FileCode size={16} /> rules/armchair.json</div>
-              <span data-slot="diff-line" data-kind="del">-  "reorderPoint": 10,</span>
-              <span data-slot="diff-line" data-kind="add">+  "reorderPoint": 6,</span>
-              <span data-slot="diff-line">   "supplier": "Nordic Wood"</span>
-            </div>
-          </ChatMessage>
-          <ChatMessage role="assistant">
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--fp-space-2)', color: 'var(--fp-muted)' }}><Spinner /> Drafting the purchase order…</span>
-          </ChatMessage>
-        </div>
-        <div style={{ padding: 'var(--fp-space-4) var(--fp-space-5) var(--fp-space-5)', maxWidth: 720, width: '100%', margin: '0 auto' }}>
-          <div data-slot="chat-composer">
-            <Textarea placeholder="Ask about stock, orders or customers" aria-label="Message" />
-            <div data-slot="chat-composer-bar">
-              <span style={{ ...muted, display: 'inline-flex', alignItems: 'center', gap: 'var(--fp-space-2)' }}><Kbd>⏎</Kbd> send · <Kbd>⇧⏎</Kbd> new line</span>
-              <div style={{ display: 'flex', gap: 'var(--fp-space-1)' }}>
-                <Button size="icon" variant="ghost" aria-label="Attach"><Paperclip size={16} /></Button>
-                <Button size="icon" aria-label="Send"><ArrowUp size={16} /></Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
+  return <Chat01 initialMessages={seed} />
 }
 
 export const screenMap: Record<string, React.ComponentType> = {
@@ -310,4 +225,5 @@ export const screenMap: Record<string, React.ComponentType> = {
   dashboard: Dashboard,
   login: Login,
   settings: Settings,
+  orders: Orders,
 }

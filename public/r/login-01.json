@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "login-01",
+  "type": "registry:block",
+  "title": "Login 01",
+  "description": "Sign-in screen: brand panel and a validated email and password form.",
+  "dependencies": [],
+  "registryDependencies": [
+    "https://iamwilllee.github.io/flatpack/r/flatpack-theme.json",
+    "https://iamwilllee.github.io/flatpack/r/button.json",
+    "https://iamwilllee.github.io/flatpack/r/input.json",
+    "https://iamwilllee.github.io/flatpack/r/checkbox.json",
+    "https://iamwilllee.github.io/flatpack/r/divider.json",
+    "https://iamwilllee.github.io/flatpack/r/field.json",
+    "https://iamwilllee.github.io/flatpack/r/form.json"
+  ],
+  "files": [
+    {
+      "path": "src/components/blocks/login-01.tsx",
+      "type": "registry:block",
+      "target": "components/blocks/login-01.tsx",
+      "content": "import * as React from 'react'\nimport { Button } from '@/components/ui/button'\nimport { Input } from '@/components/ui/input'\nimport { Checkbox } from '@/components/ui/checkbox'\nimport { Divider } from '@/components/ui/divider'\nimport { Field, FieldControl } from '@/components/ui/field'\nimport { Form } from '@/components/ui/form'\n\nexport type SignInValues = { email: string; password: string; remember: boolean }\n\nexport type Login01Props = {\n  /** Brand name in the ink panel. */\n  brand?: string\n  headline?: React.ReactNode\n  /**\n   * Called with the values once the built-in checks pass. Resolve to sign in; resolve to a map of\n   * errors by field name (`{ password: 'Wrong password' }`) to show them under the fields.\n   */\n  onSignIn?: (values: SignInValues) => Promise<Partial<Record<keyof SignInValues, string>> | void> | Partial<Record<keyof SignInValues, string>> | void\n  /** A second way in, such as SSO or a magic link. Hidden when not given. */\n  onOtherMethod?: () => void\n  forgotHref?: string\n}\n\n/**\n * Sign-in screen: an ink panel with the brand on one side, the form on the other. Below 640px of\n * its own width the panel folds away. Email and password are checked on submit; server errors\n * returned from `onSignIn` show under the matching field and clear when the user edits it.\n */\nexport function Login01({ brand = 'Flatpack', headline = 'Build with clarity.', onSignIn, onOtherMethod, forgotHref = '#' }: Login01Props) {\n  const [errors, setErrors] = React.useState<Record<string, string>>({})\n  const [busy, setBusy] = React.useState(false)\n  return (\n    <div data-slot=\"block-login\">\n      <div data-slot=\"block-login-layout\">\n        <div data-slot=\"block-login-panel\" className=\"fp-invert\">\n          <div style={{ fontWeight: 'var(--fp-weight-semibold)' }}>{brand}</div>\n          <div style={{ fontSize: 'var(--fp-text-2xl)', fontWeight: 'var(--fp-weight-semibold)', letterSpacing: 'var(--fp-tracking-display)', lineHeight: 1.1 }}>{headline}</div>\n        </div>\n        <div data-slot=\"block-login-form\">\n          <h2 style={{ fontSize: 'var(--fp-text-lg)', fontWeight: 'var(--fp-weight-semibold)', margin: '0 0 var(--fp-space-2)' }}>Sign in</h2>\n          <p style={{ margin: '0 0 var(--fp-space-5)', color: 'var(--fp-muted)', fontSize: 'var(--fp-text-sm)' }}>Welcome back. Enter your details.</p>\n          <Form\n            errors={errors}\n            onFormSubmit={async (v) => {\n              setBusy(true)\n              try {\n                const result = await onSignIn?.({ email: String(v.email ?? ''), password: String(v.password ?? ''), remember: Boolean(v.remember) })\n                setErrors(result ?? {})\n              } finally {\n                setBusy(false)\n              }\n            }}\n          >\n            <Field label=\"Email\" name=\"email\" required>\n              <FieldControl render={<Input type=\"email\" required autoComplete=\"email\" placeholder=\"you@example.com\" />} />\n            </Field>\n            <Field label=\"Password\" name=\"password\" required>\n              <FieldControl render={<Input type=\"password\" required autoComplete=\"current-password\" />} />\n            </Field>\n            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--fp-space-3)', flexWrap: 'wrap' }}>\n              {/* Form only collects values from controls inside a Field. */}\n              <Field name=\"remember\"><Checkbox defaultChecked label=\"Remember me\" /></Field>\n              <a href={forgotHref} style={{ fontSize: 'var(--fp-text-sm)', color: 'var(--fp-ink)' }}>Forgot password?</a>\n            </div>\n            <Button type=\"submit\" disabled={busy} style={{ width: '100%' }}>{busy ? 'Signing in…' : 'Sign in'}</Button>\n            {onOtherMethod && (\n              <>\n                <Divider label=\"or\" />\n                <Button variant=\"outline\" onClick={onOtherMethod} style={{ width: '100%' }}>Continue with SSO</Button>\n              </>\n            )}\n          </Form>\n        </div>\n      </div>\n    </div>\n  )\n}\n"
+    }
+  ]
+}

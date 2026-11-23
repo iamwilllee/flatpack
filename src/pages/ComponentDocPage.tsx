@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/card'
 import { useI18n } from '@/site/i18n'
 import { docs, type ComponentDoc } from '@/site/componentDocs'
 import { CodeBlock, InlineDemo } from '@/site/DocParts'
+import { REGISTRY_ORIGIN } from '@/site/origin'
 
 export default function ComponentDocPage({ id, onNavigate }: { id: string; onNavigate: (r: 'docs' | 'components') => void }) {
   const { lang, t } = useI18n()
@@ -22,6 +23,9 @@ export default function ComponentDocPage({ id, onNavigate }: { id: string; onNav
     window.addEventListener('hashchange', onHash)
     return () => window.removeEventListener('hashchange', onHash)
   }, [])
+
+  // The registry item is named after the source file, which is not always the doc id (dropdown → dropdown-menu).
+  const installCmd = `npx shadcn@latest add ${REGISTRY_ORIGIN}/r/${doc.importPath.split('/').pop()}.json`
 
   const copy = (key: string, text: string) => {
     navigator.clipboard?.writeText(text).then(() => {
@@ -81,9 +85,9 @@ export default function ComponentDocPage({ id, onNavigate }: { id: string; onNav
         <section id="installation" style={{ scrollMarginTop: 80, marginBottom: 'var(--fp-space-6)' }}>
           <h2 style={{ fontSize: 'var(--fp-text-lg)', fontWeight: 'var(--fp-weight-semibold)', marginBottom: 'var(--fp-space-3)' }}>{t('doc.installation')}</h2>
           <CodeBlock
-            code={`# ${lang === 'zh' ? '复制组件源码到你的项目' : 'copy the component source into your project'}\ncp src/components/ui/${doc.id}.tsx your-project/src/components/ui/\n\n# ${lang === 'zh' ? '引入样式（放在 tailwind 之后）' : 'import the theme (after tailwind)'}\n@import "flatpack.css";`}
+            code={`# ${lang === 'zh' ? '第一次使用：先装主题样式' : 'first time: install the theme'}\nnpx shadcn@latest add ${REGISTRY_ORIGIN}/r/flatpack-theme.json\n\n# ${lang === 'zh' ? '安装组件（依赖的组件会一起装上）' : 'add the component (its dependencies come with it)'}\n${installCmd}`}
             copied={copied === 'install'}
-            onCopy={() => copy('install', `cp src/components/ui/${doc.id}.tsx your-project/src/components/ui/`)}
+            onCopy={() => copy('install', installCmd)}
             label="Terminal"
           />
         </section>

@@ -8,7 +8,7 @@
     "lucide-react"
   ],
   "registryDependencies": [
-    "button"
+    "https://iamwilllee.github.io/flatpack/r/button.json"
   ],
   "files": [
     {

@@ -25,6 +25,8 @@ const src = fs.readFileSync(path.join(ROOT, 'src/site/componentDocs.ts'), 'utf8'
 const { code } = await transform(src, { loader: 'ts', format: 'esm' })
 const { docs } = await import('data:text/javascript;base64,' + Buffer.from(code).toString('base64'))
 
+const registry = JSON.parse(fs.readFileSync(path.join(ROOT, 'registry.json'), 'utf8'))
+
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 const cell = (s) => String(s ?? '').replace(/\|/g, '\\|').replace(/\n/g, ' ')
 const fileOf = (d) => d.importPath.split('/').pop()
@@ -101,6 +103,13 @@ const index = [
   `- [Design language](${BASE}/#/docs): the three rules, tokens, themes and presets`,
   `- [Agent skill](https://github.com/iamwilllee/flatpack/blob/main/skills/flatpack-ui/SKILL.md): component list, imports and constraints for coding agents`,
   `- [Full documentation in one file](${BASE}/llms-full.txt)`,
+  `- [Migrating from shadcn/ui](https://github.com/iamwilllee/flatpack/blob/main/MIGRATION.md): renamed props, forms, token map`,
+  '',
+  '## Blocks',
+  '',
+  'Whole screens, installed into components/blocks/ with `npx shadcn@latest add <url>`.',
+  '',
+  ...registry.items.filter((i) => i.type === 'registry:block').map((i) => `- [${i.title}](${BASE}/r/${i.name}.json): ${i.description}`),
   '',
 ]
 for (const [g, list] of groups) {

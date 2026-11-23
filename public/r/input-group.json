@@ -8,8 +8,8 @@
     "@base-ui/react"
   ],
   "registryDependencies": [
-    "button",
-    "input"
+    "https://iamwilllee.github.io/flatpack/r/button.json",
+    "https://iamwilllee.github.io/flatpack/r/input.json"
   ],
   "files": [
     {

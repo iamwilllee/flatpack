@@ -595,6 +595,24 @@ svg.lucide { stroke-width: 1.5; }
 [data-slot="table-container"] { position: relative; width: 100%; max-width: 100%; min-width: 0; overflow-x: auto; }
 [data-slot="table-caption"] { padding: var(--fp-space-3) var(--fp-space-4); font-size: var(--fp-text-sm); color: var(--fp-muted); text-align: left; caption-side: top; }
 
+/* ---- data table ---------------------------------------------------------- */
+[data-slot="data-table"] { display: flex; flex-direction: column; gap: var(--fp-space-4); min-width: 0; }
+[data-slot="table-head"][data-align="end"], [data-slot="table-cell"][data-align="end"] { text-align: right; font-variant-numeric: tabular-nums; }
+[data-slot="data-table"] [data-select="true"] { width: 1%; padding-right: 0; }
+[data-slot="data-table-sort"] {
+  display: inline-flex; align-items: center; gap: var(--fp-space-1);
+  margin: 0; padding: 0; border: 0; background: transparent;
+  font: inherit; color: inherit; cursor: pointer;
+  transition: color var(--fp-duration) var(--fp-ease);
+}
+[data-align="end"] > [data-slot="data-table-sort"] { flex-direction: row-reverse; }
+[data-slot="data-table-sort"]:hover, [data-slot="data-table-sort"][data-active="true"] { color: var(--fp-ink); }
+[data-slot="data-table-sort-icon"] { display: inline-flex; color: var(--fp-muted); }
+[data-slot="data-table-sort"][data-active="true"] [data-slot="data-table-sort-icon"] { color: var(--fp-ink); }
+[data-slot="table-body"] [data-slot="table-row"][data-selected="true"] { background: var(--fp-surface); }
+[data-slot="data-table"] [data-empty="true"]:hover { background: transparent; }
+[data-slot="data-table-footer"] { display: flex; justify-content: flex-end; }
+
 /* ---- breadcrumb ---------------------------------------------------------- */
 [data-slot="breadcrumb-list"] {
   display: flex; align-items: center; flex-wrap: wrap;
@@ -1308,10 +1326,6 @@ svg.lucide { stroke-width: 1.5; }
 [data-slot="chat-bubble"] { max-width: 80%; font-size: var(--fp-text-sm); line-height: var(--fp-leading-body); }
 [data-slot="chat-message"][data-role="user"] [data-slot="chat-bubble"] { background: var(--fp-surface); padding: var(--fp-space-2) var(--fp-space-3); }
 [data-slot="chat-tool"] { display: flex; align-items: center; gap: var(--fp-space-2); padding: var(--fp-space-2) 0; font-size: var(--fp-text-xs); color: var(--fp-muted); border-top: 1px solid var(--fp-line); border-bottom: 1px solid var(--fp-line); }
-[data-slot="chat-composer"] { border: 1px solid var(--fp-line-strong); transition: border-color var(--fp-duration) var(--fp-ease); }
-[data-slot="chat-composer"]:focus-within { border-color: var(--fp-accent); }
-[data-slot="chat-composer"] [data-slot="textarea"] { border: 0; min-height: 64px; resize: none; }
-[data-slot="chat-composer-bar"] { display: flex; align-items: center; justify-content: space-between; gap: var(--fp-space-2); padding: var(--fp-space-1) var(--fp-space-1) var(--fp-space-1) var(--fp-space-3); }
 [data-slot="diff-line"] { display: block; padding: 0 var(--fp-space-3); font-family: var(--fp-mono); font-size: var(--fp-text-xs); line-height: 1.8; white-space: pre; }
 [data-slot="diff-line"][data-kind="add"] { color: var(--fp-success); }
 [data-slot="diff-line"][data-kind="del"] { color: var(--fp-danger); text-decoration: line-through; text-decoration-thickness: 1px; }
@@ -1548,6 +1562,34 @@ svg.lucide { stroke-width: 1.5; }
 [data-slot="composer-bar"] { display: flex; align-items: center; justify-content: space-between; gap: var(--fp-space-2); padding: var(--fp-space-1) var(--fp-space-1) var(--fp-space-1) var(--fp-space-3); }
 [data-slot="composer-leading"] { display: flex; align-items: center; gap: var(--fp-space-1); min-width: 0; font-size: var(--fp-text-xs); color: var(--fp-muted); }
 [data-slot="composer-actions"] { display: flex; align-items: center; gap: var(--fp-space-1); flex-shrink: 0; }
+
+/* ---- blocks (src/components/blocks) --------------------------------------- */
+/* Each block sizes itself by its own width: the root is a size container and its layout child
+ * answers the @container queries, so a block fits a page, a side panel or a preview alike. */
+[data-slot="block-login"], [data-slot="block-settings"], [data-slot="block-data-table"], [data-slot="block-chat"] { container-type: inline-size; color: var(--fp-ink); background: var(--fp-bg); }
+[data-slot="block-login-layout"] { display: grid; grid-template-columns: 1fr 1fr; min-height: 480px; }
+[data-slot="block-login-panel"] { display: flex; flex-direction: column; justify-content: space-between; gap: var(--fp-space-6); padding: var(--fp-space-7); }
+[data-slot="block-login-form"] { align-self: center; width: 100%; max-width: 400px; margin: 0 auto; padding: var(--fp-space-7); }
+[data-slot="block-settings-layout"] { display: flex; gap: var(--fp-space-6); padding: var(--fp-space-5); min-height: 480px; }
+[data-slot="block-settings-row"] { display: grid; grid-template-columns: 1fr 1fr; gap: var(--fp-space-4); }
+[data-slot="block-data-table-layout"] { display: flex; flex-direction: column; gap: var(--fp-space-4); padding: var(--fp-space-5); min-height: 480px; }
+[data-slot="block-chat-layout"] { display: flex; height: 560px; }
+[data-slot="block-chat-main"] { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+[data-slot="block-chat-log"] { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: var(--fp-space-5); padding: var(--fp-space-5); width: 100%; max-width: 720px; margin: 0 auto; }
+[data-slot="block-chat-input"] { padding: 0 var(--fp-space-5) var(--fp-space-5); width: 100%; max-width: 720px; margin: 0 auto; }
+@container (max-width: 640px) {
+  [data-slot="block-login-layout"] { grid-template-columns: 1fr; }
+  [data-slot="block-login-panel"] { display: none; }
+  [data-slot="block-login-form"] { padding: var(--fp-space-6) var(--fp-space-4); }
+  [data-slot="block-settings-layout"] { flex-direction: column; gap: var(--fp-space-4); padding: var(--fp-space-4); }
+  [data-slot="block-settings-layout"] > [data-slot="sidebar"] { width: 100%; border: 0; }
+  [data-slot="block-settings-row"] { grid-template-columns: 1fr; }
+  [data-slot="block-data-table-layout"] { padding: var(--fp-space-4); }
+}
+@container (max-width: 720px) {
+  [data-slot="block-chat-layout"] > [data-block-chat-list] { display: none; }
+  [data-slot="block-chat-log"], [data-slot="block-chat-input"] { padding-inline: var(--fp-space-4); }
+}
 
 /* ---- entrance reveal (opt-in) -------------------------------------------- */
 /* Only elements with data-reveal animate. "enter" plays once on load; "scroll" waits until

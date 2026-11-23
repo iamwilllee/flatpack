@@ -106,7 +106,7 @@
 
 改 token：编辑 `tokens/flatpack.tokens.json`，再跑 `npm run build:tokens`。`npm run check:design` 会扫描 tsx，发现写死的字号、间距、圆角、阴影或不存在的 `--fp-*` 变量就报错。
 
-## 组件清单（69 个）
+## 组件清单（70 个）
 
 | 批次 | 组件 |
 |---|---|
@@ -118,13 +118,14 @@
 | 第五批：高频件（对照 Astryx） | Textarea、Field / Fieldset、NumberInput、Slider、Combobox、ToggleGroup / ButtonGroup、Toolbar、AlertDialog、Toast、HoverCard、ScrollArea、CommandPalette（⌘K）、Kbd、Spinner、AvatarGroup、CodeBlock |
 | 第六批：中等体量 | Calendar、DatePicker / DateRangePicker、FileInput、MultiSelect、Tree、DescriptionList、ContextMenu、Menubar、Carousel、Lightbox、Timestamp、StatusDot、VisuallyHidden |
 | 第七批：形状按角色 | ChipGroup（独立筛选项，可带数量）；Input 增加 `variant="filled"` 与 `leading` / `trailing` 图标位 |
+| 第九批：数据与区块 | DataTable（排序、多选、分页、空状态）；可安装区块 login-01 / settings-01 / data-table-01 / chat-01（`src/components/blocks/`） |
 | 第八批：对照 coss ui | Drawer（四边滑入、滑动关闭、吸附点）、Form（提交校验、服务端错误）、OtpField、Meter、InputGroup（图标 / 单位 / 按钮同一个边框）、Composer（AI 对话输入框，回车发送，输入法选字不误发）；Field 增加 `validate` / `validationMode` |
 
-共 **69 个组件**。定位从「补高频、避重型」调整为「补高频，重型件只做到够用」：日期、上传、树、多选这类以前排除的件现在提供，但只做通用部分——日历自己实现、不引第三方库，FileInput 只收集文件、不管上传，Tree 只做展开和选择、不做拖拽和懒加载。富文本编辑器、Markdown 渲染、Cascader、Transfer 仍然不做。
+共 **70 个组件**。定位从「补高频、避重型」调整为「补高频，重型件只做到够用」：日期、上传、树、多选这类以前排除的件现在提供，但只做通用部分——日历自己实现、不引第三方库，FileInput 只收集文件、不管上传，Tree 只做展开和选择、不做拖拽和懒加载。富文本编辑器、Markdown 渲染、Cascader、Transfer 仍然不做。
 
 - 第五、六批里能用 Base UI 原语的都用了（Field、NumberField、Slider、Combobox、ToggleGroup、Toolbar、AlertDialog、Toast、PreviewCard、ScrollArea、ContextMenu、Menubar），键盘和无障碍由它负责。
 - StatusDot 按规范做成 8px 方块；Spinner 是三个方块轮流改透明度，只在加载时出现，开启「减少动态效果」时静止。
-- AI 对话部件里，输入框已拆成 Composer；消息、工具调用、思考状态、改动对比仍在 Blocks 的「AI assistant」整屏里，用法稳定后再拆。
+- AI 对话部件里，输入框已拆成 Composer；整屏是可安装区块 chat-01，消息内容可放工具调用和改动对比。消息、工具调用、改动对比本身还没拆成组件。
 
 ## 品牌标识
 
@@ -155,7 +156,7 @@ npm test          # 浏览器冒烟 + 无障碍：全部文档页无报错，主
 - `#/docs` 文档页：安装 / 使用 / 设计原则 / 色板 / 主题切换 / Figma，含每个组件的入口
 - `#/docs/components/:id` **组件文档页**（59 个）：三栏布局——左侧组件列表、中间正文（live 预览 + 代码 / Installation / Usage / 各变体示例 / **API 参数表**）、右侧 On This Page 锚点，顶部有上一个/下一个组件导航。
 - `#/create` 调参页：预设（默认 / 后台紧凑 / 编辑长文 / 全直角 / Catalog / Sage）、模式、密度、正文字体、标题字体、正文字号、标题字重、标题字距、形状、主题，以及可选的暖灰色温。预览是真实整屏（商品页、后台、AI 助手、登录、设置），设置只作用在预览区域。导出 `tokens/overrides.json`、CLI 命令和 CSS 三种格式，预设码写在 URL 里可直接分享。圆角的中间值、单独的强调色、阴影、模糊、厚度不开放；强调色和内容面圆角只随主题整体更换
-- `#/blocks` 整屏示例：10 个场景（Storefront / Product detail / Cart / Dashboard / Workbench / Login / Settings / Product site / Directory / AI assistant），带分类筛选、Preview↔Code 切换与全屏查看。右上角可切换 Flatpack / Catalog / Sage 主题，选择写在 URL（`#/blocks?theme=sage`）里可直接分享；Workbench、Directory、Product site 是可操作的（筛选、分页、对话框新建），不连接任何服务
+- `#/blocks` 整屏示例：11 个场景（Storefront / Product detail / Cart / Dashboard / Workbench / Orders / Login / Settings / Product site / Directory / AI assistant）。Login、Settings、Orders、AI assistant 就是 `src/components/blocks/` 里的可安装区块，代码页显示的是该文件的真实源码，底部给出安装命令，带分类筛选、Preview↔Code 切换与全屏查看。右上角可切换 Flatpack / Catalog / Sage 主题，选择写在 URL（`#/blocks?theme=sage`）里可直接分享；Workbench、Directory、Product site 是可操作的（筛选、分页、对话框新建），不连接任何服务
 - `#/templates` **站点示例**（同样支持三个主题切换）：3 个可真实操作的整站（官网 / 电商 / 后台），浏览器式窗口预览，支持桌面/手机视图、全屏与重置。不是截图——导航、表单、购物车、订单状态都是真的能用。窄容器下自动切换真正的移动布局（后台侧栏改为汉堡按钮 + 抽屉菜单、网格降列、筛选条横滚），不是把桌面版硬压窄
 
 ### 图片来源
@@ -164,7 +165,8 @@ Templates 里的真实照片来自 [Unsplash](https://unsplash.com/license)（�
 
 ## 工程化产物
 
-- `registry.json` + `public/r/*.json`：33 个 shadcn registry 条目，可用 `npx shadcn@latest add <url>/flatpack-theme` 安装
+- `registry.json` + `public/r/*.json`：shadcn registry，包含主题、每个组件和 4 个区块。先装主题 `npx shadcn@latest add https://iamwilllee.github.io/flatpack/r/flatpack-theme.json`，再装组件或区块，如 `…/r/data-table.json`、`…/r/login-01.json`。依赖之间都写成完整 URL，不会误装 shadcn 自带的同名组件
+- [MIGRATION.md](./MIGRATION.md)：从 shadcn/ui 迁移，包括改名对照、表单、token 对照
 - `figma/flatpack-tokens.json`：Tokens Studio 格式（global / light / dark 三个 set），由 `npm run build:tokens` 生成
 - `npm run build`：一次产出站点 + registry + Figma tokens 到 `dist/`
 - `dist/llms.txt` / `dist/llms-full.txt`：给 LLM 读的组件索引和全量文档（[llmstxt.org](https://llmstxt.org) 格式），由 `npm run build:llms` 从 `componentDocs.ts` 生成

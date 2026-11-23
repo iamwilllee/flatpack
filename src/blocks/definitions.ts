@@ -1,5 +1,10 @@
 // Full-screen block definitions for the Blocks gallery.
-// Each block is a real screen composed entirely from Flatpack UI components.
+// Each block is a real screen composed entirely from Flatpack UI components. Blocks with a
+// `registry` name are installable files in src/components/blocks; their code tab shows that file.
+import login01 from '@/components/blocks/login-01.tsx?raw'
+import settings01 from '@/components/blocks/settings-01.tsx?raw'
+import dataTable01 from '@/components/blocks/data-table-01.tsx?raw'
+import chat01 from '@/components/blocks/chat-01.tsx?raw'
 
 export type BlockCategory = 'Commerce' | 'Dashboard' | 'Account' | 'AI' | 'Site'
 
@@ -10,6 +15,8 @@ export type Block = {
   description: string
   descriptionEn: string
   code: string
+  /** Registry item name, for `npx shadcn add <origin>/r/<registry>.json`. */
+  registry?: string
 }
 
 export const categories: ('All' | BlockCategory)[] = ['All', 'Commerce', 'Dashboard', 'Account', 'Site', 'AI']
@@ -133,64 +140,27 @@ export const blocks: Block[] = [
 </main>`,
   },
   {
-    id: 'login', title: 'Login', category: 'Account',
-    description: '登录页：品牌区、表单输入、记住我与第三方登录。',
-    descriptionEn: 'Login page: brand panel, form inputs, remember me, and alternative sign-in.',
-    code: `<div className="grid grid-cols-2 min-h-screen">
-  <div className="fp-invert p-12">
-    <h1>Build with clarity.</h1>
-    <p>Square, black and white, whitespace</p>
-  </div>
-  <div className="p-12">
-    <h2>Sign in</h2>
-    <Label>Email</Label><Input type="email" placeholder="you@example.com" />
-    <Label>Password</Label><Input type="password" />
-    <Checkbox label="Remember me" />
-    <Button className="w-full">Sign in</Button>
-    <Divider label="or" />
-    <Button variant="outline" className="w-full">Continue with another method</Button>
-  </div>
-</div>`,
+    id: 'login', title: 'Login', category: 'Account', registry: 'login-01',
+    description: '登录页：品牌区和带校验的表单。服务端返回的错误显示在对应字段下，窄容器里品牌区自动收起。',
+    descriptionEn: 'Sign-in screen: brand panel and a validated form. Server errors show under their field; the brand panel folds away in a narrow container.',
+    code: login01,
   },
   {
-    id: 'settings', title: 'Settings', category: 'Account',
-    description: '设置页：左侧导航、分栏表单、开关与保存操作。',
-    descriptionEn: 'Settings page: side navigation, two-column form, switches, and save actions.',
-    code: `<div className="grid grid-cols-[200px_1fr] gap-8">
-  <Sidebar><SidebarItem active>Profile</SidebarItem>…</Sidebar></Sidebar>
-  <main>
-    <h1>Profile</h1>
-    <Card>
-      <CardHeader><CardTitle>Basic info</CardTitle></CardHeader>
-      <CardContent>
-        <Label>Name</Label><Input defaultValue="Alex Wang" />
-        <Switch defaultChecked label="New arrivals" />
-        <RadioGroup options={themeOptions} />
-      </CardContent>
-      <CardFooter><Button>Save changes</Button></CardFooter>
-    </Card>
-  </main>
-</div>`,
+    id: 'settings', title: 'Settings', category: 'Account', registry: 'settings-01',
+    description: '设置页：分区导航和个人资料表单，保存前校验，保存后弹出提示。',
+    descriptionEn: 'Settings: section navigation and a profile form, checked before save, confirmed with a toast.',
+    code: settings01,
   },
   {
-    id: 'assistant', title: 'AI assistant', category: 'AI',
-    description: 'AI 助手对话页：会话列表、消息、工具调用、思考状态、改动对比和输入框。对话部件先放在整屏里，用法稳定后再拆成组件。',
-    descriptionEn: 'AI assistant chat: conversation list, messages, tool calls, thinking status, a diff and the composer. The chat parts live in this block until their API settles.',
-    code: `<Sidebar>Conversations…</Sidebar>
-<main>
-  <ChatMessage role="user">Which chairs are below 10 units?</ChatMessage>
-  <ChatMessage role="assistant">
-    <div data-slot="chat-tool"><Search /> Searched inventory · 3 results</div>
-    <p>Three chairs are low…</p>
-    <span data-slot="diff-line" data-kind="del">-  "reorderPoint": 10,</span>
-    <span data-slot="diff-line" data-kind="add">+  "reorderPoint": 6,</span>
-  </ChatMessage>
-  <ChatMessage role="assistant"><Spinner /> Drafting the purchase order…</ChatMessage>
-  <div data-slot="chat-composer">
-    <Textarea placeholder="Ask about stock, orders or customers" />
-    <Button size="icon" variant="ghost"><Paperclip /></Button>
-    <Button size="icon"><ArrowUp /></Button>
-  </div>
-</main>`,
+    id: 'orders', title: 'Orders', category: 'Dashboard', registry: 'data-table-01',
+    description: '订单列表：搜索、带数量的状态筛选、可排序可多选的表格、分页和二次确认的批量删除。',
+    descriptionEn: 'Orders list: search, status chips with counts, a sortable and selectable table, paging and a confirmed bulk delete.',
+    code: dataTable01,
+  },
+  {
+    id: 'assistant', title: 'AI assistant', category: 'AI', registry: 'chat-01',
+    description: 'AI 助手对话页：会话列表、消息和 Composer 输入框。回复可以包含工具调用和改动对比；生成中可停止。',
+    descriptionEn: 'AI assistant: conversation list, messages and the Composer. Replies can hold tool calls and diffs; a running reply can be stopped.',
+    code: chat01,
   },
 ]

@@ -8,6 +8,7 @@ import { Kicker } from '@/components/ui/primitives'
 import { blocks, categories, type BlockCategory } from '@/blocks/definitions'
 import { useI18n } from '@/site/i18n'
 import { screenMap } from '@/blocks/BlockScreens'
+import { REGISTRY_ORIGIN } from '@/site/origin'
 import { ThemeSwitch, themeScope, useFpTheme } from '@/site/ThemeSwitch'
 
 export default function BlocksPage() {
@@ -75,8 +76,8 @@ export default function BlocksPage() {
               )}
 
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 'var(--fp-space-3) var(--fp-space-4)', borderTop: '1px solid var(--fp-line)' }}>
-                <span style={{ fontSize: 'var(--fp-text-xs)', color: 'var(--fp-muted)' }}>{lang === 'zh' ? block.description : (block.descriptionEn ?? block.description)}</span>
-                <code style={{ fontFamily: 'var(--fp-mono)', fontSize: 'var(--fp-text-xs)', color: 'var(--fp-muted)' }}>npx shadcn add {block.id}</code>
+                <span style={{ fontSize: 'var(--fp-text-xs)', color: 'var(--fp-muted)', minWidth: 0 }}>{lang === 'zh' ? block.description : (block.descriptionEn ?? block.description)}</span>
+                {block.registry && <code style={{ fontFamily: 'var(--fp-mono)', fontSize: 'var(--fp-text-xs)', color: 'var(--fp-muted)', overflowWrap: 'anywhere' }}>npx shadcn add {REGISTRY_ORIGIN}/r/{block.registry}.json</code>}
               </div>
             </Card>
           )

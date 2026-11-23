@@ -8,7 +8,7 @@
     "clsx"
   ],
   "registryDependencies": [
-    "lib/utils"
+    "https://iamwilllee.github.io/flatpack/r/utils.json"
   ],
   "files": [
     {

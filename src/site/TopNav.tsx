@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Sun, Moon, Menu, X, ArrowUpRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useI18n, type TKey } from '@/site/i18n'
+import { REPO_URL } from '@/site/origin'
 import { BrandMark } from '@/site/BrandMark'
 
 export type Route = 'home' | 'components' | 'create' | 'blocks' | 'docs' | 'templates'
@@ -14,8 +15,6 @@ const NAV: { id: Route; key: TKey }[] = [
   { id: 'create', key: 'nav.create' },
 ]
 
-// 替换为你的仓库地址
-const REPO_URL = '#'
 
 /**
  * Brand on the left; navigation and actions together on the right.
