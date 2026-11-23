@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "input-group",
+  "type": "registry:ui",
+  "title": "Input Group",
+  "description": "Flatpack UI Input Group component.",
+  "dependencies": [
+    "@base-ui/react"
+  ],
+  "registryDependencies": [
+    "button",
+    "input"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/input-group.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nimport { Input as BaseInput } from '@base-ui/react/input'\nimport { Button, type ButtonProps } from '@/components/ui/button'\nimport type { ControlSize } from '@/components/ui/input'\n\nexport type InputGroupProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {\n  size?: ControlSize\n  variant?: 'outline' | 'filled'\n  disabled?: boolean\n  children: React.ReactNode\n}\n\n/**\n * One field frame around an input plus addons and buttons, drawn once so focus and error states\n * cover the whole row. Put `InputGroupInput` in it, with any number of `InputGroupAddon` (icon,\n * unit, Kbd) and `InputGroupButton` before or after. For a single icon on either side, `Input`'s\n * `leading` / `trailing` props are shorter.\n */\nexport function InputGroup({ size: sizeProp = 'md', variant = 'outline', disabled, className, ...props }: InputGroupProps) {\n  const size = sizeProp === 'default' ? 'md' : sizeProp\n  return <div data-slot=\"input-group\" role=\"group\" data-size={size} data-variant={variant} data-disabled={disabled ? 'true' : undefined} className={className} {...props} />\n}\n\n/** Icon or short text inside the frame. Pass `aria-hidden` on a purely decorative icon. */\nexport function InputGroupAddon({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) {\n  return <span data-slot=\"input-adornment\" className={className} {...props} />\n}\n\n/** The text input. A Base UI input, so it joins Field and forwards `ref`. */\nexport function InputGroupInput({ className, ...props }: React.ComponentProps<'input'>) {\n  return <BaseInput data-slot=\"input-bare\" className={className} {...props} />\n}\n\n/** A small button sitting inside the frame, e.g. Copy or Search. */\nexport function InputGroupButton({ size = 'sm', variant = 'secondary', ...props }: ButtonProps) {\n  return <Button size={size} variant={variant} {...props} />\n}\n"
+    }
+  ]
+}

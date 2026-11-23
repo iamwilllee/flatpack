@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "meter",
+  "type": "registry:ui",
+  "title": "Meter",
+  "description": "Flatpack UI Meter component.",
+  "dependencies": [
+    "@base-ui/react"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/meter.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nimport { Meter as BaseMeter } from '@base-ui/react/meter'\n\nexport type MeterProps = Omit<BaseMeter.Root.Props, 'className' | 'children'> & {\n  label?: React.ReactNode\n  /** Show the formatted value on the right. */\n  showValue?: boolean\n  size?: 'sm' | 'default' | 'lg'\n  className?: string\n}\n\n/**\n * A value inside a known range, such as disk used or a score. Use Progress for a task that\n * finishes. Pass `aria-label` when there is no visible `label`. `format` takes\n * `Intl.NumberFormat` options, e.g. `{ style: 'percent' }` with min 0 and max 1.\n */\nexport function Meter({ label, showValue, size = 'default', className, ...props }: MeterProps) {\n  return (\n    <BaseMeter.Root data-slot=\"meter\" data-size={size} className={className} {...props}>\n      {(label || showValue) && (\n        <div data-slot=\"meter-header\">\n          {label && <BaseMeter.Label data-slot=\"meter-label\">{label}</BaseMeter.Label>}\n          {showValue && <BaseMeter.Value data-slot=\"meter-value\" />}\n        </div>\n      )}\n      <BaseMeter.Track data-slot=\"meter-track\">\n        <BaseMeter.Indicator data-slot=\"meter-bar\" />\n      </BaseMeter.Track>\n    </BaseMeter.Root>\n  )\n}\n"
+    }
+  ]
+}

@@ -37,6 +37,12 @@ import { LightboxGallery } from '@/components/ui/lightbox'
 import { Timestamp } from '@/components/ui/timestamp'
 import { StatusDot } from '@/components/ui/status-dot'
 import { VisuallyHidden } from '@/components/ui/visually-hidden'
+import { Drawer, DrawerTrigger, DrawerContent, DrawerFooter, DrawerClose } from '@/components/ui/drawer'
+import { OtpField } from '@/components/ui/otp-field'
+import { Meter } from '@/components/ui/meter'
+import { Form } from '@/components/ui/form'
+import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupButton } from '@/components/ui/input-group'
+import { Composer } from '@/components/ui/composer'
 import { PHOTOS } from '@/site/photos'
 import { useTheme } from '@/site/theme'
 
@@ -95,8 +101,118 @@ function CalendarDemo() {
   return <Calendar value={date} onValueChange={setDate} />
 }
 
+function FormDemo() {
+  const [sent, setSent] = useState<string | null>(null)
+  const [errors, setErrors] = useState<Record<string, string>>({})
+  return (
+    <div style={col}>
+      <Form
+        errors={errors}
+        onFormSubmit={(v) => {
+          // Pretend the server rejects one address.
+          if (v.email === 'taken@example.com') return setErrors({ email: 'That address already has an account.' })
+          setErrors({})
+          setSent(String(v.email))
+        }}
+      >
+        <Field label="Email" name="email" required description="We send the receipt here.">
+          <FieldControl render={<Input type="email" required placeholder="you@example.com" />} />
+        </Field>
+        <Field label="Password" name="password" required validate={(v) => (String(v ?? '').length < 8 ? 'Use at least 8 characters.' : null)}>
+          <FieldControl render={<Input type="password" required />} />
+        </Field>
+        <Button type="submit">Create account</Button>
+        {sent && <p style={{ margin: 0, fontSize: 'var(--fp-text-sm)', color: 'var(--fp-muted)' }}>Signed up as {sent}.</p>}
+      </Form>
+    </div>
+  )
+}
+
+function OtpDemo() {
+  const [done, setDone] = useState('')
+  return (
+    <div style={{ ...col, alignItems: 'center' }}>
+      <OtpField aria-label="Verification code" length={6} groupSize={3} onValueComplete={setDone} onValueChange={() => setDone('')} />
+      <span style={{ fontSize: 'var(--fp-text-xs)', color: 'var(--fp-muted)', minHeight: '1.6em' }}>{done ? `Entered ${done}` : 'Type or paste the 6-digit code'}</span>
+    </div>
+  )
+}
+
+function ComposerDemo() {
+  const [log, setLog] = useState<string[]>([])
+  const [loading, setLoading] = useState(false)
+  return (
+    <div style={{ ...col, maxWidth: 480 }}>
+      {log.length > 0 && (
+        <div style={{ display: 'grid', gap: 'var(--fp-space-2)', fontSize: 'var(--fp-text-sm)' }}>
+          {log.map((m, i) => <div key={i} style={{ background: 'var(--fp-surface)', padding: 'var(--fp-space-2) var(--fp-space-3)', justifySelf: 'end', maxWidth: '85%' }}>{m}</div>)}
+        </div>
+      )}
+      <Composer
+        placeholder="Ask anything"
+        loading={loading}
+        onStop={() => setLoading(false)}
+        onSubmit={(v) => { setLog((l) => [...l, v]); setLoading(true); window.setTimeout(() => setLoading(false), 1500) }}
+        leading={<span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--fp-space-2)' }}><Kbd>⏎</Kbd> send · <Kbd>⇧⏎</Kbd> new line</span>}
+        actions={<Button size="icon" variant="ghost" aria-label="Attach file"><FilePlus size={16} /></Button>}
+      />
+    </div>
+  )
+}
+
 export function ExtraDemo({ id, variant = 0 }: { id: string; variant?: number }) {
   switch (id) {
+    case 'drawer':
+      return (
+        <div style={{ display: 'flex', gap: 'var(--fp-space-2)', flexWrap: 'wrap', justifyContent: 'center' }}>
+          {variant === 1 ? (
+            <Drawer side="right">
+              <DrawerTrigger>Open from the right</DrawerTrigger>
+              <DrawerContent title="Filters" description="Swipe right to close.">
+                <Field label="Material"><FieldControl render={<Input placeholder="Oak, pine…" />} /></Field>
+                <DrawerFooter><DrawerClose>Cancel</DrawerClose><DrawerClose render={<Button />}>Apply</DrawerClose></DrawerFooter>
+              </DrawerContent>
+            </Drawer>
+          ) : (
+            <Drawer>
+              <DrawerTrigger>Open drawer</DrawerTrigger>
+              <DrawerContent title="Add to cart" description="Swipe down to close.">
+                <p style={{ margin: 0, fontSize: 'var(--fp-text-sm)', color: 'var(--fp-muted)' }}>Oak side table, 45 × 45 cm. Ships in 3 days.</p>
+                <DrawerFooter><DrawerClose>Keep browsing</DrawerClose><DrawerClose render={<Button />}>Add to cart</DrawerClose></DrawerFooter>
+              </DrawerContent>
+            </Drawer>
+          )}
+        </div>
+      )
+    case 'form':
+      return <FormDemo />
+    case 'otp-field':
+      return <OtpDemo />
+    case 'meter':
+      return (
+        <div style={{ ...col, gap: 'var(--fp-space-4)' }}>
+          <Meter label="Storage used" value={68} showValue format={{ style: 'unit', unit: 'gigabyte' }} max={100} />
+          <Meter label="Review score" value={0.9} min={0} max={1} showValue format={{ style: 'percent' }} size="lg" />
+          <Meter aria-label="Battery" value={20} size="sm" />
+        </div>
+      )
+    case 'input-group':
+      return (
+        <div style={col}>
+          <InputGroup>
+            <InputGroupAddon aria-hidden="true"><Search size={16} /></InputGroupAddon>
+            <InputGroupInput aria-label="Search" placeholder="Search products" />
+            <InputGroupAddon><KbdGroup keys={['⌘', 'K']} /></InputGroupAddon>
+          </InputGroup>
+          <InputGroup>
+            <InputGroupAddon>https://</InputGroupAddon>
+            <InputGroupInput aria-label="Site" defaultValue="flatpack.dev" />
+            <InputGroupButton>Copy</InputGroupButton>
+          </InputGroup>
+        </div>
+      )
+    case 'composer':
+      return <ComposerDemo />
     case 'textarea':
       return <div style={col}><div><Label>Delivery notes</Label><Textarea placeholder="Leave it at the front desk" rows={4} /></div></div>
     case 'field':
@@ -330,4 +446,5 @@ export const EXTRA_IDS = [
   'chip-group', 'toggle-group', 'toolbar', 'alert-dialog', 'toast', 'hover-card', 'command-palette', 'context-menu', 'menubar',
   'scroll-area', 'tree', 'description-list', 'carousel', 'lightbox', 'avatar-group', 'status-dot', 'timestamp',
   'kbd', 'spinner', 'reveal', 'code-block', 'visually-hidden',
+  'drawer', 'form', 'otp-field', 'meter', 'input-group', 'composer',
 ]

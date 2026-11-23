@@ -56,11 +56,11 @@ All imports are from `@/components/ui/<name>` (adjust the alias to the target pr
 | Actions | `Button`, `ButtonGroup` / `ToggleGroup` / `Toggle` (`toggle-group`), `Toolbar` + `ToolbarButton/ToolbarToggle/ToolbarGroup/ToolbarSeparator/ToolbarSpacer` |
 | Containers | `Card` + `CardHeader/CardTitle/CardDescription/CardContent/CardFooter` |
 | Labels / status | `Badge`, `StatusDot` (8px square: default / success / danger / idle), `Kbd` / `KbdGroup`, `Kicker` (from `primitives`) |
-| Text input | `Input`, `Label`, `Textarea`, `NumberInput`, `Field` / `Fieldset` / `FieldControl` (label + help + error) |
+| Text input | `Input`, `Label`, `Textarea`, `NumberInput`, `Field` / `Fieldset` / `FieldControl` (label + help + error; `validate`), `Form` (`onFormSubmit(values)`, server `errors`), `InputGroup` + `InputGroupAddon/InputGroupInput/InputGroupButton`, `OtpField` (one-time code), `Composer` (chat message box; `onSubmit(text)`, `loading` + `onStop`) |
 | Choice | `Select`, `Combobox` (typeahead), `MultiSelect` (chips), `Checkbox`, `RadioGroup`, `Switch`, `Segmented`, `Slider` (single or range) |
 | Dates / files | `Calendar`, `DatePicker`, `DateRangePicker`, `FileInput` (collects files only) |
-| Overlays | `Dialog`, `AlertDialog` (confirm; `danger` for destructive), `Sheet`, `Popover`, `HoverCard`, `DropdownMenu`, `ContextMenu`, `Menubar`, `Tooltip`, `CommandPalette` (⌘K), `Lightbox` / `LightboxGallery` |
-| Feedback | `Alert`, `Toast` (mount `<Toaster />` once, call `toast({ title, type })`), `Spinner`, `Skeleton` + `SkeletonText`, `Progress`, `Steps` |
+| Overlays | `Dialog`, `AlertDialog` (confirm; `danger` for destructive), `Sheet`, `Drawer` (swipe to close; `side`, `snapPoints`), `Popover`, `HoverCard`, `DropdownMenu`, `ContextMenu`, `Menubar`, `Tooltip`, `CommandPalette` (⌘K), `Lightbox` / `LightboxGallery` |
+| Feedback | `Alert`, `Toast` (mount `<Toaster />` once, call `toast({ title, type })`), `Spinner`, `Skeleton` + `SkeletonText`, `Progress`, `Meter` (value in a range), `Steps` |
 | Navigation | `Tabs`, `Breadcrumb`, `Pagination`, `Sidebar` + `SidebarSection/SidebarItem` |
 | Data display | `Table` (+ parts), `DescriptionList`, `Tree`, `Image`, `Carousel`, `Avatar`, `AvatarGroup`, `Statistic`, `Timestamp`, `Collapse`, `Empty`, `CodeBlock` / `Code` |
 | Layout / utility | `Divider`, `Separator` (from `primitives`), `ScrollArea`, `Masonry` (waterfall), `VisuallyHidden`, `BorderBeam` (optional decorative border line; not used by default because the rules have no looping animation) |

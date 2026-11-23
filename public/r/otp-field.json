@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "otp-field",
+  "type": "registry:ui",
+  "title": "Otp Field",
+  "description": "Flatpack UI Otp Field component.",
+  "dependencies": [
+    "@base-ui/react"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/otp-field.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nimport { OTPField as BaseOTPField } from '@base-ui/react/otp-field'\n\nexport type OtpFieldProps = Omit<BaseOTPField.Root.Props, 'className' | 'children' | 'length'> & {\n  /** Number of boxes. Default 6. */\n  length?: number\n  /** Print a dash after this many boxes, e.g. 3 gives `123-456`. */\n  groupSize?: number\n  size?: 'sm' | 'md' | 'default' | 'lg'\n  invalid?: boolean\n  className?: string\n  /** Accessible name for box `index` (0-based). Default \"Character 2 of 6\". */\n  getInputLabel?: (index: number, length: number) => string\n}\n\n/**\n * A row of single-character boxes for one-time codes. Typing moves forward, Backspace moves back\n * and pasting a whole code fills every box. Controlled (`value` + `onValueChange`) or uncontrolled\n * (`defaultValue`). `onValueComplete` fires once every box is filled. Name the group with a Field\n * label or `aria-label`.\n */\nexport function OtpField({ length = 6, groupSize, size = 'md', invalid, className, getInputLabel, ...props }: OtpFieldProps) {\n  const sz = size === 'default' ? 'md' : size\n  const label = getInputLabel ?? ((i: number, n: number) => `Character ${i + 1} of ${n}`)\n  const items: React.ReactNode[] = []\n  for (let i = 0; i < length; i++) {\n    if (groupSize && i > 0 && i % groupSize === 0) items.push(<span key={`s${i}`} data-slot=\"otp-separator\" aria-hidden=\"true\" />)\n    items.push(<BaseOTPField.Input key={i} data-slot=\"otp-input\" aria-label={i === 0 ? undefined : label(i, length)} aria-invalid={invalid || undefined} />)\n  }\n  return (\n    <BaseOTPField.Root data-slot=\"otp-field\" data-size={sz} length={length} className={className} {...props}>\n      {items}\n    </BaseOTPField.Root>\n  )\n}\n"
+    }
+  ]
+}

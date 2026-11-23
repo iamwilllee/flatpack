@@ -6,7 +6,7 @@ import path from 'node:path'
 const ROOT = path.resolve(import.meta.dirname, '..')
 const UI_DIR = path.join(ROOT, 'src/components/ui')
 const OUT_R = path.join(ROOT, 'public/r')
-const BASE = process.env.FLATPACK_ORIGIN || 'https://flatpack-ui.github.io/flatpack'
+const BASE = process.env.FLATPACK_ORIGIN || 'https://iamwilllee.github.io/flatpack'
 
 fs.mkdirSync(OUT_R, { recursive: true })
 

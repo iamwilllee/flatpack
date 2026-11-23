@@ -35,7 +35,7 @@ export function TopNav({ route, dark, onTheme, onNavigate }: {
   const link = (active: boolean): React.CSSProperties => ({ color: active ? 'var(--fp-ink)' : 'var(--fp-muted)' })
 
   return (
-    <header className="fp-topnav" style={{ position: 'sticky', top: 0, zIndex: 60, background: 'var(--fp-bg)', color: 'var(--fp-ink)' }}>
+    <header className="fp-topnav" style={{ position: 'sticky', top: 0, zIndex: 40, background: 'var(--fp-bg)', color: 'var(--fp-ink)' }}>
       <div className="fp-container">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--fp-space-5)', height: 64, borderBottom: '1px solid var(--fp-line)' }}>
           <Button variant="ghost" onClick={() => go('home')} className="fp-topnav-brand" aria-label="Flatpack">

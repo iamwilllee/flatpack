@@ -2,7 +2,7 @@
 // props (id, name, aria-*, className, ref) reaching the DOM. Guards the Base UI upgrade path.
 import * as React from 'react'
 import { describe, expect, it, vi } from 'vitest'
-import { render, screen, within } from '@testing-library/react'
+import { render, screen, within, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Switch } from '@/components/ui/switch'
@@ -30,6 +30,13 @@ import { ContextMenu } from '@/components/ui/context-menu'
 import { Menubar } from '@/components/ui/menubar'
 import { Lightbox } from '@/components/ui/lightbox'
 import { Empty } from '@/components/ui/empty'
+import { Drawer, DrawerTrigger, DrawerContent, DrawerClose } from '@/components/ui/drawer'
+import { OtpField } from '@/components/ui/otp-field'
+import { Meter } from '@/components/ui/meter'
+import { Form } from '@/components/ui/form'
+import { Field, FieldControl } from '@/components/ui/field'
+import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupButton } from '@/components/ui/input-group'
+import { Composer } from '@/components/ui/composer'
 
 describe('Checkbox', () => {
   it('is controlled by `checked` and reports changes', async () => {
@@ -425,5 +432,191 @@ describe('size naming', () => {
   it('Button accepts md as an alias of default', () => {
     render(<Button size="md">Go</Button>)
     expect(screen.getByRole('button', { name: 'Go' })).toHaveAttribute('data-size', 'default')
+  })
+})
+
+describe('Drawer', () => {
+  it('opens from the trigger, names itself by title and closes with DrawerClose', async () => {
+    render(
+      <Drawer>
+        <DrawerTrigger>Open</DrawerTrigger>
+        <DrawerContent title="Add to cart" description="Swipe down.">
+          <DrawerClose>Done</DrawerClose>
+        </DrawerContent>
+      </Drawer>,
+    )
+    expect(screen.queryByRole('dialog')).toBeNull()
+    await userEvent.click(screen.getByRole('button', { name: 'Open' }))
+    const dialog = await screen.findByRole('dialog', { name: 'Add to cart' })
+    expect(dialog).toHaveAttribute('data-side', 'bottom')
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Done' }))
+    await vi.waitFor(() => expect(screen.queryByRole('dialog')).toBeNull())
+  })
+  it('is controlled by `open`, takes a side and closes on Escape', async () => {
+    const onOpenChange = vi.fn()
+    render(
+      <Drawer open side="right" onOpenChange={onOpenChange}>
+        <DrawerContent title="Filters">x</DrawerContent>
+      </Drawer>,
+    )
+    expect(await screen.findByRole('dialog', { name: 'Filters' })).toHaveAttribute('data-side', 'right')
+    await userEvent.keyboard('{Escape}')
+    expect(onOpenChange).toHaveBeenCalledWith(false, expect.anything())
+    expect(screen.getByRole('dialog', { name: 'Filters' })).toBeInTheDocument() // controlled: the parent decides
+  })
+  it('shows a named close button on request', async () => {
+    render(
+      <Drawer defaultOpen>
+        <DrawerContent title="T" showCloseButton closeLabel="关闭">x</DrawerContent>
+      </Drawer>,
+    )
+    expect(await screen.findByRole('button', { name: '关闭' })).toBeInTheDocument()
+  })
+})
+
+describe('OtpField', () => {
+  it('fills boxes while typing and reports the complete code once', async () => {
+    const onComplete = vi.fn()
+    render(<OtpField aria-label="Code" length={4} onValueComplete={onComplete} />)
+    const boxes = screen.getAllByRole('textbox')
+    expect(boxes).toHaveLength(4)
+    await userEvent.click(boxes[0])
+    await userEvent.keyboard('1234')
+    expect(boxes.map((b) => (b as HTMLInputElement).value).join('')).toBe('1234')
+    expect(onComplete).toHaveBeenCalledTimes(1)
+    expect(onComplete.mock.calls[0][0]).toBe('1234')
+  })
+  it('is controlled by `value` and ignores letters in numeric mode', async () => {
+    const onChange = vi.fn()
+    render(<OtpField aria-label="Code" length={4} value="12" onValueChange={onChange} />)
+    const boxes = screen.getAllByRole('textbox') as HTMLInputElement[]
+    expect(boxes.map((b) => b.value).join('')).toBe('12')
+    await userEvent.click(boxes[2])
+    await userEvent.keyboard('a')
+    expect(onChange).not.toHaveBeenCalled()
+  })
+  it('draws a separator between groups and names every box after the first', () => {
+    const { container } = render(<OtpField aria-label="Code" length={6} groupSize={3} />)
+    expect(container.querySelectorAll('[data-slot="otp-separator"]')).toHaveLength(1)
+    expect(screen.getByRole('textbox', { name: 'Character 4 of 6' })).toBeInTheDocument()
+  })
+})
+
+describe('Meter', () => {
+  it('is a meter with a name, value and range', () => {
+    render(<Meter label="Storage" value={68} showValue />)
+    const m = screen.getByRole('meter', { name: 'Storage' })
+    expect(m).toHaveAttribute('aria-valuenow', '68')
+    expect(m).toHaveAttribute('aria-valuemin', '0')
+    expect(m).toHaveAttribute('aria-valuemax', '100')
+  })
+  it('sizes the bar by the position inside min and max', () => {
+    const { container } = render(<Meter aria-label="Score" value={0.25} min={0} max={1} />)
+    expect((container.querySelector('[data-slot="meter-bar"]') as HTMLElement).style.width).toBe('25%')
+  })
+})
+
+describe('Form', () => {
+  it('blocks submit while a required field is empty, then passes values keyed by name', async () => {
+    const onSubmit = vi.fn()
+    render(
+      <Form onFormSubmit={onSubmit}>
+        <Field label="Email" name="email" required><FieldControl render={<Input required />} /></Field>
+        <button type="submit">Go</button>
+      </Form>,
+    )
+    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
+    expect(onSubmit).not.toHaveBeenCalled()
+    await userEvent.type(screen.getByRole('textbox'), 'a@b.co')
+    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit.mock.calls[0][0]).toEqual({ email: 'a@b.co' })
+  })
+  it('shows a custom `validate` message and an external `errors` message', async () => {
+    const { rerender } = render(
+      <Form onFormSubmit={() => {}}>
+        <Field label="Pw" name="pw" validate={(v) => (String(v).length < 3 ? 'Too short' : null)}><FieldControl render={<Input />} /></Field>
+        <button type="submit">Go</button>
+      </Form>,
+    )
+    await userEvent.type(screen.getByRole('textbox'), 'a')
+    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
+    expect(await screen.findByText('Too short')).toBeInTheDocument()
+    rerender(
+      <Form errors={{ pw: 'Already used' }} onFormSubmit={() => {}}>
+        <Field label="Pw" name="pw"><FieldControl render={<Input />} /></Field>
+      </Form>,
+    )
+    expect(await screen.findByText('Already used')).toBeInTheDocument()
+  })
+  it('keeps the Field `error` prop working outside a Form', () => {
+    render(<Field label="Name" error="Required"><FieldControl render={<Input />} /></Field>)
+    expect(screen.getByText('Required')).toBeInTheDocument()
+  })
+})
+
+describe('InputGroup', () => {
+  it('frames the input with addons and a button, and the input keeps its name and value', async () => {
+    const onClick = vi.fn()
+    const { container } = render(
+      <InputGroup>
+        <InputGroupAddon>https://</InputGroupAddon>
+        <InputGroupInput aria-label="Site" name="site" defaultValue="a.dev" />
+        <InputGroupButton onClick={onClick}>Copy</InputGroupButton>
+      </InputGroup>,
+    )
+    expect(container.querySelector('[data-slot="input-group"]')).toBeTruthy()
+    expect(screen.getByRole('textbox', { name: 'Site' })).toHaveValue('a.dev')
+    await userEvent.click(screen.getByRole('button', { name: 'Copy' }))
+    expect(onClick).toHaveBeenCalled()
+  })
+  it('joins a Field label', () => {
+    render(<Field label="Site"><InputGroup><InputGroupInput /></InputGroup></Field>)
+    expect(screen.getByRole('textbox', { name: 'Site' })).toBeInTheDocument()
+  })
+})
+
+describe('Composer', () => {
+  it('sends trimmed text on Enter and clears, but Shift+Enter only adds a line', async () => {
+    const onSubmit = vi.fn()
+    render(<Composer onSubmit={onSubmit} />)
+    const box = screen.getByRole('textbox', { name: 'Message' })
+    await userEvent.type(box, '  hello{Shift>}{Enter}{/Shift}world  ')
+    expect(onSubmit).not.toHaveBeenCalled()
+    expect(box).toHaveValue('  hello\nworld  ')
+    await userEvent.keyboard('{Enter}')
+    expect(onSubmit).toHaveBeenCalledWith('hello\nworld')
+    expect(box).toHaveValue('')
+  })
+  it('does not send empty text and disables the send button until there is some', async () => {
+    const onSubmit = vi.fn()
+    render(<Composer onSubmit={onSubmit} />)
+    expect(screen.getByRole('button', { name: 'Send' })).toBeDisabled()
+    await userEvent.type(screen.getByRole('textbox'), '   {Enter}')
+    expect(onSubmit).not.toHaveBeenCalled()
+  })
+  it('does not send while an IME composition is confirming', () => {
+    const onSubmit = vi.fn()
+    render(<Composer onSubmit={onSubmit} defaultValue="nihao" />)
+    const box = screen.getByRole('textbox')
+    fireEvent.keyDown(box, { key: 'Enter', isComposing: true })
+    fireEvent.keyDown(box, { key: 'Enter', keyCode: 229 })
+    expect(onSubmit).not.toHaveBeenCalled()
+    fireEvent.keyDown(box, { key: 'Enter' })
+    expect(onSubmit).toHaveBeenCalledWith('nihao')
+  })
+  it('is controlled, keeps the text when clearOnSubmit is off, and swaps send for stop while loading', async () => {
+    const onChange = vi.fn()
+    const onStop = vi.fn()
+    const { rerender } = render(<Composer value="hi" onValueChange={onChange} clearOnSubmit={false} onSubmit={() => {}} />)
+    await userEvent.keyboard('{Enter}')
+    expect(screen.getByRole('textbox')).toHaveValue('hi')
+    await userEvent.type(screen.getByRole('textbox'), '!')
+    expect(onChange).toHaveBeenCalledWith('hi!')
+    expect(screen.getByRole('textbox')).toHaveValue('hi') // controlled: the parent decides
+    rerender(<Composer value="hi" loading onStop={onStop} />)
+    expect(screen.queryByRole('button', { name: 'Send' })).toBeNull()
+    await userEvent.click(screen.getByRole('button', { name: 'Stop' }))
+    expect(onStop).toHaveBeenCalled()
   })
 })

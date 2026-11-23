@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "form",
+  "type": "registry:ui",
+  "title": "Form",
+  "description": "Flatpack UI Form component.",
+  "dependencies": [
+    "@base-ui/react"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/form.tsx",
+      "type": "registry:ui",
+      "content": "import { Form as BaseForm } from '@base-ui/react/form'\n\nexport type FormProps<Values extends Record<string, any> = Record<string, any>> = Omit<BaseForm.Props<Values>, 'className'> & {\n  className?: string\n}\n\n/**\n * A `<form>` that works with Field. On submit it checks every control, focuses the first invalid\n * one and, if all pass, calls `onFormSubmit(values)` with the values keyed by control `name`.\n * Pass server-side errors as `errors={{ email: 'Already taken' }}`; they show in the matching\n * Field and clear when the user edits it. `validationMode` is `onSubmit` (default), `onBlur`\n * or `onChange`.\n */\nexport function Form<Values extends Record<string, any> = Record<string, any>>({ className, ...props }: FormProps<Values>) {\n  return <BaseForm<Values> data-slot=\"form\" className={className} {...props} />\n}\n"
+    }
+  ]
+}

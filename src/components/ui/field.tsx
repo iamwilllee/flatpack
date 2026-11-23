@@ -10,14 +10,19 @@ export type FieldProps = {
   required?: boolean
   disabled?: boolean
   name?: string
+  /** Custom check, run per `validationMode`. Return a message (or several) when invalid; return nothing when valid. */
+  validate?: BaseField.Root.Props['validate']
+  /** When to run `validate`: on submit (default inside Form), on blur or on change. */
+  validationMode?: BaseField.Root.Props['validationMode']
   className?: string
   children: React.ReactNode
 }
 
 /** Label, help text and error message around one control. */
-export function Field({ label, description, error, required, disabled, name, className, children }: FieldProps) {
+export function Field({ label, description, error, required, disabled, name, validate, validationMode, className, children }: FieldProps) {
+  const hasError = error != null && error !== false
   return (
-    <BaseField.Root data-slot="field" invalid={error != null && error !== false} disabled={disabled} name={name} className={className}>
+    <BaseField.Root data-slot="field" invalid={hasError || undefined} disabled={disabled} name={name} validate={validate} validationMode={validationMode} className={className}>
       {label != null && (
         <BaseField.Label data-slot="field-label">
           {label}
@@ -25,8 +30,9 @@ export function Field({ label, description, error, required, disabled, name, cla
         </BaseField.Label>
       )}
       {children}
-      {description != null && !error && <BaseField.Description data-slot="field-description">{description}</BaseField.Description>}
-      {error != null && error !== false && <BaseField.Error data-slot="field-error" match>{error}</BaseField.Error>}
+      {description != null && !hasError && <BaseField.Description data-slot="field-description">{description}</BaseField.Description>}
+      {/* An `error` prop is always shown. Without one, Base UI fills this from Form `errors` or from `validate`. */}
+      {hasError ? <BaseField.Error data-slot="field-error" match>{error}</BaseField.Error> : <BaseField.Error data-slot="field-error" />}
     </BaseField.Root>
   )
 }

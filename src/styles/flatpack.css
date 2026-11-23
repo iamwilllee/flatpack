@@ -1422,6 +1422,131 @@ svg.lucide { stroke-width: 1.5; }
 [data-slot="chip"][data-disabled] { opacity: 0.4; pointer-events: none; }
 [data-slot="chip-count"] { font-family: var(--fp-mono); font-size: var(--fp-text-xs); font-variant-numeric: tabular-nums; color: var(--fp-muted); }
 [data-slot="chip"][data-pressed] [data-slot="chip-count"] { color: var(--fp-line-strong); }
+/* ---- drawer -------------------------------------------------------------- */
+/* Slides from an edge and closes with a swipe. The popup reaches --fp-drawer-bleed past the edge so a
+ * hard swipe never shows a gap. Same finish as Sheet: bg, one line, the pop shadow. */
+[data-slot="drawer-overlay"] {
+  --fp-drawer-bleed: 3rem;
+  position: fixed; inset: 0; z-index: 50; min-height: 100dvh;
+  background: var(--fp-scrim);
+  opacity: calc(1 - var(--drawer-swipe-progress, 0));
+  transition: opacity var(--fp-duration) var(--fp-ease);
+}
+[data-slot="drawer-overlay"][data-starting-style], [data-slot="drawer-overlay"][data-ending-style] { opacity: 0; }
+[data-slot="drawer-overlay"][data-swiping] { transition-duration: 0ms; }
+[data-slot="drawer-viewport"] { position: fixed; inset: 0; z-index: 51; display: flex; }
+[data-slot="drawer-viewport"][data-side="bottom"] { align-items: flex-end; justify-content: center; }
+[data-slot="drawer-viewport"][data-side="top"] { align-items: flex-start; justify-content: center; }
+[data-slot="drawer-viewport"][data-side="right"] { justify-content: flex-end; }
+[data-slot="drawer-viewport"][data-side="left"] { justify-content: flex-start; }
+[data-slot="drawer-content"] {
+  --fp-drawer-bleed: 3rem;
+  position: relative; box-sizing: border-box;
+  background: var(--fp-bg); color: var(--fp-ink);
+  border: 1px solid var(--fp-line); border-radius: var(--fp-radius-surface);
+  box-shadow: var(--fp-shadow-pop);
+  outline: 0; overflow-y: auto; overscroll-behavior: contain;
+  transition: transform var(--fp-duration) var(--fp-ease);
+  will-change: transform;
+}
+[data-slot="drawer-content"][data-swiping] { user-select: none; transition-duration: 0ms; }
+[data-slot="drawer-content"][data-side="bottom"] {
+  width: min(100%, 640px); max-height: calc(85dvh + var(--fp-drawer-bleed));
+  margin-bottom: calc(-1 * var(--fp-drawer-bleed));
+  padding: var(--fp-space-3) var(--fp-space-6) calc(var(--fp-space-6) + var(--fp-drawer-bleed) + env(safe-area-inset-bottom, 0px));
+  border-bottom: 0;
+  transform: translateY(calc(var(--drawer-snap-point-offset, 0px) + var(--drawer-swipe-movement-y, 0px)));
+}
+[data-slot="drawer-content"][data-side="top"] {
+  width: min(100%, 640px); max-height: calc(85dvh + var(--fp-drawer-bleed));
+  margin-top: calc(-1 * var(--fp-drawer-bleed));
+  padding: calc(var(--fp-space-6) + var(--fp-drawer-bleed)) var(--fp-space-6) var(--fp-space-6);
+  border-top: 0;
+  transform: translateY(var(--drawer-swipe-movement-y, 0px));
+}
+[data-slot="drawer-content"][data-side="right"] {
+  width: calc(min(400px, 90vw) + var(--fp-drawer-bleed)); height: 100%;
+  margin-right: calc(-1 * var(--fp-drawer-bleed));
+  padding: var(--fp-space-6) calc(var(--fp-space-6) + var(--fp-drawer-bleed)) var(--fp-space-6) var(--fp-space-6);
+  border-right: 0;
+  transform: translateX(var(--drawer-swipe-movement-x, 0px));
+}
+[data-slot="drawer-content"][data-side="left"] {
+  width: calc(min(400px, 90vw) + var(--fp-drawer-bleed)); height: 100%;
+  margin-left: calc(-1 * var(--fp-drawer-bleed));
+  padding: var(--fp-space-6) var(--fp-space-6) var(--fp-space-6) calc(var(--fp-space-6) + var(--fp-drawer-bleed));
+  border-left: 0;
+  transform: translateX(var(--drawer-swipe-movement-x, 0px));
+}
+[data-slot="drawer-content"][data-side="bottom"][data-starting-style], [data-slot="drawer-content"][data-side="bottom"][data-ending-style] { transform: translateY(calc(100% - var(--fp-drawer-bleed) + 2px)); }
+[data-slot="drawer-content"][data-side="top"][data-starting-style], [data-slot="drawer-content"][data-side="top"][data-ending-style] { transform: translateY(calc(-100% + var(--fp-drawer-bleed) - 2px)); }
+[data-slot="drawer-content"][data-side="right"][data-starting-style], [data-slot="drawer-content"][data-side="right"][data-ending-style] { transform: translateX(calc(100% - var(--fp-drawer-bleed) + 2px)); }
+[data-slot="drawer-content"][data-side="left"][data-starting-style], [data-slot="drawer-content"][data-side="left"][data-ending-style] { transform: translateX(calc(-100% + var(--fp-drawer-bleed) - 2px)); }
+[data-slot="drawer-handle"] { width: 36px; height: 4px; margin: 0 auto var(--fp-space-4); background: var(--fp-line-strong); border-radius: var(--fp-radius-surface); }
+[data-slot="drawer-body"] { width: 100%; max-width: 32rem; margin: 0 auto; }
+[data-slot="drawer-header"] { display: flex; flex-direction: column; gap: var(--fp-space-2); margin-bottom: var(--fp-space-5); }
+[data-slot="drawer-title"] { font-size: var(--fp-text-lg); font-weight: var(--fp-weight-semibold); margin: 0; }
+[data-slot="drawer-description"] { font-size: var(--fp-text-sm); color: var(--fp-muted); margin: 0; }
+[data-slot="drawer-footer"] { display: flex; justify-content: flex-end; gap: var(--fp-space-2); margin-top: var(--fp-space-5); }
+
+/* ---- otp field ----------------------------------------------------------- */
+[data-slot="otp-field"] { --fp-otp-box: var(--fp-control-md); display: inline-flex; align-items: center; gap: var(--fp-space-2); }
+[data-slot="otp-field"][data-size="sm"] { --fp-otp-box: var(--fp-control-sm); }
+[data-slot="otp-field"][data-size="lg"] { --fp-otp-box: var(--fp-control-lg); }
+[data-slot="otp-input"] {
+  width: var(--fp-otp-box); height: var(--fp-otp-box); padding: 0;
+  background: transparent; text-align: center;
+  border: 1px solid var(--fp-line-strong); border-radius: var(--fp-radius-surface);
+  font-family: var(--fp-mono); font-size: var(--fp-text-base); font-variant-numeric: tabular-nums;
+  outline: none; caret-color: var(--fp-accent);
+  transition: border-color var(--fp-duration) var(--fp-ease);
+}
+[data-slot="otp-input"]:hover { border-color: var(--fp-muted); }
+[data-slot="otp-input"]:focus { border-color: var(--fp-accent); outline: 2px solid var(--fp-accent); outline-offset: 2px; }
+[data-slot="otp-input"][aria-invalid="true"], [data-slot="field"][data-invalid] [data-slot="otp-input"] { border-color: var(--fp-danger); }
+[data-slot="otp-input"][data-disabled] { opacity: 0.4; pointer-events: none; }
+[data-slot="otp-separator"] { width: var(--fp-space-2); height: 1px; background: var(--fp-line-strong); flex-shrink: 0; }
+
+/* ---- meter --------------------------------------------------------------- */
+[data-slot="meter"] { display: flex; flex-direction: column; gap: var(--fp-space-2); width: 100%; min-width: 0; }
+[data-slot="meter-header"] { display: flex; justify-content: space-between; align-items: baseline; gap: var(--fp-space-3); }
+[data-slot="meter-label"] { font-size: var(--fp-text-sm); font-weight: var(--fp-weight-medium); }
+[data-slot="meter-value"] { font-family: var(--fp-mono); font-size: var(--fp-text-xs); font-variant-numeric: tabular-nums; color: var(--fp-muted); white-space: nowrap; }
+[data-slot="meter-track"] { width: 100%; height: 4px; overflow: hidden; background: var(--fp-line); border-radius: var(--fp-radius-surface); }
+[data-slot="meter"][data-size="sm"] [data-slot="meter-track"] { height: 2px; }
+[data-slot="meter"][data-size="lg"] [data-slot="meter-track"] { height: 8px; }
+[data-slot="meter-bar"] { height: 100%; background: var(--fp-accent); border-radius: var(--fp-radius-surface); }
+
+/* ---- form ---------------------------------------------------------------- */
+[data-slot="form"] { display: flex; flex-direction: column; gap: var(--fp-space-4); width: 100%; min-width: 0; }
+
+/* ---- input group (composed) ---------------------------------------------- */
+/* The frame is drawn by [data-slot="input-group"] above. A button inside sits close to the edge. */
+[data-slot="input-group"] > [data-slot="button"] { flex-shrink: 0; margin-right: calc(-1 * var(--fp-space-2)); }
+[data-slot="input-group"][data-size="sm"] > [data-slot="button"] { height: calc(var(--fp-control-sm) - var(--fp-space-2)); }
+[data-slot="input-group"][data-variant="filled"] [data-slot="input-bare"]:focus-visible { outline: none; }
+
+/* ---- composer ------------------------------------------------------------ */
+[data-slot="composer"] {
+  display: flex; flex-direction: column; width: 100%;
+  background: var(--fp-bg);
+  border: 1px solid var(--fp-line-strong); border-radius: var(--fp-radius-surface);
+  transition: border-color var(--fp-duration) var(--fp-ease);
+}
+[data-slot="composer"]:hover { border-color: var(--fp-muted); }
+[data-slot="composer"]:focus-within { border-color: var(--fp-accent); }
+[data-slot="composer"][data-disabled="true"] { opacity: 0.4; pointer-events: none; }
+[data-slot="composer-input"] {
+  display: block; width: 100%; min-height: 44px; margin: 0;
+  padding: var(--fp-space-3) var(--fp-space-4) var(--fp-space-1);
+  background: transparent; border: 0; outline: none; resize: none;
+  font-size: var(--fp-text-sm); line-height: var(--fp-leading-body);
+}
+[data-slot="composer-input"]::placeholder { color: var(--fp-muted); }
+[data-slot="composer-bar"] { display: flex; align-items: center; justify-content: space-between; gap: var(--fp-space-2); padding: var(--fp-space-1) var(--fp-space-1) var(--fp-space-1) var(--fp-space-3); }
+[data-slot="composer-leading"] { display: flex; align-items: center; gap: var(--fp-space-1); min-width: 0; font-size: var(--fp-text-xs); color: var(--fp-muted); }
+[data-slot="composer-actions"] { display: flex; align-items: center; gap: var(--fp-space-1); flex-shrink: 0; }
+
 /* ---- entrance reveal (opt-in) -------------------------------------------- */
 /* Only elements with data-reveal animate. "enter" plays once on load; "scroll" waits until
  * RevealGroup sees it. Pace and distance come from the theme. The end state has no transform,
