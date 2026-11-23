@@ -495,6 +495,10 @@ describe('OtpField', () => {
     await userEvent.keyboard('a')
     expect(onChange).not.toHaveBeenCalled()
   })
+  it('names the first box from aria-label even though Base UI ignores it there', () => {
+    render(<OtpField aria-label="Verification code" length={4} />)
+    expect(screen.getByRole('textbox', { name: 'Verification code' })).toBeInTheDocument()
+  })
   it('draws a separator between groups and names every box after the first', () => {
     const { container } = render(<OtpField aria-label="Code" length={6} groupSize={3} />)
     expect(container.querySelectorAll('[data-slot="otp-separator"]')).toHaveLength(1)

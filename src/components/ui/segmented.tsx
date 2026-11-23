@@ -41,6 +41,7 @@ export function Segmented<T extends string>({ options, value, defaultValue, onVa
           data-active={current === o.value}
           role="tab"
           aria-selected={current === o.value}
+          aria-pressed={undefined}
           disabled={o.disabled}
           key={o.value}
         >

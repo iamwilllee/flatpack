@@ -60,7 +60,7 @@ export function TopNav({ route, dark, onTheme, onNavigate }: {
                 {dark ? <Sun size={16} /> : <Moon size={16} />}
               </Button>
             </div>
-            <a href={REPO_URL} target="_blank" rel="noreferrer" data-slot="button" data-variant="outline" data-size="sm" aria-label={t('nav.repo')}>
+            <a href={REPO_URL} target="_blank" rel="noreferrer" data-slot="button" data-variant="outline" data-size="sm" aria-label={`GitHub, ${t('nav.repo')}`}>
               GitHub <ArrowUpRight size={16} />
             </a>
             <Button variant="ghost" size="icon-sm" className="fp-topnav-menu" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu" aria-expanded={menuOpen} style={{ display: 'none' }}>

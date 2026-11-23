@@ -18,7 +18,7 @@ export function Progress({ value, max = 100, label, showValue, size = 'default',
     <BaseProgress.Root value={current} max={total} data-slot="progress" data-size={size} {...rest}>
       {(label || showValue) && (
         <div data-slot="progress-header">
-          {label && <span data-slot="progress-label">{label}</span>}
+          {label && <BaseProgress.Label data-slot="progress-label">{label}</BaseProgress.Label>}
           {showValue && <span data-slot="progress-value">{Math.round(pct)}%</span>}
         </div>
       )}

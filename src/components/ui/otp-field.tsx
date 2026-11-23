@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { OTPField as BaseOTPField } from '@base-ui/react/otp-field'
+import { VisuallyHidden } from '@/components/ui/visually-hidden'
 
 export type OtpFieldProps = Omit<BaseOTPField.Root.Props, 'className' | 'children' | 'length'> & {
   /** Number of boxes. Default 6. */
@@ -20,15 +21,28 @@ export type OtpFieldProps = Omit<BaseOTPField.Root.Props, 'className' | 'childre
  * label or `aria-label`.
  */
 export function OtpField({ length = 6, groupSize, size = 'md', invalid, className, getInputLabel, ...props }: OtpFieldProps) {
+  // Base UI ignores aria-label on the first box (a screen reader lands there first), so the name is
+  // carried by a hidden text node that the first box points to.
+  const ariaLabel = props['aria-label']
+  const nameId = React.useId()
   const sz = size === 'default' ? 'md' : size
   const label = getInputLabel ?? ((i: number, n: number) => `Character ${i + 1} of ${n}`)
   const items: React.ReactNode[] = []
   for (let i = 0; i < length; i++) {
     if (groupSize && i > 0 && i % groupSize === 0) items.push(<span key={`s${i}`} data-slot="otp-separator" aria-hidden="true" />)
-    items.push(<BaseOTPField.Input key={i} data-slot="otp-input" aria-label={i === 0 ? undefined : label(i, length)} aria-invalid={invalid || undefined} />)
+    items.push(
+      <BaseOTPField.Input
+        key={i}
+        data-slot="otp-input"
+        aria-label={i === 0 ? undefined : label(i, length)}
+        aria-labelledby={i === 0 && ariaLabel ? nameId : undefined}
+        aria-invalid={invalid || undefined}
+      />,
+    )
   }
   return (
     <BaseOTPField.Root data-slot="otp-field" data-size={sz} length={length} className={className} {...props}>
+      {ariaLabel && <VisuallyHidden id={nameId}>{ariaLabel}</VisuallyHidden>}
       {items}
     </BaseOTPField.Root>
   )

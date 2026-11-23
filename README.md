@@ -23,7 +23,7 @@
 | `--fp-surface` | `#f5f5f5` | `#0a0a0a` | 抬升面、占位图 |
 | `--fp-line` | `#e5e5e5` | `#262626` | 唯一的线色 |
 | `--fp-line-strong` | `#a3a3a3` | `#525252` | 输入框、悬停时的边框 |
-| `--fp-muted` | `#737373` | `#a3a3a3` | 次要文字（只有这一个） |
+| `--fp-muted` | `#6b6b6b` | `#a3a3a3` | 次要文字（只有这一个） |
 | `--fp-ink` | `#0a0a0a` | `#fafafa` | 文字、边框强调 |
 | `--fp-accent` | `--fp-ink` | `--fp-ink` | 主按钮、选中、激活态、焦点框。默认就是墨色，主题可以换成品牌色 |
 | `--fp-on-accent` | `--fp-bg` | `--fp-bg` | 强调色上的文字和图标 |
@@ -31,7 +31,7 @@
 | `--fp-success` | `#2e7d32` | `#66bb6a` | 成功，只用于文字和图标 |
 | `--fp-scrim` | `rgba(0, 0, 0, 0.4)` | `rgba(0, 0, 0, 0.7)` | 弹窗背后的遮罩 |
 
-灰阶 10 级：`#ffffff` · `#fafafa` · `#f5f5f5` · `#e5e5e5` · `#a3a3a3` · `#737373` · `#525252` · `#262626` · `#0a0a0a` · `#000000`
+灰阶 10 级：`#ffffff` · `#fafafa` · `#f5f5f5` · `#e5e5e5` · `#a3a3a3` · `#6b6b6b` · `#525252` · `#262626` · `#0a0a0a` · `#000000`
 
 ### 字体与字号
 
@@ -139,7 +139,7 @@ npm install --cache ./.npm-cache
 npm run dev       # http://localhost:5199
 npm run build     # 产物在 dist/
 npm run test:unit # 组件契约：受控/非受控、props 透传、本地化标签（vitest + jsdom）
-npm test          # 浏览器冒烟：全部文档页无报错，主要交互和主题切换（Playwright）
+npm test          # 浏览器冒烟 + 无障碍：全部文档页无报错，主要交互、滑动手势和主题切换；axe 扫描每个文档页的浅色和深色（Playwright）
 ```
 
 表单控件和浮层都支持受控（`value` / `open` / `checked` + `on…Change`）和非受控（`default…`）两种用法，Base UI 的其余属性（`id`、`name`、`required`、`aria-*`、`className`、`ref`）原样透传。弹窗类的触发器和关闭按钮支持 `render`，可换成自己的元素。会被屏幕阅读器读到的文案（关闭、分页、面包屑等）都有对应的 label 属性，默认英文，产品按自己的语言传入。
@@ -167,6 +167,9 @@ Templates 里的真实照片来自 [Unsplash](https://unsplash.com/license)（�
 - `registry.json` + `public/r/*.json`：33 个 shadcn registry 条目，可用 `npx shadcn@latest add <url>/flatpack-theme` 安装
 - `figma/flatpack-tokens.json`：Tokens Studio 格式（global / light / dark 三个 set），由 `npm run build:tokens` 生成
 - `npm run build`：一次产出站点 + registry + Figma tokens 到 `dist/`
+- `dist/llms.txt` / `dist/llms-full.txt`：给 LLM 读的组件索引和全量文档（[llmstxt.org](https://llmstxt.org) 格式），由 `npm run build:llms` 从 `componentDocs.ts` 生成
+- `dist/docs/<id>.md`：每个组件一份纯 Markdown（安装命令、用法、示例、API）
+- `dist/docs/<id>/index.html`：每个组件一个可被搜索引擎收录的静态页（标题、描述、canonical、Open Graph），打开后跳到 `#/docs/components/<id>`；另有 `sitemap.xml` 和 `robots.txt`
 - `skills/flatpack-ui/SKILL.md`：给 Agent 用的技能，包含组件清单、导入路径、设计约束与可复制的用法范例
 
 ## 给 Agent 用（SKILL）

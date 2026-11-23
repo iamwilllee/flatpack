@@ -99,8 +99,12 @@ export function Calendar(props: CalendarProps) {
         <button type="button" data-slot="button" data-variant="ghost" data-size="icon" aria-label={nextMonthLabel} onClick={() => setMonth(addMonths(month, 1))} style={{ width: 'var(--fp-control-sm)', height: 'var(--fp-control-sm)' }}><ChevronRight size={16} /></button>
       </div>
       <div data-slot="calendar-grid" role="grid" ref={grid} onKeyDown={onKeyDown} onMouseLeave={() => setHover(null)}>
-        {weekdays.map((w, i) => <span key={i} data-slot="calendar-weekday" role="columnheader">{w}</span>)}
-        {days.map((d) => {
+        <div role="row" data-slot="calendar-row">
+          {weekdays.map((w, i) => <span key={i} data-slot="calendar-weekday" role="columnheader">{w}</span>)}
+        </div>
+        {Array.from({ length: Math.ceil(days.length / 7) }, (_, w) => days.slice(w * 7, w * 7 + 7)).map((week) => (
+          <div role="row" data-slot="calendar-row" key={week[0].toISOString()}>
+        {week.map((d) => {
           const focusable = sameDay(d, focus) || (!days.some((x) => sameDay(x, focus)) && sameDay(d, month))
           return (
             <button
@@ -124,6 +128,8 @@ export function Calendar(props: CalendarProps) {
             </button>
           )
         })}
+          </div>
+        ))}
       </div>
     </div>
   )

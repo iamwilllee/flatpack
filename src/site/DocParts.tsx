@@ -41,7 +41,7 @@ export function CodeBlock({ code, copied, onCopy, label = 'TSX' }: { code: strin
           {copied ? <Check size={16} /> : <Copy size={16} />}
         </Button>
       </div>
-      <pre style={{ margin: 0, padding: 'var(--fp-space-3) var(--fp-space-4) var(--fp-space-4)', color: 'var(--fp-ink)', fontFamily: 'var(--fp-mono)', fontSize: 'var(--fp-text-sm)', overflowX: 'auto' }}>{code}</pre>
+      <pre style={{ margin: 0, padding: 'var(--fp-space-3) var(--fp-space-4) var(--fp-space-4)', color: 'var(--fp-ink)', fontFamily: 'var(--fp-mono)', fontSize: 'var(--fp-text-sm)', overflowX: 'auto' }} tabIndex={0}>{code}</pre>
     </div>
   )
 }
@@ -67,8 +67,8 @@ export function InlineDemo({ id, variant }: { id: string; variant: number }) {
     case 'badge':
       return <div style={wrap}><Badge>New</Badge><Badge variant="outline">For sale</Badge><Badge variant="success">In stock</Badge><Badge variant="danger">Sold out</Badge></div>
     case 'input':
-      if (variant === 1) return <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--fp-space-3)', width: 280 }}><Input variant="filled" leading={<Search size={16} />} placeholder="找一个项目" /><Input leading={<Search size={16} />} trailing={<Kbd>⌘K</Kbd>} placeholder="Search docs" /></div>
-      return <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--fp-space-3)', width: 280 }}><div><Label>Room name</Label><Input placeholder="e.g. Living room" /></div><div><Label>Dimensions (cm)</Label><Input defaultValue="65 × 65" /></div></div>
+      if (variant === 1) return <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--fp-space-3)', width: 280 }}><Input aria-label="Find a project" variant="filled" leading={<Search size={16} />} placeholder="找一个项目" /><Input aria-label="Search docs" leading={<Search size={16} />} trailing={<Kbd>⌘K</Kbd>} placeholder="Search docs" /></div>
+      return <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--fp-space-3)', width: 280 }}><div><Label htmlFor="demo-room">Room name</Label><Input id="demo-room" placeholder="e.g. Living room" /></div><div><Label htmlFor="demo-dims">Dimensions (cm)</Label><Input id="demo-dims" defaultValue="65 × 65" /></div></div>
     case 'dialog':
       return <Dialog><DialogTrigger>Open instructions</DialogTrigger><DialogContent><DialogHeader><DialogTitle>Confirm configuration</DialogTitle><DialogDescription>Review each setting before continuing.</DialogDescription></DialogHeader><DialogFooter><DialogClose>Back</DialogClose><DialogClose><Button size="sm">Next</Button></DialogClose></DialogFooter></DialogContent></Dialog>
     case 'tabs':
@@ -93,8 +93,8 @@ export function InlineDemo({ id, variant }: { id: string; variant: number }) {
       return <Steps current={1} steps={[{ title: 'Create project', description: 'Enter the basic project details' }, { title: 'Configure', description: 'Set the core parameters' }, { title: 'Go live' }, { title: 'Done' }]} />
     case 'select':
       return variant === 1
-        ? <Select options={[{ value: 'a', label: 'A' }]} placeholder="Select a room" />
-        : <Select options={[{ value: 'living', label: 'Living room' }, { value: 'bedroom', label: 'Bedroom' }, { value: 'kitchen', label: 'Kitchen' }]} defaultValue="living" />
+        ? <Select aria-label="Room" options={[{ value: 'a', label: 'A' }]} placeholder="Select a room" />
+        : <Select aria-label="Room" options={[{ value: 'living', label: 'Living room' }, { value: 'bedroom', label: 'Bedroom' }, { value: 'kitchen', label: 'Kitchen' }]} defaultValue="living" />
     case 'checkbox':
       return <div style={{ display: 'flex', gap: 'var(--fp-space-4)', flexWrap: 'wrap' }}><Checkbox defaultChecked label="Sofa" /><Checkbox label="Coffee table" /><Checkbox indeterminate label="Rug" /><Checkbox disabled defaultChecked label="Discontinued" /></div>
     case 'radio':
@@ -108,7 +108,7 @@ export function InlineDemo({ id, variant }: { id: string; variant: number }) {
     case 'tooltip':
       return <div style={wrap}><Tooltip content="Tooltip on top"><Button size="sm" variant="outline">Top tooltip</Button></Tooltip><Tooltip content="Tooltip on bottom" side="bottom"><Button size="sm" variant="outline">Bottom tooltip</Button></Tooltip></div>
     case 'progress':
-      return <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--fp-space-4)', width: '100%', maxWidth: 320 }}><Progress value={64} label="Task progress" showValue /><Progress value={30} size="sm" /><Progress value={90} size="lg" showValue /></div>
+      return <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--fp-space-4)', width: '100%', maxWidth: 320 }}><Progress value={64} label="Task progress" showValue /><Progress value={30} size="sm" aria-label="Upload" /><Progress value={90} size="lg" showValue aria-label="Install" /></div>
     case 'popover':
       return <Popover><PopoverTrigger>Delivery details</PopoverTrigger><PopoverContent title="Estimated delivery">Your order arrives on Nov 20, and we will text you before dispatch.</PopoverContent></Popover>
     case 'segmented':

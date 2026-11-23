@@ -240,3 +240,59 @@ test.describe('entrance reveal', () => {
     await expect(page.getByRole('heading', { name: 'Write it down once.' }).first()).toHaveCSS('animation-name', 'none')
   })
 })
+
+test.describe('drawer, otp and composer', () => {
+  test('drawer opens, Escape closes it, and a swipe down dismisses it', async ({ page }) => {
+    const errors = watch(page)
+    await page.goto('/#/docs/components/drawer')
+    await page.getByRole('button', { name: 'Open drawer' }).first().click()
+    const dialog = page.getByRole('dialog', { name: 'Add to cart' })
+    await expect(dialog).toBeVisible()
+    await page.keyboard.press('Escape')
+    await expect(dialog).toBeHidden()
+    await page.getByRole('button', { name: 'Open drawer' }).first().click()
+    await expect(dialog).toBeVisible()
+    await page.waitForTimeout(700) // let the open transition finish; a swipe during it is ignored
+    const box = (await dialog.boundingBox())!
+    const x = box.x + box.width / 2
+    const y = box.y + 30
+    await page.mouse.move(x, y)
+    await page.mouse.down()
+    // Paced like a finger: Base UI measures velocity, so one jump is not a swipe.
+    for (let i = 1; i <= 20; i++) {
+      await page.mouse.move(x, y + i * 15)
+      await page.waitForTimeout(16)
+    }
+    await page.mouse.up()
+    await expect(dialog).toBeHidden()
+    expect(errors).toEqual([])
+  })
+
+  test('otp field moves forward while typing and back on Backspace', async ({ page }) => {
+    await page.goto('/#/docs/components/otp-field')
+    const first = page.getByRole('textbox', { name: 'Verification code' }).first()
+    await first.click()
+    await page.keyboard.type('123')
+    await expect(page.locator('[data-slot="otp-input"]').nth(2)).toHaveValue('3')
+    await expect(page.locator('[data-slot="otp-input"]').nth(3)).toBeFocused()
+    await page.keyboard.press('Backspace')
+    await page.keyboard.press('Backspace')
+    await expect(page.locator('[data-slot="otp-input"]').nth(2)).toHaveValue('')
+  })
+
+  test('composer grows with its text and sends on Enter', async ({ page }) => {
+    await page.goto('/#/docs/components/composer')
+    const box = page.getByRole('textbox', { name: 'Message' }).first()
+    const h0 = (await box.boundingBox())!.height
+    await box.click()
+    await page.keyboard.type('one')
+    await page.keyboard.press('Shift+Enter')
+    await page.keyboard.type('two')
+    await page.keyboard.press('Shift+Enter')
+    await page.keyboard.type('three')
+    expect((await box.boundingBox())!.height).toBeGreaterThan(h0)
+    await page.keyboard.press('Enter')
+    await expect(box).toHaveValue('')
+    await expect(page.getByText('one\ntwo\nthree').first()).toBeVisible()
+  })
+})
