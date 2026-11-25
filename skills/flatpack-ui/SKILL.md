@@ -5,7 +5,7 @@ description: Build interfaces with Flatpack UI, a React component library whose 
 
 # Build with Flatpack UI
 
-Flatpack UI is a React 19 + Tailwind CSS 4 component library. Interactive components are built on **Base UI** primitives (unstyled, accessible); the visual layer is a single stylesheet. Its design rules are **square, black and white, whitespace**. Build screens by composing the library's components; do not hand-roll styled `<div>`s when a component exists.
+Flatpack UI is a React 19 + Tailwind CSS 4 component library. Interactive components are built on **Base UI** primitives (unstyled, accessible); the visual layer is a single stylesheet. Its design rules are **shape by role, black and white, whitespace**. Build screens by composing the library's components; do not hand-roll styled `<div>`s when a component exists.
 
 ## When to use
 
@@ -15,19 +15,24 @@ Flatpack UI is a React 19 + Tailwind CSS 4 component library. Interactive compon
 
 ## Setup (do this first)
 
-Flatpack UI needs only its stylesheet and component source. In a target project:
+Flatpack UI installs through the shadcn CLI. In a target project that has Tailwind CSS 4 and TypeScript:
 
-1. Copy the theme and components from the library root:
-   - `src/styles/flatpack.css` → target `src/styles/flatpack.css`
-   - `src/components/ui/*.tsx` → target `src/components/ui/`
-   - `src/lib/utils.ts` → target `src/lib/utils.ts`
-2. Install deps if missing: `react@19 react-dom@19 @base-ui/react clsx tailwind-merge lucide-react`. Tailwind CSS 4 and TypeScript are expected. Interactive components (Button, Checkbox, Switch, RadioGroup, Select, Dialog, Sheet, DropdownMenu, Tabs, Tooltip, Popover, Progress, Avatar, Collapse, Segmented) are built on Base UI primitives; purely visual components are self-contained. Distribution uses the shadcn registry format (`registry.json` + `public/r/`).
-3. Import the theme **after** Tailwind:
+1. Install the theme once. It writes `src/styles/flatpack.css`, which holds the styles of every component:
+   ```bash
+   npx shadcn@latest add https://iamwilllee.github.io/flatpack/r/flatpack-theme.json
+   ```
+2. Import it in the entry stylesheet. The file already contains `@import "tailwindcss"`, so use it **in place of** your own Tailwind import:
    ```css
-   @import "tailwindcss";
    @import "./styles/flatpack.css";
    ```
-4. Remove any stock shadcn `:root` / `.dark` color variables — Flatpack defines its own.
+3. Add each component or block you need. Its dependencies (other Flatpack components, `@base-ui/react`, `lucide-react`, `clsx`, `tailwind-merge`) come with it, with the versions this repo is tested against:
+   ```bash
+   npx shadcn@latest add https://iamwilllee.github.io/flatpack/r/button.json
+   npx shadcn@latest add https://iamwilllee.github.io/flatpack/r/login-01.json
+   ```
+4. Remove any stock shadcn `:root` / `.dark` color variables. Flatpack defines its own.
+
+Interactive components are built on Base UI primitives; purely visual ones are self-contained. Working inside this repository instead? The sources are already in `src/components/ui/`.
 
 If the project already has the library wired, skip setup and go straight to composing components.
 
@@ -63,10 +68,10 @@ All imports are from `@/components/ui/<name>` (adjust the alias to the target pr
 | Feedback | `Alert`, `Toast` (mount `<Toaster />` once, call `toast({ title, type })`), `Spinner`, `Skeleton` + `SkeletonText`, `Progress`, `Meter` (value in a range), `Steps` |
 | Navigation | `Tabs`, `Breadcrumb`, `Pagination`, `Sidebar` + `SidebarSection/SidebarItem` |
 | Data display | `DataTable` (sort, select, page; `columns`, `getRowId`), `Table` (+ parts), `DescriptionList`, `Tree`, `Image`, `Carousel`, `Avatar`, `AvatarGroup`, `Statistic`, `Timestamp`, `Collapse`, `Empty`, `CodeBlock` / `Code` |
-| Layout / utility | `Divider`, `Separator` (from `primitives`), `ScrollArea`, `Masonry` (waterfall), `VisuallyHidden`, `BorderBeam` (optional decorative border line; not used by default because the rules have no looping animation) |
+| Layout / utility | `Divider`, `Separator` (from `primitives`), `ScrollArea`, `Masonry` (waterfall), `VisuallyHidden`, `Reveal` (opt-in entrance fade: add `data-reveal` to an element), `BorderBeam` (optional decorative border line; not used by default because the rules have no looping animation) |
 | Whole screens (blocks, `@/components/blocks/<name>`) | `Login01` (`onSignIn` may return field errors), `Settings01` (`onSave`), `DataTable01` (orders list, `onDelete`), `Chat01` (`onSend(text, signal)` returns the reply). Start from one of these before composing a screen by hand |
 
-63 components total. If a need isn't in the table, compose from these before adding new source. Not provided on purpose: rich text editor, Markdown renderer, Cascader, Transfer. For AI chat screens, copy the `assistant` block in `src/blocks/BlockScreens.tsx`.
+70 components total. If a need isn't in the table, compose from these before adding new source. Not provided on purpose: rich text editor, Markdown renderer, Cascader, Transfer. For AI chat screens, copy the `assistant` block in `src/blocks/BlockScreens.tsx`.
 
 Density, fonts and the optional warm gray are token-level: set `data-fp-density="compact"` (or `data-fp-font`, `data-fp-heading`, `data-fp-gray`) on any element, or write a preset code into `tokens/overrides.json` and run `npm run build:tokens`. Themes (`flatpack`, `catalog`, `sage`) swap palette, accent, surface radius and font stack as one unit: set `data-fp-theme="sage"` on any element. Fill and selected states use `--fp-accent` / `--fp-on-accent`, text uses `--fp-ink`. Never add one-off radius, accent colors, shadows or blur outside a theme.
 
@@ -217,7 +222,7 @@ Never write theme-specific CSS in components. If you need to change the look glo
 
 - Inventing a new colored primary action (e.g. a blue or green CTA). Primary is black/near-white only.
 - Adding shadows outside floating layers, gradients, glass effects, colored fills, or a second border inside a card.
-- Rounded corners, pill buttons, uppercase monospace section labels.
+- Mid-size rounded corners (the radius is only `--fp-radius-control` or `--fp-radius-surface`), uppercase monospace section labels.
 - Hardcoding hex values in JSX instead of using `var(--fp-*)`.
 - Reimplementing `Button` / `Card` / `Input` as styled `<div>`s — always import the component.
 - Guessing props (`<Button color="red">`, `<Select items={...}>`). Use the exact props in this skill.
