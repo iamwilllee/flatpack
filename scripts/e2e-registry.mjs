@@ -87,7 +87,9 @@ export default defineConfig({ plugins: [react(), tailwindcss()], resolve: { alia
   await run('npm', ['install', '--no-audit', '--no-fund'], { cwd: APP })
 
   step('shadcn add: theme, components, block')
-  for (const name of ['flatpack-theme', 'button', 'sidebar', 'primitives', 'dropdown-menu', 'data-table-01', 'login-01']) {
+  for (const name of ['flatpack-theme', 'button', 'sidebar', 'primitives', 'dropdown-menu', 'data-table-01', 'login-01',
+    // Used by examples/project-overview, the page an agent built from SKILL.md.
+    'input', 'badge', 'avatar', 'segmented', 'select', 'statistic', 'status-dot', 'field', 'form', 'dialog', 'toast']) {
     await run('npx', ['--yes', 'shadcn@latest', 'add', `${ORIGIN}/r/${name}.json`, '--yes', '--overwrite'], { cwd: APP })
     console.log(`  added ${name}`)
   }
@@ -95,6 +97,7 @@ export default defineConfig({ plugins: [react(), tailwindcss()], resolve: { alia
   step('use them, type-check, build')
   // The theme file brings its own @import "tailwindcss", as the docs tell users.
   write('src/index.css', '@import "./styles/flatpack.css";\n')
+  fs.copyFileSync(path.join(ROOT, 'examples/project-overview/App.tsx'), path.join(APP, 'src/App.tsx'))
   write('src/main.tsx', `import './index.css'
 import { createRoot } from 'react-dom/client'
 import { Button } from '@/components/ui/button'
@@ -103,6 +106,7 @@ import { Kicker, Separator } from '@/components/ui/primitives'
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { Login01 } from '@/components/blocks/login-01'
 import { DataTable01 } from '@/components/blocks/data-table-01'
+import App from './App'
 
 createRoot(document.getElementById('root')!).render(
   <>
@@ -112,6 +116,7 @@ createRoot(document.getElementById('root')!).render(
     <DropdownMenu><DropdownMenuTrigger>Menu</DropdownMenuTrigger><DropdownMenuContent><DropdownMenuItem>Item</DropdownMenuItem></DropdownMenuContent></DropdownMenu>
     <Login01 />
     <DataTable01 />
+    <App />
   </>,
 )
 `)
@@ -135,6 +140,13 @@ createRoot(document.getElementById('root')!).render(
     const got = JSON.parse(fs.readFileSync(path.join(APP, 'node_modules', dep, 'package.json'), 'utf8')).version
     if (!inCaretRange(got, want)) throw new Error(`${dep}: installed ${got}, which is outside the pinned range ${want}`)
   }
+  // Every var(--fp-*) the example uses must exist in the installed theme. An unknown variable makes the
+  // whole CSS declaration invalid, so spacing or sizes vanish without any error.
+  const themeCss = fs.readFileSync(path.join(APP, 'src/styles/flatpack.css'), 'utf8')
+  const defined = new Set([...themeCss.matchAll(/(--fp-[a-z0-9-]+)\s*:/g)].map((m) => m[1]))
+  const exampleSrc = fs.readFileSync(path.join(APP, 'src/App.tsx'), 'utf8')
+  const unknown = [...new Set([...exampleSrc.matchAll(/var\((--fp-[a-z0-9-]+)/g)].map((m) => m[1]))].filter((v) => !defined.has(v))
+  if (unknown.length) throw new Error(`examples/project-overview uses undefined tokens: ${unknown.join(', ')}`)
   // Re-adding a component must not offer to overwrite the theme (no component lists it as a dependency).
   const registry = JSON.parse(fs.readFileSync(path.join(SITE, '..', 'flatpack', 'registry.json'), 'utf8'))
   const withTheme = registry.items.filter((i) => i.type === 'registry:ui' && (i.registryDependencies ?? []).some((d) => d.includes('flatpack-theme')))

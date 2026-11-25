@@ -38,7 +38,24 @@ If the project already has the library wired, skip setup and go straight to comp
 
 ## The one rule that matters
 
-**Never hardcode colors, sizes, spacing, radii, or shadows.** Every visual decision comes from a CSS variable in `flatpack.css`, generated from `tokens/flatpack.tokens.json`. Inline styles reference tokens only: `var(--fp-text-*)` for font size (12/14/16/20/28/40/64/96), `var(--fp-space-*)` for spacing (4 … 128), and the color tokens `--fp-bg`, `--fp-surface`, `--fp-line`, `--fp-line-strong`, `--fp-muted`, `--fp-ink`, `--fp-danger`, `--fp-success`. `npm run check:design` fails on anything else.
+**Never hardcode colors, sizes, spacing, radii, or shadows.** Every visual decision comes from a CSS variable in `flatpack.css`, generated from `tokens/flatpack.tokens.json`. Inline styles reference tokens only: `var(--fp-text-*)` for font size, `var(--fp-space-*)` for spacing, and the color tokens `--fp-bg`, `--fp-surface`, `--fp-line`, `--fp-line-strong`, `--fp-muted`, `--fp-ink`, `--fp-danger`, `--fp-success`. `npm run check:design` fails on anything else.
+
+The size and spacing tokens are named by step, not by pixel value. `var(--fp-space-48)` and `var(--fp-text-28)` do not exist; an unknown variable makes the whole declaration invalid, so the spacing silently disappears. Values below are the default density (compact and roomy shift the space steps):
+
+| Token | `--fp-text-` | px | | Token | `--fp-space-` | px |
+|---|---|---|---|---|---|---|
+| `xs` | `--fp-text-xs` | 12 | | `1` | `--fp-space-1` | 4 |
+| `sm` | `--fp-text-sm` | 14 | | `2` | `--fp-space-2` | 8 |
+| `base` | `--fp-text-base` | 16 | | `3` | `--fp-space-3` | 12 |
+| `lg` | `--fp-text-lg` | 20 | | `4` | `--fp-space-4` | 16 |
+| `xl` | `--fp-text-xl` | 28 | | `5` | `--fp-space-5` | 24 |
+| `2xl` | `--fp-text-2xl` | 40 | | `6` | `--fp-space-6` | 32 |
+| `3xl` | `--fp-text-3xl` | 64 | | `7` | `--fp-space-7` | 48 |
+| `4xl` | `--fp-text-4xl` | 96 | | `8` | `--fp-space-8` | 64 |
+| | | | | `9` | `--fp-space-9` | 96 |
+| | | | | `10` | `--fp-space-10` | 128 |
+
+Use `--fp-space-9` or larger between page sections.
 
 The three rules:
 - **Shape by role**: clickable single-line parts (Button, ChipGroup, Input, Select, Segmented, Badge, Switch, Tooltip, pagination) use `--fp-radius-control` (a pill by default); surfaces that hold content (Card, Image, Dialog, menus, Table, Toast, code, Textarea) use `--fp-radius-surface` (0). No in-between radii. The "All square" preset (`data-fp-shape="square"` or shape: square in overrides) makes controls 0 too.
@@ -184,6 +201,8 @@ import { Divider } from '@/components/ui/divider'
 <Steps current={1} steps={[{ title: 'Start' }, { title: 'Configure' }, { title: 'Done' }]} />
 <Empty title="Nothing here" action={<Button size="sm">Create</Button>} />
 <Statistic label="Orders" value="1,472" trend={{ value: 12.4 }} />
+{/* The sign of trend.value sets the arrow (↑ or ↓); direction only sets the color: up = green, down = red. */}
+<Statistic label="Open tasks" value="186" trend={{ value: -4.1, direction: 'up' }} />
 <Collapse items={[{ key: 'a', title: 'Question', children: 'Answer' }]} />
 <Divider label="or" />
 ```

@@ -27,6 +27,17 @@ describe('SKILL.md', () => {
     for (const c of css) expect(c).not.toContain('@import "tailwindcss"')
   })
 
+  it('only mentions --fp-* variables that flatpack.css defines', () => {
+    const css = readFileSync(path.join(ROOT, 'src/styles/flatpack.css'), 'utf8')
+    const defined = new Set([...css.matchAll(/(--fp-[a-z0-9-]+)\s*:/g)].map((m) => m[1]))
+    // Names ending in "-*" or "-" are families written with a wildcard, such as var(--fp-text-*).
+    const used = new Set([...skill.matchAll(/--fp-[a-z0-9-]+/g)].map((m) => m[0]).filter((v) => !v.endsWith('-')))
+    const unknown = [...used].filter((v) => !defined.has(v))
+    // The doc names these on purpose as examples of what does not exist.
+    const examples = new Set(['--fp-space-48', '--fp-text-28'])
+    expect(unknown.filter((v) => !examples.has(v))).toEqual([])
+  })
+
   it('has tsx samples that type-check against the library', () => {
     const blocks = [...skill.matchAll(/```tsx\n([\s\S]*?)```/g)].map((m) => m[1])
     expect(blocks.length).toBeGreaterThan(0)
