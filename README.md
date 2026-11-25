@@ -213,6 +213,9 @@ ln -s "$PWD/skills/flatpack-ui" ~/.dsh/skills/flatpack-ui
 - [x] Templates Tab：官网 / 电商 / 后台三套可交互整站示例
 - [x] 文档站（首页 / 组件 / 文档 / Create / Blocks）
 - [x] shadcn registry 分发 + Figma tokens
+- [x] 组件扩充到 70 个，4 个可安装的区块（login / settings / data-table / chat）
+- [x] 给 AI 用：llms.txt、每个组件一份 Markdown、SKILL、shadcn MCP（通过 registry 命名空间）
+- [x] registry 端到端检查（`npm run test:registry`，CI 每周跑一次）
 - [ ] 多框架适配（Vue / Solid）
 
 设计语言与设计决策见 [DESIGN_LANGUAGE.md](./DESIGN_LANGUAGE.md)。

@@ -1,0 +1,25 @@
+name: Registry install check
+
+# Installs Flatpack into a fresh Vite project with the shadcn CLI, then type-checks and builds it.
+# It needs the network and takes a few minutes, so it runs weekly and on demand, not on every push.
+# Weekly also catches upstream changes (shadcn CLI, npm packages) that break installs without a commit here.
+on:
+  schedule:
+    - cron: '0 3 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run test:registry
