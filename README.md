@@ -94,7 +94,7 @@
 ## 技术栈
 
 - **React 19 + TypeScript** — 组件运行时
-- **Base UI** — 无样式交互原语。Button、Checkbox、Switch、RadioGroup、Select、Dialog、Sheet、DropdownMenu、Tabs、Tooltip、Popover、Progress、Avatar、Collapse、Segmented 这 15 个组件基于它构建（状态管理、键盘交互、无障碍由 Base UI 提供）
+- **Base UI** — 无样式交互原语。Button、Checkbox、Switch、RadioGroup、Select、Dialog、Sheet、DropdownMenu、Tabs、Tooltip、Popover、Progress、Avatar、Collapse、Segmented 等 38 个组件基于它构建（状态管理、键盘交互、无障碍由 Base UI 提供）
 - **Tailwind CSS 4** — 布局工具类
 - **lucide-react** — 图标
 - **clsx + tailwind-merge** — `cn()` 类名合并
@@ -165,7 +165,7 @@ Templates 里的真实照片来自 [Unsplash](https://unsplash.com/license)（�
 
 ## 工程化产物
 
-- `registry.json` + `public/r/*.json`：shadcn registry，包含主题、每个组件和 4 个区块。先装主题 `npx shadcn@latest add https://iamwilllee.github.io/flatpack/r/flatpack-theme.json`，再装组件或区块，如 `…/r/data-table.json`、`…/r/login-01.json`。依赖之间都写成完整 URL，不会误装 shadcn 自带的同名组件
+- `registry.json` + `public/r/*.json`：shadcn registry，包含主题、每个组件和 4 个区块。先装主题 `npx shadcn@latest add https://iamwilllee.github.io/flatpack/r/flatpack-theme.json`，再装组件或区块，如 `…/r/data-table.json`、`…/r/login-01.json`。依赖之间都写成完整 URL，不会误装 shadcn 自带的同名组件。npm 依赖按 `package.json` 里声明的版本范围写入（如 `@base-ui/react@1.9.0`），用户装到的是本仓库构建和测试时用的版本；`npm run build:registry` 遇到未声明的依赖会直接报错
 - [MIGRATION.md](./MIGRATION.md)：从 shadcn/ui 迁移，包括改名对照、表单、token 对照
 - `figma/flatpack-tokens.json`：Tokens Studio 格式（global / light / dark 三个 set），由 `npm run build:tokens` 生成
 - `npm run build`：一次产出站点 + registry + Figma tokens 到 `dist/`

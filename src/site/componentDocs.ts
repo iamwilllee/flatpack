@@ -24,13 +24,13 @@ export const movedDocs = new Map<string, string>([['dropdown', 'dropdown-menu']]
 
 // The one-time setup that goes before any component's install command. Every component's styles live
 // in the flatpack-theme stylesheet, yet no ui item lists it as a registry dependency: re-adding a
-// component would then offer to overwrite a customized theme. ComponentDocPage and
+// component would then offer to overwrite a customized theme. flatpack.css imports tailwindcss itself. ComponentDocPage and
 // scripts/build-llms.mjs (docs/<id>.md, llms.txt) both read this, so they say the same thing.
 export const themeSetup = {
   command: (origin: string) => `npx shadcn@latest add ${origin}/r/flatpack-theme.json`,
-  css: '@import "tailwindcss";\n@import "./styles/flatpack.css";',
-  zh: { theme: '第一次使用：先装主题样式，所有组件的样式都在这个文件里', css: '再在入口样式（如 src/index.css）里引入，放在 tailwind 之后：', component: '安装组件（依赖的组件会一起装上）' },
-  en: { theme: 'first time only: install the theme, which holds the styles of every component', css: 'then import it in your entry stylesheet (such as src/index.css), after tailwind:', component: 'add the component (its dependencies come with it)' },
+  css: '@import "./styles/flatpack.css";',
+  zh: { theme: '第一次使用：先装主题样式，所有组件的样式都在这个文件里', css: '再在入口样式（如 src/index.css）里引入。它已包含 @import "tailwindcss"，用它替换你自己的 tailwind 引入：', component: '安装组件（依赖的组件会一起装上）' },
+  en: { theme: 'first time only: install the theme, which holds the styles of every component', css: 'then import it in your entry stylesheet (such as src/index.css). It already includes @import "tailwindcss", so use it in place of your own Tailwind import:', component: 'add the component (its dependencies come with it)' },
 }
 
 export const docs: ComponentDoc[] = [
