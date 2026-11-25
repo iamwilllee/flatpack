@@ -127,6 +127,7 @@ export default function CreatePage() {
           <div>
             <div className="fp-label" style={{ marginBottom: 'var(--fp-space-2)' }}>{t('create.preset')}</div>
             <Select
+              aria-label={t('create.preset')}
               value={preset ?? 'custom'}
               options={[...PRESETS.map((p) => ({ value: p.id, label: `${L(p)} · ${lang === 'zh' ? p.zhDesc : p.enDesc}` })), ...(preset ? [] : [{ value: 'custom', label: t('create.custom') }])]}
               onValueChange={(id) => { const p = PRESETS.find((x) => x.id === id); if (p) setVals({ ...DEFAULTS, ...p.values }) }}
@@ -150,7 +151,7 @@ export default function CreatePage() {
                   {L(dial)}{dial.optional && <span>· {t('create.optional')}</span>}
                 </div>
                 {long ? (
-                  <Select value={vals[dial.id]} options={dial.options.map((o) => ({ value: o.value, label: L(o) }))} onValueChange={(v) => setVals({ ...vals, [dial.id]: v })} />
+                  <Select aria-label={L(dial)} value={vals[dial.id]} options={dial.options.map((o) => ({ value: o.value, label: L(o) }))} onValueChange={(v) => setVals({ ...vals, [dial.id]: v })} />
                 ) : (
                   <Segmented value={vals[dial.id]} options={dial.options.map((o) => ({ value: o.value, label: L(o) }))} onValueChange={(v: string) => setVals({ ...vals, [dial.id]: v })} />
                 )}
@@ -178,7 +179,7 @@ export default function CreatePage() {
         </div>
       </aside>
 
-      <main style={{ flex: 1, minWidth: 0 }}>
+      <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ marginBottom: 'var(--fp-space-5)' }}>
           <h2 style={{ fontSize: 'var(--fp-text-xl)', letterSpacing: 'var(--fp-tracking-display)' }}>{t('create.previewTitle')}</h2>
           <p style={{ color: 'var(--fp-muted)', marginTop: 'var(--fp-space-2)' }}>{t('create.previewDesc')}</p>
@@ -204,7 +205,7 @@ export default function CreatePage() {
             <TabsContent value="css"><CodeBlock label="CSS" code={css} /></TabsContent>
           </Tabs>
         </section>
-      </main>
+      </div>
     </div>
   )
 }

@@ -89,14 +89,14 @@ const CODES: Record<string, string> = {
   "cmp-avatar": "<Avatar size=\"sm\" name=\"Li\" />\n<Avatar size=\"md\" name=\"Ming Wang\" />\n<Avatar size=\"lg\" name=\"Anna\" src=\"/avatar.jpg\" />\n\n{/* Uses initials without an image, and degrades gracefully on load errors */}",
   "cmp-empty": "<Empty\n  title=\"No results found\"\n  description=\"Try another category or adjust your filters.\"\n  action={<Button size=\"sm\">Clear filters</Button>}\n/>",
   "cmp-steps": "<Steps\n  current={1}\n  steps={[\n    { title: 'Create project', description: 'Enter project details' },\n    { title: 'Configure', description: 'Set core parameters' },\n    { title: 'Publish', description: 'Confirm and save' },\n    { title: 'Done' },\n  ]}\n/>",
-  "cmp-select": "<Select\n  options={[\n    { value: 'living', label: 'Living room' },\n    { value: 'bedroom', label: 'Bedroom' },\n    { value: 'kitchen', label: 'Kitchen' },\n  ]}\n  defaultValue=\"living\"\n  onValueChange={(value) => console.log(value)}\n/>",
+  "cmp-select": "<Select\n  options={[\n    { value: 'living', label: 'Living room' },\n    { value: 'bedroom', label: 'Bedroom' },\n    { value: 'kitchen', label: 'Kitchen' },\n  ]}\n  defaultValue=\"living\"\n  aria-label=\"Room\"\n  onValueChange={(value) => console.log(value)}\n/>",
   "cmp-checkbox": "<Checkbox defaultChecked label=\"Sofa\" />\n<Checkbox label=\"Table\" />\n<Checkbox indeterminate label=\"Rug\" />\n<Checkbox disabled defaultChecked label=\"Archived\" />",
   "cmp-radio": "<RadioGroup\n  defaultValue=\"standard\"\n  options={[\n    { value: 'standard', label: 'Standard (3–5 days)' },\n    { value: 'express', label: 'Express (next day)' },\n    { value: 'pickup', label: 'Store pickup', disabled: true },\n  ]}\n/>",
   "cmp-switch": "<Switch defaultChecked label=\"New arrivals\" />\n<Switch label=\"Price alerts\" />\n<Switch disabled label=\"Locked\" />",
   "cmp-alert": "<Alert variant=\"info\" title=\"Delivery\">\n  Arriving Nov 20.\n</Alert>\n<Alert variant=\"success\" title=\"Added to cart\">\n  Side table added.\n</Alert>\n<Alert variant=\"warning\" title=\"Low stock\">Only 3 left.</Alert>\n<Alert variant=\"error\" title=\"Address missing\" onClose={() => {}}>\n  Add a shipping address.\n</Alert>",
   "cmp-skeleton": "<Skeleton circle width={44} height={44} />\n<SkeletonText lines={3} />\n\n{/* Skeleton also accepts width / height; shimmer animation on by default */}",
   "cmp-tooltip": "<Tooltip content=\"Tooltip on top\">\n  <Button size=\"sm\" variant=\"outline\">Top tooltip</Button>\n</Tooltip>\n<Tooltip content=\"Tooltip on bottom\" side=\"bottom\">\n  <Button size=\"sm\" variant=\"outline\">Bottom tooltip</Button>\n</Tooltip>",
-  "cmp-progress": "<Progress value={64} label=\"Task progress\" showValue />\n<Progress value={30} size=\"sm\" />\n<Progress value={90} size=\"lg\" showValue />",
+  "cmp-progress": "<Progress value={64} label=\"Task progress\" showValue />\n<Progress value={30} size=\"sm\" aria-label=\"Upload\" />\n<Progress value={90} size=\"lg\" showValue aria-label=\"Storage used\" />",
   "cmp-popover": "<Popover>\n  <PopoverTrigger>Delivery details</PopoverTrigger>\n  <PopoverContent title=\"Estimated delivery\">\n    Your order arrives Nov 20.\n    The courier will text you before dispatch.\n  </PopoverContent>\n</Popover>",
   "cmp-segmented": "<Segmented\n  defaultValue=\"week\"\n  options={[\n    { value: 'day', label: 'D' },\n    { value: 'week', label: 'W' },\n    { value: 'month', label: 'M' },\n    { value: 'year', label: 'Y', disabled: true },\n  ]}\n/>",
   "cmp-divider": "<Divider />\n<Divider label=\"or pick a room\" />\n<div>\n  <span>Living room</span><Divider orientation=\"vertical\" /><span>Bedroom</span>\n</div>",
@@ -121,7 +121,7 @@ function Demo({ id, title, note, code: codeProp, children }: { id?: string; titl
   return (
     <div id={id} style={{ display: 'block', scrollMarginTop: 80 }} className="fp-demo">
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--fp-space-3)', marginBottom: 'var(--fp-space-4)' }}>
-        <span style={{ fontSize: 'var(--fp-text-base)', fontWeight: 'var(--fp-weight-semibold)' }}>{title}</span>
+        <h2 style={{ fontSize: 'var(--fp-text-base)', fontFamily: 'inherit', lineHeight: 'inherit' }}>{title}</h2>
         {note && <span className="fp-label">{note}</span>}
         {code && (
           <Button
@@ -174,7 +174,7 @@ export default function ComponentsPage() {
         ))}
       </aside>
 
-      <main style={{ flex: 1, minWidth: 0 }}>
+      <div style={{ flex: 1, minWidth: 0 }}>
         <Kicker>{t('cmp.kicker')}</Kicker>
         <h1 style={{ fontSize: 'var(--fp-text-2xl)', fontWeight: 'var(--fp-weight-semibold)', letterSpacing: 'var(--fp-tracking-display)', margin: 'var(--fp-space-4) 0 var(--fp-space-3)' }}>
           {t('cmp.title')}
@@ -367,8 +367,9 @@ export default function ComponentsPage() {
                     { value: 'office', label: 'Office' },
                   ]}
                   defaultValue="living"
+                  aria-label="Room"
                 />
-                <Select options={[{ value: 'a', label: 'A' }]} placeholder="Select a room" />
+                <Select options={[{ value: 'a', label: 'A' }]} placeholder="Select a room" aria-label="Choose a room" />
               </div>
             </Demo>
 
@@ -430,8 +431,8 @@ export default function ComponentsPage() {
             <Demo id="cmp-progress" title="Progress" note="3 sizes">
               <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--fp-space-4)' }}>
                 <Progress value={64} label="Task progress" showValue />
-                <Progress value={30} size="sm" />
-                <Progress value={90} size="lg" showValue />
+                <Progress value={30} size="sm" aria-label="Upload" />
+                <Progress value={90} size="lg" showValue aria-label="Storage used" />
               </div>
             </Demo>
 
@@ -499,7 +500,7 @@ export default function ComponentsPage() {
               </Demo>
             ))}
           </div>
-      </main>
+      </div>
     </div>
   )
 }

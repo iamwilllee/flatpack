@@ -54,7 +54,7 @@ export default function BlocksPage() {
             <Card key={block.id} style={{ padding: 0, overflow: 'hidden' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 'var(--fp-space-3) var(--fp-space-4)', background: 'var(--fp-surface)', borderBottom: '1px solid var(--fp-line)' }}>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--fp-space-3)' }}>
-                  <span className="fp-label" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', minWidth: 0 }}>{String(blocks.indexOf(block) + 1).padStart(2, '0')} · {block.title}</span>
+                  <h2 className="fp-label" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', minWidth: 0, fontFamily: 'inherit' }}>{String(blocks.indexOf(block) + 1).padStart(2, '0')} · {block.title}</h2>
                   <BadgeCategory category={block.category} />
                 </div>
                 <div style={{ display: 'flex', gap: 'var(--fp-space-1)' }}>

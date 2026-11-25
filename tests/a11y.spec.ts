@@ -27,3 +27,24 @@ for (const theme of ['light', 'dark'] as const) {
     expect(found, found.join('\n')).toEqual([])
   })
 }
+
+// The site's own pages. Landmark and region rules are skipped: block and template previews are
+// mock screens that sit inside the page, not page regions.
+const PAGE_SKIP = ['region']
+for (const theme of ['light', 'dark'] as const) {
+  test(`site pages have no serious accessibility violations (${theme})`, async ({ page }) => {
+    test.setTimeout(120_000)
+    await page.addInitScript((t) => localStorage.setItem('fp-theme', t), theme)
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    const found: string[] = []
+    for (const route of ['', 'components', 'create', 'blocks', 'docs', 'templates']) {
+      await page.goto(`/#/${route}`)
+      await page.waitForTimeout(300)
+      const r = await new AxeBuilder({ page }).disableRules(PAGE_SKIP).analyze()
+      for (const v of r.violations) {
+        found.push(`/${route}: ${v.id} (${v.impact}) ×${v.nodes.length} ${v.nodes[0]?.target.join(' ')}`)
+      }
+    }
+    expect(found, found.join('\n')).toEqual([])
+  })
+}

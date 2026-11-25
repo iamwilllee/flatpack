@@ -59,14 +59,14 @@ function AppShell() {
         <ComponentDocPage key={docId} id={docId} onNavigate={navigate} />
       ) : (
         <>
-          <div className="fp-container" style={{ paddingBlock: route === 'home' ? 0 : 'var(--fp-space-7) var(--fp-space-9)' }}>
+          <main className="fp-container" style={{ paddingBlock: route === 'home' ? 0 : 'var(--fp-space-7) var(--fp-space-9)' }}>
             {route === 'home' && <HomePage onNavigate={navigate} />}
             {route === 'components' && <ComponentsPage />}
             {route === 'create' && <CreatePage />}
             {route === 'blocks' && <BlocksPage />}
             {route === 'docs' && <DocsPage onNavigate={navigate} />}
             {route === 'templates' && <TemplatesPage />}
-          </div>
+          </main>
           <footer className="fp-container" style={{ paddingBottom: 'var(--fp-space-6)' }}>
             <Separator />
             <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 'var(--fp-space-2)', paddingTop: 'var(--fp-space-5)' }}>
