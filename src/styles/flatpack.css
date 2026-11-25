@@ -8,7 +8,9 @@
  *   - Clickable single-line parts use --fp-radius-control (pill by default; 0 in
  *     the All square preset). Surfaces that hold content use --fp-radius-surface
  *     (0 by default; a theme may set a small radius). Avatars and the radio dot
- *     are round. No in-between radii.
+ *     are round. Layers that float above the page (dialog, menus, toast) use
+ *     --fp-radius-floating (20px by default; 0 in the All square preset).
+ *     No in-between radii.
  *   - One accent per theme (--fp-accent), ink by default. Red and green appear
  *     in text and icons only.
  *   - Space separates sections. One 1px line. One shadow, for floating layers.
@@ -97,6 +99,7 @@
   --fp-border: 1px;
   --fp-radius-control: 9999px;           /* Clickable single-line parts */
   --fp-radius-surface: 0;                /* Surfaces that hold content. 0 by default; a theme may set a small radius */
+  --fp-radius-floating: 20px;            /* Layers that float above the page (dialog, menus, toast). 20px by default; 0 in the Square preset */
   --fp-control-sm: 32px;
   --fp-control-md: 40px;
   --fp-control-lg: 48px;
@@ -249,6 +252,7 @@
 }
 [data-fp-shape="square"] {
   --fp-radius-control: 0;
+  --fp-radius-floating: 0;
 }
 [data-fp-theme="catalog"] {
   --fp-bg: #ffffff;
@@ -263,6 +267,7 @@
   --fp-success: #2e7d32;
   --fp-scrim: rgba(0, 0, 0, 0.4);
   --fp-radius-surface: 4px;
+  --fp-radius-floating: 8px;
   --fp-sans: Arial, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
   --fp-reveal-duration: 480ms;
   --fp-reveal-step: 50ms;
@@ -297,6 +302,7 @@
   --fp-scrim: rgba(20, 26, 22, 0.4);
   --fp-radius-control: 10px;
   --fp-radius-surface: 10px;
+  --fp-radius-floating: 16px;
   --fp-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
   --fp-reveal-duration: 560ms;
   --fp-reveal-step: 70ms;
@@ -484,7 +490,7 @@ svg.lucide { stroke-width: 1.5; }
 [data-slot="dropdown-content"] {
   background: var(--fp-bg);
   border: 1px solid var(--fp-line);
-  border-radius: var(--fp-radius-surface);
+  border-radius: var(--fp-radius-floating);
   box-shadow: var(--fp-shadow-pop);
 }
 
@@ -551,7 +557,7 @@ svg.lucide { stroke-width: 1.5; }
 [data-slot="dropdown-item"], [data-slot="select-item"] {
   display: flex; align-items: center; justify-content: space-between;
   width: 100%; height: var(--fp-control-sm); padding: 0 var(--fp-space-3);
-  border: 0; border-radius: var(--fp-radius-surface); background: transparent;
+  border: 0; border-radius: var(--fp-radius-control); background: transparent;
   font-size: var(--fp-text-sm); text-align: left;
   transition: background-color var(--fp-duration) var(--fp-ease);
 }
@@ -1010,10 +1016,11 @@ svg.lucide { stroke-width: 1.5; }
 [data-slot="combobox-content"] {
   min-width: var(--anchor-width); max-height: 280px; overflow-y: auto;
   padding: var(--fp-space-1);
-  background: var(--fp-bg); border: 1px solid var(--fp-line); border-radius: var(--fp-radius-surface);
+  background: var(--fp-bg); border: 1px solid var(--fp-line); border-radius: var(--fp-radius-floating);
   box-shadow: var(--fp-shadow-pop);
 }
 [data-slot="combobox-item"] {
+  border-radius: var(--fp-radius-control);
   display: flex; align-items: center; justify-content: space-between; gap: var(--fp-space-3);
   height: var(--fp-control-sm); padding: 0 var(--fp-space-3);
   font-size: var(--fp-text-sm); cursor: default; user-select: none;
@@ -1071,7 +1078,7 @@ svg.lucide { stroke-width: 1.5; }
   position: fixed; z-index: 51; left: 50%; top: 50%; transform: translate(-50%, -50%);
   width: min(420px, calc(100vw - 32px));
   padding: var(--fp-space-6);
-  background: var(--fp-bg); border: 1px solid var(--fp-line); border-radius: var(--fp-radius-surface);
+  background: var(--fp-bg); border: 1px solid var(--fp-line); border-radius: var(--fp-radius-floating);
   box-shadow: var(--fp-shadow-pop);
 }
 
@@ -1084,7 +1091,7 @@ svg.lucide { stroke-width: 1.5; }
 [data-slot="toast"] {
   display: flex; align-items: flex-start; gap: var(--fp-space-3);
   padding: var(--fp-space-4);
-  background: var(--fp-bg); border: 1px solid var(--fp-line); border-radius: var(--fp-radius-surface);
+  background: var(--fp-bg); border: 1px solid var(--fp-line); border-radius: var(--fp-radius-floating);
   box-shadow: var(--fp-shadow-pop);
   transition: opacity var(--fp-duration) var(--fp-ease);
 }
@@ -1104,7 +1111,7 @@ svg.lucide { stroke-width: 1.5; }
 [data-slot="hover-card-trigger"] { color: var(--fp-ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; cursor: pointer; }
 [data-slot="hover-card-content"] {
   width: 280px; padding: var(--fp-space-4);
-  background: var(--fp-bg); border: 1px solid var(--fp-line); border-radius: var(--fp-radius-surface);
+  background: var(--fp-bg); border: 1px solid var(--fp-line); border-radius: var(--fp-radius-floating);
   box-shadow: var(--fp-shadow-pop);
   font-size: var(--fp-text-sm);
   transition: opacity var(--fp-duration) var(--fp-ease);
@@ -1124,7 +1131,7 @@ svg.lucide { stroke-width: 1.5; }
 [data-slot="command-content"] {
   position: fixed; z-index: 51; left: 50%; top: 15vh; transform: translateX(-50%);
   width: min(560px, calc(100vw - 32px));
-  background: var(--fp-bg); border: 1px solid var(--fp-line); border-radius: var(--fp-radius-surface);
+  background: var(--fp-bg); border: 1px solid var(--fp-line); border-radius: var(--fp-radius-floating);
   box-shadow: var(--fp-shadow-pop);
 }
 [data-slot="command-input-row"] { display: flex; align-items: center; gap: var(--fp-space-3); padding: 0 var(--fp-space-4); border-bottom: 1px solid var(--fp-line); color: var(--fp-muted); }
@@ -1135,7 +1142,7 @@ svg.lucide { stroke-width: 1.5; }
 [data-slot="command-item"] {
   display: flex; align-items: center; gap: var(--fp-space-3);
   width: 100%; height: var(--fp-control-md); padding: 0 var(--fp-space-3);
-  border: 0; border-radius: var(--fp-radius-surface); background: transparent; text-align: left;
+  border: 0; border-radius: var(--fp-radius-control); background: transparent; text-align: left;
   font-size: var(--fp-text-sm); color: var(--fp-ink);
 }
 [data-slot="command-item"][data-active="true"] { background: var(--fp-surface); }
@@ -1208,7 +1215,7 @@ svg.lucide { stroke-width: 1.5; }
 [data-slot="date-picker-trigger"] svg { color: var(--fp-muted); flex-shrink: 0; }
 [data-slot="date-picker-content"] {
   padding: var(--fp-space-4);
-  background: var(--fp-bg); border: 1px solid var(--fp-line); border-radius: var(--fp-radius-surface);
+  background: var(--fp-bg); border: 1px solid var(--fp-line); border-radius: var(--fp-radius-floating);
   box-shadow: var(--fp-shadow-pop);
 }
 
@@ -1262,10 +1269,11 @@ svg.lucide { stroke-width: 1.5; }
 }
 [data-slot="menu-content"] {
   min-width: 200px; padding: var(--fp-space-1); outline: none;
-  background: var(--fp-bg); border: 1px solid var(--fp-line); border-radius: var(--fp-radius-surface);
+  background: var(--fp-bg); border: 1px solid var(--fp-line); border-radius: var(--fp-radius-floating);
   box-shadow: var(--fp-shadow-pop);
 }
 [data-slot="menu-item"] {
+  border-radius: var(--fp-radius-control);
   display: flex; align-items: center; gap: var(--fp-space-3);
   height: var(--fp-control-sm); padding: 0 var(--fp-space-3);
   font-size: var(--fp-text-sm); cursor: default; user-select: none; outline: none;
@@ -1459,12 +1467,17 @@ svg.lucide { stroke-width: 1.5; }
   --fp-drawer-bleed: 3rem;
   position: relative; box-sizing: border-box;
   background: var(--fp-bg); color: var(--fp-ink);
-  border: 1px solid var(--fp-line); border-radius: var(--fp-radius-surface);
+  border: 1px solid var(--fp-line);
   box-shadow: var(--fp-shadow-pop);
   outline: 0; overflow-y: auto; overscroll-behavior: contain;
   transition: transform var(--fp-duration) var(--fp-ease);
   will-change: transform;
 }
+/* Round only the corners that face into the page; the other two sit on the screen edge. */
+[data-slot="drawer-content"][data-side="bottom"] { border-radius: var(--fp-radius-floating) var(--fp-radius-floating) 0 0; }
+[data-slot="drawer-content"][data-side="top"] { border-radius: 0 0 var(--fp-radius-floating) var(--fp-radius-floating); }
+[data-slot="drawer-content"][data-side="right"] { border-radius: var(--fp-radius-floating) 0 0 var(--fp-radius-floating); }
+[data-slot="drawer-content"][data-side="left"] { border-radius: 0 var(--fp-radius-floating) var(--fp-radius-floating) 0; }
 [data-slot="drawer-content"][data-swiping] { user-select: none; transition-duration: 0ms; }
 [data-slot="drawer-content"][data-side="bottom"] {
   width: min(100%, 640px); max-height: calc(85dvh + var(--fp-drawer-bleed));

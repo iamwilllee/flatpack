@@ -101,7 +101,7 @@ Tailwind classes on a component (`className="mt-4"`) still work for layout. Avoi
 | `--border`, `--input` | `--fp-line`, `--fp-line-strong` |
 | `--primary` / `--primary-foreground` | `--fp-accent` / `--fp-on-accent` |
 | `--destructive` | `--fp-danger` |
-| `--radius` | `--fp-radius-control` (buttons, inputs) and `--fp-radius-surface` (cards, dialogs) |
+| `--radius` | `--fp-radius-control` (buttons, inputs), `--fp-radius-surface` (cards, tables) and `--fp-radius-floating` (dialogs, menus, toasts) |
 
 ## 6. Check the result
 

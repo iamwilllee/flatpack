@@ -58,7 +58,7 @@ The size and spacing tokens are named by step, not by pixel value. `var(--fp-spa
 Use `--fp-space-9` or larger between page sections.
 
 The three rules:
-- **Shape by role**: clickable single-line parts (Button, ChipGroup, Input, Select, Segmented, Badge, Switch, Tooltip, pagination) use `--fp-radius-control` (a pill by default); surfaces that hold content (Card, Image, Dialog, menus, Table, Toast, code, Textarea) use `--fp-radius-surface` (0). No in-between radii. The "All square" preset (`data-fp-shape="square"` or shape: square in overrides) makes controls 0 too.
+- **Shape by role**: clickable single-line parts (Button, ChipGroup, Input, Select, Segmented, Badge, Switch, Tooltip, pagination) use `--fp-radius-control` (a pill by default); surfaces that hold content (Card, Image, Table, code, Textarea) use `--fp-radius-surface` (0); layers that float above the page (Dialog, AlertDialog, Popover, Select and Dropdown menus, Combobox, CommandPalette, DatePicker, HoverCard, Toast, Drawer) use `--fp-radius-floating` (20px), so the pill controls inside sit in a matching frame. Menu options are controls, so they are pills. No in-between radii. The "All square" preset (`data-fp-shape="square"` or shape: square in overrides) makes controls and floating layers 0 too.
 - **Filters and search**: separate filter chips are `<ChipGroup options={[{ value, label, count? }]} />`; a search box is `<Input variant="filled" leading={<Search size={16} />} />`; a secondary link button is `<Button variant="outline">` (ink ring).
 - **Black and white**: one accent per theme, and in the default theme it is ink (`--fp-accent`). No blue links (links are underlined ink), no cyan, no gradients. Red and green appear in status text and icons only, never as a fill.
 - **Whitespace**: separate sections with space (at least 96px between page sections). One 1px border. A card never contains a second bordered box. Only floating layers (Dialog, Popover, Select, Dropdown) have a shadow.
@@ -241,7 +241,7 @@ Never write theme-specific CSS in components. If you need to change the look glo
 
 - Inventing a new colored primary action (e.g. a blue or green CTA). Primary is black/near-white only.
 - Adding shadows outside floating layers, gradients, glass effects, colored fills, or a second border inside a card.
-- Mid-size rounded corners (the radius is only `--fp-radius-control` or `--fp-radius-surface`), uppercase monospace section labels.
+- Mid-size rounded corners (the radius is only `--fp-radius-control`, `--fp-radius-surface` or `--fp-radius-floating`), uppercase monospace section labels.
 - Hardcoding hex values in JSX instead of using `var(--fp-*)`.
 - Reimplementing `Button` / `Card` / `Input` as styled `<div>`s — always import the component.
 - Guessing props (`<Button color="red">`, `<Select items={...}>`). Use the exact props in this skill.

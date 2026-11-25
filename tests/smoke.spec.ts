@@ -170,6 +170,32 @@ test('themes swap accent and surface radius, in light and dark', async ({ page }
   expect(await read('catalog', 'dark')).toMatchObject({ accent: '#f5f5f5', surface: '4px' })
 })
 
+test('floating layers use their own radius, which themes and the square preset change', async ({ page }) => {
+  await page.goto('/#/components')
+  await page.waitForSelector('[data-slot="button"]')
+  // Style probes: the radius comes from CSS, so no need to open each real layer.
+  const radius = (attrs: Record<string, string>, slot: string) =>
+    page.evaluate(([a, sl]) => {
+      const host = document.createElement('div')
+      for (const [k, v] of Object.entries(a as Record<string, string>)) host.setAttribute(k, v)
+      const el = document.createElement('div')
+      el.setAttribute('data-slot', sl as string)
+      host.appendChild(el)
+      document.body.appendChild(host)
+      const r = getComputedStyle(el).borderTopLeftRadius
+      host.remove()
+      return r
+    }, [attrs, slot] as const)
+  for (const slot of ['dialog-content', 'alert-dialog-content', 'popover-content', 'select-content', 'dropdown-content', 'menu-content', 'toast', 'hover-card-content', 'command-content', 'combobox-content', 'date-picker-content']) {
+    expect(await radius({}, slot), slot).toBe('20px')
+  }
+  expect(await radius({ 'data-fp-shape': 'square' }, 'dialog-content')).toBe('0px')
+  expect(await radius({ 'data-fp-theme': 'catalog' }, 'dialog-content')).toBe('8px')
+  expect(await radius({ 'data-fp-theme': 'sage' }, 'dialog-content')).toBe('16px')
+  // Cards are content surfaces, not floating layers, so they stay square.
+  expect(await radius({}, 'card')).toBe('0px')
+})
+
 test.describe('gallery themes and site blocks', () => {
   test('the theme switch restyles every block preview and survives in the URL', async ({ page }) => {
     await page.goto('/#/blocks')

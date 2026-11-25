@@ -5,8 +5,8 @@
       "id": "shape",
       "zh": "形状按角色",
       "en": "Shape by role",
-      "zhDesc": "可点的单行小件（按钮、筛选项、输入框、徽章）用一种圆角，承载内容的面（卡片、图片、弹窗、表格）用另一种，没有中间值。默认前者是胶囊、后者是直角；想要全直角，选「直角」预设，主题也可以给内容面一个小圆角。",
-      "enDesc": "Clickable single-line parts (buttons, chips, inputs, badges) share one radius; surfaces that hold content (cards, images, dialogs, tables) share another. Nothing in between. By default the first is a pill and the second is square. For all-square pick the Square preset; a theme may give surfaces a small radius."
+      "zhDesc": "可点的单行小件（按钮、筛选项、输入框、徽章）用一种圆角，承载内容的面（卡片、图片、表格）用另一种，没有中间值。默认前者是胶囊、后者是直角。浮在页面上的层（弹窗、菜单、Toast）单独用一种圆角，让里面的胶囊控件有一个相配的外框。想要全直角，选「直角」预设，主题也可以给内容面一个小圆角。",
+      "enDesc": "Clickable single-line parts (buttons, chips, inputs, badges) share one radius; surfaces that hold content (cards, images, tables) share another. Nothing in between. By default the first is a pill and the second is square. Layers that float above the page (dialogs, menus, toasts) get their own radius, so the pill controls inside sit in a matching frame. For all-square pick the Square preset; a theme may give surfaces a small radius."
     },
     {
       "id": "mono",
@@ -144,15 +144,18 @@
   "radius": {
     "control": "9999px",
     "surface": 0,
+    "floating": "20px",
     "round": "50%",
     "zh": {
       "control": "可点的单行小件",
       "surface": "承载内容的面，默认 0，主题可以改成小圆角",
+      "floating": "浮在页面上的层（弹窗、菜单、Toast），默认 20px，直角预设下为 0",
       "round": "头像、单选圆点"
     },
     "en": {
       "control": "Clickable single-line parts",
       "surface": "Surfaces that hold content. 0 by default; a theme may set a small radius",
+      "floating": "Layers that float above the page (dialog, menus, toast). 20px by default; 0 in the Square preset",
       "round": "Avatars, the radio dot"
     }
   },
@@ -447,7 +450,8 @@
             "zh": "直角",
             "en": "Square",
             "vars": {
-              "radius-control": "0"
+              "radius-control": "0",
+              "radius-floating": "0"
             }
           }
         ]
@@ -478,6 +482,7 @@
             "enDesc": "Neutral black and white, Arial, 4px surfaces. For catalogs and content sites",
             "vars": {
               "radius-surface": "4px",
+              "radius-floating": "8px",
               "sans": "Arial, \"PingFang SC\", \"Noto Sans SC\", \"Microsoft YaHei\", sans-serif",
               "reveal-duration": "480ms",
               "reveal-step": "50ms",
@@ -522,6 +527,7 @@
             "vars": {
               "radius-control": "10px",
               "radius-surface": "10px",
+              "radius-floating": "16px",
               "sans": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", \"PingFang SC\", \"Noto Sans SC\", \"Microsoft YaHei\", sans-serif",
               "reveal-duration": "560ms",
               "reveal-step": "70ms",

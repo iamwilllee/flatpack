@@ -87,6 +87,7 @@ function css() {
   L.push(`  --fp-border: ${px(T.border.width)};`)
   L.push(`  --fp-radius-control: ${px(T.radius.control)};`.padEnd(40) + ` /* ${T.radius.en.control} */`)
   L.push(`  --fp-radius-surface: ${px(T.radius.surface)};`.padEnd(40) + ` /* ${T.radius.en.surface} */`)
+  L.push(`  --fp-radius-floating: ${px(T.radius.floating)};`.padEnd(40) + ` /* ${T.radius.en.floating} */`)
   for (const [k, v] of Object.entries(T.control)) L.push(`  --fp-control-${k}: ${px(v)};`)
   L.push(`  --fp-icon: ${px(T.icon.size)};`)
   L.push(`  --fp-page-max: ${px(T.layout.pageMax)};`.padEnd(40) + ` /* ${T.layout.en} */`)
@@ -189,6 +190,7 @@ function figma() {
       borderRadius: {
         control: { value: String(parseInt(T.radius.control, 10)), type: 'borderRadius', description: T.radius.zh.control + '（直角预设下为 0）' },
         surface: { value: String(T.radius.surface), type: 'borderRadius', description: T.radius.zh.surface },
+        floating: { value: String(parseInt(T.radius.floating, 10)), type: 'borderRadius', description: T.radius.zh.floating },
         round: { value: '50%', type: 'borderRadius', description: T.radius.zh.round },
       },
       borderWidth: { default: { value: String(T.border.width), type: 'borderWidth' } },
@@ -245,7 +247,7 @@ function markdown(lang) {
   L.push(zh ? '### 间距、圆角、边框、阴影' : '### Space, radius, border, shadow')
   L.push('')
   L.push(`- ${zh ? '间距' : 'Space'}: ${Object.values(T.space).join(' / ')} px（\`--fp-space-1\` … \`--fp-space-${Object.keys(T.space).length}\`）${zh ? '，区块之间至少 96px' : '; at least 96px between page sections'}`)
-  L.push(`- ${zh ? '圆角只有两种：`--fp-radius-control`（胶囊，用于按钮、筛选项、单行输入框、Select、Segmented、Badge、Switch、Tooltip、分页）和 `--fp-radius-surface`（0，用于卡片、图片、弹窗、浮层、表格、Toast、代码块、多行输入框）。头像和单选圆点是 50%，复选框是方的。「直角」预设把控件也改成 0' : 'Two radii only: `--fp-radius-control` (pill: buttons, chips, single-line inputs, Select, Segmented, Badge, Switch, Tooltip, pagination) and `--fp-radius-surface` (0: cards, images, dialogs, floating layers, tables, toasts, code blocks, multi-line inputs). Avatars and the radio dot are 50%; checkboxes are square. The Square preset sets controls to 0 too'}`)
+  L.push(`- ${zh ? '圆角只有三种：`--fp-radius-control`（胶囊，用于按钮、筛选项、单行输入框、Select、Segmented、Badge、Switch、Tooltip、分页、菜单选项）、`--fp-radius-surface`（0，用于卡片、图片、表格、代码块、多行输入框）和 `--fp-radius-floating`（20px，用于弹窗、菜单、Popover、Toast 这些浮在页面上的层）。头像和单选圆点是 50%，复选框是方的。「直角」预设把控件和浮层都改成 0' : 'Three radii only: `--fp-radius-control` (pill: buttons, chips, single-line inputs, Select, Segmented, Badge, Switch, Tooltip, pagination, menu items), `--fp-radius-surface` (0: cards, images, tables, code blocks, multi-line inputs) and `--fp-radius-floating` (20px: dialogs, menus, popovers, toasts, the layers that float above the page). Avatars and the radio dot are 50%; checkboxes are square. The Square preset sets controls and floating layers to 0 too'}`)
   L.push(`- ${zh ? `页面宽度：\`--fp-page-max\` ${T.layout.pageMax}px，顶栏、页面和页脚共用 \`.fp-container\`，左右边对齐` : `Page width: \`--fp-page-max\` ${T.layout.pageMax}px; header, pages and footer share \`.fp-container\` so their edges line up`}`)
   L.push(`- ${zh ? '边框：1px `--fp-line`；悬停 `--fp-line-strong`；选中 `--fp-ink`' : 'Border: 1px `--fp-line`; hover `--fp-line-strong`; selected `--fp-ink`'}`)
   L.push(`- ${zh ? '阴影：只有 `--fp-shadow-pop`，' + T.shadow.pop.zh : 'Shadow: `--fp-shadow-pop` only, ' + T.shadow.pop.en}`)

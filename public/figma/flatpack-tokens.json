@@ -171,6 +171,11 @@
         "type": "borderRadius",
         "description": "承载内容的面，默认 0，主题可以改成小圆角"
       },
+      "floating": {
+        "value": "20",
+        "type": "borderRadius",
+        "description": "浮在页面上的层（弹窗、菜单、Toast），默认 20px，直角预设下为 0"
+      },
       "round": {
         "value": "50%",
         "type": "borderRadius",
@@ -487,6 +492,10 @@
     "radius-surface": {
       "value": "4",
       "type": "borderRadius"
+    },
+    "radius-floating": {
+      "value": "8",
+      "type": "borderRadius"
     }
   },
   "theme-catalog-dark": {
@@ -586,6 +595,10 @@
     },
     "radius-surface": {
       "value": "10",
+      "type": "borderRadius"
+    },
+    "radius-floating": {
+      "value": "16",
       "type": "borderRadius"
     }
   },
