@@ -5,7 +5,7 @@
   "title": "Chat 01",
   "description": "Assistant screen: conversation list, messages and a Composer with stop.",
   "dependencies": [
-    "lucide-react"
+    "lucide-react@^1.78.0"
   ],
   "registryDependencies": [
     "https://iamwilllee.github.io/flatpack/r/flatpack-theme.json",

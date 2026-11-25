@@ -5,7 +5,7 @@
   "title": "Form",
   "description": "Flatpack UI Form component.",
   "dependencies": [
-    "@base-ui/react"
+    "@base-ui/react@1.9.0"
   ],
   "registryDependencies": [],
   "files": [

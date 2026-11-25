@@ -5,7 +5,7 @@
   "title": "Data Table 01",
   "description": "Orders list: search, status chips with counts, a sortable and selectable table, bulk delete.",
   "dependencies": [
-    "lucide-react"
+    "lucide-react@^1.78.0"
   ],
   "registryDependencies": [
     "https://iamwilllee.github.io/flatpack/r/flatpack-theme.json",

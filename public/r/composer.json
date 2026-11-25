@@ -5,7 +5,7 @@
   "title": "Composer",
   "description": "Flatpack UI Composer component.",
   "dependencies": [
-    "lucide-react"
+    "lucide-react@^1.78.0"
   ],
   "registryDependencies": [
     "https://iamwilllee.github.io/flatpack/r/button.json"

@@ -5,8 +5,8 @@
   "title": "Combobox",
   "description": "Flatpack UI Combobox component.",
   "dependencies": [
-    "@base-ui/react",
-    "lucide-react"
+    "@base-ui/react@1.9.0",
+    "lucide-react@^1.78.0"
   ],
   "registryDependencies": [],
   "files": [

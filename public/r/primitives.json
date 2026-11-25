@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "primitives",
+  "type": "registry:ui",
+  "title": "Primitives",
+  "description": "Flatpack UI Primitives component.",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/primitives.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\n\n/** A plain 1px horizontal rule. For a labelled or vertical rule, use Divider. */\nexport function Separator(props: React.HTMLAttributes<HTMLHRElement>) { return <hr data-slot=\"separator\" {...props} /> }\n/** The grey line above a heading. */\nexport function Kicker(props: React.HTMLAttributes<HTMLDivElement>) { return <div data-slot=\"kicker\" {...props} /> }\n"
+    }
+  ]
+}

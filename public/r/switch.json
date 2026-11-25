@@ -5,7 +5,7 @@
   "title": "Switch",
   "description": "Flatpack UI Switch component.",
   "dependencies": [
-    "@base-ui/react"
+    "@base-ui/react@1.9.0"
   ],
   "registryDependencies": [],
   "files": [

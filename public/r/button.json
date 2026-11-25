@@ -5,7 +5,7 @@
   "title": "Button",
   "description": "Flatpack UI Button component.",
   "dependencies": [
-    "@base-ui/react"
+    "@base-ui/react@1.9.0"
   ],
   "registryDependencies": [],
   "files": [

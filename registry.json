@@ -23,7 +23,7 @@
       "title": "Alert Dialog",
       "description": "Flatpack UI Alert Dialog component.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react@1.9.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -40,7 +40,7 @@
       "title": "Alert",
       "description": "Flatpack UI Alert component.",
       "dependencies": [
-        "lucide-react"
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -74,7 +74,7 @@
       "title": "Avatar",
       "description": "Flatpack UI Avatar component.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react@1.9.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -121,7 +121,7 @@
       "title": "Breadcrumb",
       "description": "Flatpack UI Breadcrumb component.",
       "dependencies": [
-        "lucide-react"
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -138,7 +138,7 @@
       "title": "Button",
       "description": "Flatpack UI Button component.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react@1.9.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -155,7 +155,7 @@
       "title": "Calendar",
       "description": "Flatpack UI Calendar component.",
       "dependencies": [
-        "lucide-react"
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -187,7 +187,7 @@
       "title": "Carousel",
       "description": "Flatpack UI Carousel component.",
       "dependencies": [
-        "lucide-react"
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -204,8 +204,8 @@
       "title": "Checkbox",
       "description": "Flatpack UI Checkbox component.",
       "dependencies": [
-        "@base-ui/react",
-        "lucide-react"
+        "@base-ui/react@1.9.0",
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -222,7 +222,7 @@
       "title": "Chip Group",
       "description": "Flatpack UI Chip Group component.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react@1.9.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -239,7 +239,7 @@
       "title": "Code Block",
       "description": "Flatpack UI Code Block component.",
       "dependencies": [
-        "lucide-react"
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -256,8 +256,8 @@
       "title": "Collapse",
       "description": "Flatpack UI Collapse component.",
       "dependencies": [
-        "@base-ui/react",
-        "lucide-react"
+        "@base-ui/react@1.9.0",
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -274,8 +274,8 @@
       "title": "Combobox",
       "description": "Flatpack UI Combobox component.",
       "dependencies": [
-        "@base-ui/react",
-        "lucide-react"
+        "@base-ui/react@1.9.0",
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -292,8 +292,8 @@
       "title": "Command Palette",
       "description": "Flatpack UI Command Palette component.",
       "dependencies": [
-        "@base-ui/react",
-        "lucide-react"
+        "@base-ui/react@1.9.0",
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [
         "https://iamwilllee.github.io/flatpack/r/kbd.json"
@@ -312,7 +312,7 @@
       "title": "Composer",
       "description": "Flatpack UI Composer component.",
       "dependencies": [
-        "lucide-react"
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [
         "https://iamwilllee.github.io/flatpack/r/button.json"
@@ -331,7 +331,7 @@
       "title": "Context Menu",
       "description": "Flatpack UI Context Menu component.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react@1.9.0"
       ],
       "registryDependencies": [
         "https://iamwilllee.github.io/flatpack/r/kbd.json"
@@ -350,7 +350,7 @@
       "title": "Data Table",
       "description": "Flatpack UI Data Table component.",
       "dependencies": [
-        "lucide-react"
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [
         "https://iamwilllee.github.io/flatpack/r/table.json",
@@ -372,8 +372,8 @@
       "title": "Date Picker",
       "description": "Flatpack UI Date Picker component.",
       "dependencies": [
-        "@base-ui/react",
-        "lucide-react"
+        "@base-ui/react@1.9.0",
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [
         "https://iamwilllee.github.io/flatpack/r/calendar.json"
@@ -407,8 +407,8 @@
       "title": "Dialog",
       "description": "Flatpack UI Dialog component.",
       "dependencies": [
-        "@base-ui/react",
-        "lucide-react"
+        "@base-ui/react@1.9.0",
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -440,8 +440,8 @@
       "title": "Drawer",
       "description": "Flatpack UI Drawer component.",
       "dependencies": [
-        "@base-ui/react",
-        "lucide-react"
+        "@base-ui/react@1.9.0",
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -458,8 +458,8 @@
       "title": "Dropdown Menu",
       "description": "Flatpack UI Dropdown Menu component.",
       "dependencies": [
-        "@base-ui/react",
-        "lucide-react"
+        "@base-ui/react@1.9.0",
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -491,7 +491,7 @@
       "title": "Field",
       "description": "Flatpack UI Field component.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react@1.9.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -508,7 +508,7 @@
       "title": "File Input",
       "description": "Flatpack UI File Input component.",
       "dependencies": [
-        "lucide-react"
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -525,7 +525,7 @@
       "title": "Form",
       "description": "Flatpack UI Form component.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react@1.9.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -542,7 +542,7 @@
       "title": "Hover Card",
       "description": "Flatpack UI Hover Card component.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react@1.9.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -574,7 +574,7 @@
       "title": "Input Group",
       "description": "Flatpack UI Input Group component.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react@1.9.0"
       ],
       "registryDependencies": [
         "https://iamwilllee.github.io/flatpack/r/button.json",
@@ -594,7 +594,7 @@
       "title": "Input",
       "description": "Flatpack UI Input component.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react@1.9.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -626,8 +626,8 @@
       "title": "Lightbox",
       "description": "Flatpack UI Lightbox component.",
       "dependencies": [
-        "@base-ui/react",
-        "lucide-react"
+        "@base-ui/react@1.9.0",
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -659,7 +659,7 @@
       "title": "Menubar",
       "description": "Flatpack UI Menubar component.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react@1.9.0"
       ],
       "registryDependencies": [
         "https://iamwilllee.github.io/flatpack/r/context-menu.json"
@@ -678,7 +678,7 @@
       "title": "Meter",
       "description": "Flatpack UI Meter component.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react@1.9.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -695,8 +695,8 @@
       "title": "Multi Select",
       "description": "Flatpack UI Multi Select component.",
       "dependencies": [
-        "@base-ui/react",
-        "lucide-react"
+        "@base-ui/react@1.9.0",
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -713,8 +713,8 @@
       "title": "Number Input",
       "description": "Flatpack UI Number Input component.",
       "dependencies": [
-        "@base-ui/react",
-        "lucide-react"
+        "@base-ui/react@1.9.0",
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -731,7 +731,7 @@
       "title": "Otp Field",
       "description": "Flatpack UI Otp Field component.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react@1.9.0"
       ],
       "registryDependencies": [
         "https://iamwilllee.github.io/flatpack/r/visually-hidden.json"
@@ -750,7 +750,7 @@
       "title": "Pagination",
       "description": "Flatpack UI Pagination component.",
       "dependencies": [
-        "lucide-react"
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -767,7 +767,7 @@
       "title": "Popover",
       "description": "Flatpack UI Popover component.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react@1.9.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -779,12 +779,27 @@
       ]
     },
     {
+      "name": "primitives",
+      "type": "registry:ui",
+      "title": "Primitives",
+      "description": "Flatpack UI Primitives component.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/primitives.tsx",
+          "type": "registry:ui",
+          "content": "import * as React from 'react'\n\n/** A plain 1px horizontal rule. For a labelled or vertical rule, use Divider. */\nexport function Separator(props: React.HTMLAttributes<HTMLHRElement>) { return <hr data-slot=\"separator\" {...props} /> }\n/** The grey line above a heading. */\nexport function Kicker(props: React.HTMLAttributes<HTMLDivElement>) { return <div data-slot=\"kicker\" {...props} /> }\n"
+        }
+      ]
+    },
+    {
       "name": "progress",
       "type": "registry:ui",
       "title": "Progress",
       "description": "Flatpack UI Progress component.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react@1.9.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -801,7 +816,7 @@
       "title": "Radio",
       "description": "Flatpack UI Radio component.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react@1.9.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -833,7 +848,7 @@
       "title": "Scroll Area",
       "description": "Flatpack UI Scroll Area component.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react@1.9.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -850,7 +865,7 @@
       "title": "Segmented",
       "description": "Flatpack UI Segmented component.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react@1.9.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -867,8 +882,8 @@
       "title": "Select",
       "description": "Flatpack UI Select component.",
       "dependencies": [
-        "@base-ui/react",
-        "lucide-react"
+        "@base-ui/react@1.9.0",
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -885,8 +900,8 @@
       "title": "Sheet",
       "description": "Flatpack UI Sheet component.",
       "dependencies": [
-        "@base-ui/react",
-        "lucide-react"
+        "@base-ui/react@1.9.0",
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -918,7 +933,7 @@
       "title": "Skeleton",
       "description": "Flatpack UI Skeleton component.",
       "dependencies": [
-        "clsx"
+        "clsx@^2.1.1"
       ],
       "registryDependencies": [
         "https://iamwilllee.github.io/flatpack/r/utils.json"
@@ -937,7 +952,7 @@
       "title": "Slider",
       "description": "Flatpack UI Slider component.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react@1.9.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -999,7 +1014,7 @@
       "title": "Steps",
       "description": "Flatpack UI Steps component.",
       "dependencies": [
-        "lucide-react"
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -1016,7 +1031,7 @@
       "title": "Switch",
       "description": "Flatpack UI Switch component.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react@1.9.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -1048,7 +1063,7 @@
       "title": "Tabs",
       "description": "Flatpack UI Tabs component.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react@1.9.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -1095,8 +1110,8 @@
       "title": "Toast",
       "description": "Flatpack UI Toast component.",
       "dependencies": [
-        "@base-ui/react",
-        "lucide-react"
+        "@base-ui/react@1.9.0",
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -1113,7 +1128,7 @@
       "title": "Toggle Group",
       "description": "Flatpack UI Toggle Group component.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react@1.9.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -1130,7 +1145,7 @@
       "title": "Toolbar",
       "description": "Flatpack UI Toolbar component.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react@1.9.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -1147,7 +1162,7 @@
       "title": "Tooltip",
       "description": "Flatpack UI Tooltip component.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react@1.9.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -1164,7 +1179,7 @@
       "title": "Tree",
       "description": "Flatpack UI Tree component.",
       "dependencies": [
-        "lucide-react"
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -1196,7 +1211,7 @@
       "title": "Chat 01",
       "description": "Assistant screen: conversation list, messages and a Composer with stop.",
       "dependencies": [
-        "lucide-react"
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [
         "https://iamwilllee.github.io/flatpack/r/flatpack-theme.json",
@@ -1222,7 +1237,7 @@
       "title": "Data Table 01",
       "description": "Orders list: search, status chips with counts, a sortable and selectable table, bulk delete.",
       "dependencies": [
-        "lucide-react"
+        "lucide-react@^1.78.0"
       ],
       "registryDependencies": [
         "https://iamwilllee.github.io/flatpack/r/flatpack-theme.json",
@@ -1300,8 +1315,8 @@
       "title": "Utils",
       "description": "cn() helper for Flatpack UI.",
       "dependencies": [
-        "clsx",
-        "tailwind-merge"
+        "clsx@^2.1.1",
+        "tailwind-merge@^3.0.0"
       ],
       "files": [
         {

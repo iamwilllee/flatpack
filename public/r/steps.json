@@ -5,7 +5,7 @@
   "title": "Steps",
   "description": "Flatpack UI Steps component.",
   "dependencies": [
-    "lucide-react"
+    "lucide-react@^1.78.0"
   ],
   "registryDependencies": [],
   "files": [

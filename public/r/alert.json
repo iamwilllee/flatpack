@@ -5,7 +5,7 @@
   "title": "Alert",
   "description": "Flatpack UI Alert component.",
   "dependencies": [
-    "lucide-react"
+    "lucide-react@^1.78.0"
   ],
   "registryDependencies": [],
   "files": [

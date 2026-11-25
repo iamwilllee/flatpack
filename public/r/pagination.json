@@ -5,7 +5,7 @@
   "title": "Pagination",
   "description": "Flatpack UI Pagination component.",
   "dependencies": [
-    "lucide-react"
+    "lucide-react@^1.78.0"
   ],
   "registryDependencies": [],
   "files": [

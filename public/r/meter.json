@@ -5,7 +5,7 @@
   "title": "Meter",
   "description": "Flatpack UI Meter component.",
   "dependencies": [
-    "@base-ui/react"
+    "@base-ui/react@1.9.0"
   ],
   "registryDependencies": [],
   "files": [

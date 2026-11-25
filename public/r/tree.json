@@ -5,7 +5,7 @@
   "title": "Tree",
   "description": "Flatpack UI Tree component.",
   "dependencies": [
-    "lucide-react"
+    "lucide-react@^1.78.0"
   ],
   "registryDependencies": [],
   "files": [

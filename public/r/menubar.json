@@ -5,7 +5,7 @@
   "title": "Menubar",
   "description": "Flatpack UI Menubar component.",
   "dependencies": [
-    "@base-ui/react"
+    "@base-ui/react@1.9.0"
   ],
   "registryDependencies": [
     "https://iamwilllee.github.io/flatpack/r/context-menu.json"

@@ -5,7 +5,7 @@
   "title": "Otp Field",
   "description": "Flatpack UI Otp Field component.",
   "dependencies": [
-    "@base-ui/react"
+    "@base-ui/react@1.9.0"
   ],
   "registryDependencies": [
     "https://iamwilllee.github.io/flatpack/r/visually-hidden.json"

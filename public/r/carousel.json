@@ -5,7 +5,7 @@
   "title": "Carousel",
   "description": "Flatpack UI Carousel component.",
   "dependencies": [
-    "lucide-react"
+    "lucide-react@^1.78.0"
   ],
   "registryDependencies": [],
   "files": [

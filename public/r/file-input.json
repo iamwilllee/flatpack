@@ -5,7 +5,7 @@
   "title": "File Input",
   "description": "Flatpack UI File Input component.",
   "dependencies": [
-    "lucide-react"
+    "lucide-react@^1.78.0"
   ],
   "registryDependencies": [],
   "files": [

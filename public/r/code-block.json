@@ -5,7 +5,7 @@
   "title": "Code Block",
   "description": "Flatpack UI Code Block component.",
   "dependencies": [
-    "lucide-react"
+    "lucide-react@^1.78.0"
   ],
   "registryDependencies": [],
   "files": [

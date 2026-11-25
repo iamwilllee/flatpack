@@ -5,8 +5,8 @@
   "title": "Number Input",
   "description": "Flatpack UI Number Input component.",
   "dependencies": [
-    "@base-ui/react",
-    "lucide-react"
+    "@base-ui/react@1.9.0",
+    "lucide-react@^1.78.0"
   ],
   "registryDependencies": [],
   "files": [
