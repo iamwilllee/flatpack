@@ -5,7 +5,7 @@ import { SidebarItem } from '@/components/ui/sidebar'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
 import { Card } from '@/components/ui/card'
 import { useI18n } from '@/site/i18n'
-import { docs, type ComponentDoc } from '@/site/componentDocs'
+import { docs, themeSetup, type ComponentDoc } from '@/site/componentDocs'
 import { CodeBlock, InlineDemo } from '@/site/DocParts'
 import { REGISTRY_ORIGIN } from '@/site/origin'
 
@@ -24,8 +24,19 @@ export default function ComponentDocPage({ id, onNavigate }: { id: string; onNav
     return () => window.removeEventListener('hashchange', onHash)
   }, [])
 
-  // The registry item is named after the source file, which is not always the doc id (dropdown → dropdown-menu).
+  // The registry item is named after the source file; doc ids match it.
   const installCmd = `npx shadcn@latest add ${REGISTRY_ORIGIN}/r/${doc.importPath.split('/').pop()}.json`
+  // The one-time theme setup comes first: a component installed without the theme renders unstyled.
+  const setup = lang === 'zh' ? themeSetup.zh : themeSetup.en
+  const installCode = [
+    `# ${setup.theme}`,
+    themeSetup.command(REGISTRY_ORIGIN),
+    `# ${setup.css}`,
+    ...themeSetup.css.split('\n').map((line) => `#   ${line}`),
+    '',
+    `# ${setup.component}`,
+    installCmd,
+  ].join('\n')
 
   const copy = (key: string, text: string) => {
     navigator.clipboard?.writeText(text).then(() => {
@@ -85,9 +96,9 @@ export default function ComponentDocPage({ id, onNavigate }: { id: string; onNav
         <section id="installation" style={{ scrollMarginTop: 80, marginBottom: 'var(--fp-space-6)' }}>
           <h2 style={{ fontSize: 'var(--fp-text-lg)', fontWeight: 'var(--fp-weight-semibold)', marginBottom: 'var(--fp-space-3)' }}>{t('doc.installation')}</h2>
           <CodeBlock
-            code={`# ${lang === 'zh' ? '第一次使用：先装主题样式' : 'first time: install the theme'}\nnpx shadcn@latest add ${REGISTRY_ORIGIN}/r/flatpack-theme.json\n\n# ${lang === 'zh' ? '安装组件（依赖的组件会一起装上）' : 'add the component (its dependencies come with it)'}\n${installCmd}`}
+            code={installCode}
             copied={copied === 'install'}
-            onCopy={() => copy('install', installCmd)}
+            onCopy={() => copy('install', `${themeSetup.command(REGISTRY_ORIGIN)}\n${installCmd}`)}
             label="Terminal"
           />
         </section>

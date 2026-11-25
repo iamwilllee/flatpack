@@ -10,7 +10,8 @@
 .fp-topnav-brand[data-slot="button"]:hover { background: transparent; }
 
 @media (max-width: 720px) {
-  [data-slot="sidebar"] { display: none; }
+  /* Template and block sidebars give way on phones; the docs demo (data-demo) stays. */
+  [data-slot="sidebar"]:not([data-demo]) { display: none; }
   .fp-topnav-links, .fp-topnav-cta { display: none !important; }
   .fp-topnav-menu { display: inline-flex !important; }
   .fp-topnav-mobile { display: flex !important; }

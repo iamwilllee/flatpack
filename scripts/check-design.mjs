@@ -8,6 +8,7 @@
 //   - positive letter spacing and uppercase transforms
 //   - hex / rgb colors (all color comes from tokens)
 //   - var(--fp-*) references that no token defines
+//   - fp-* classes in src/components that flatpack.css does not define (library code ships without site.css)
 // Code samples shown to users (template literals after `code:` and the CODE map) are skipped.
 import fs from 'node:fs'
 import path from 'node:path'
@@ -64,6 +65,24 @@ const problems = []
     })
   }
 })(SRC)
+
+// Library code ships without site.css, so every fp-* class used under src/components must be
+// defined in flatpack.css. An animation name counts when flatpack.css has its @keyframes; an id
+// built from a prefix (`fp-beam-${i}`) is not a class and does not match.
+;(function walkLib(d) {
+  for (const f of fs.readdirSync(d)) {
+    const p = path.join(d, f)
+    if (fs.statSync(p).isDirectory()) { walkLib(p); continue }
+    if (!/\.tsx?$/.test(f)) continue
+    const rel = path.relative(SRC, p)
+    fs.readFileSync(p, 'utf8').split('\n').forEach((line, i) => {
+      for (const [name] of line.matchAll(/(?<![\w-])fp-[a-z0-9-]*[a-z0-9](?![\w-])/g)) {
+        if (new RegExp(`\\.${name}(?![\\w-])`).test(css) || new RegExp(`@keyframes\\s+${name}(?![\\w-])`).test(css)) continue
+        problems.push(`${rel}:${i + 1}  class ${name} is not in styles/flatpack.css (library code cannot rely on site.css)`)
+      }
+    })
+  }
+})(path.join(SRC, 'components'))
 
 if (problems.length) {
   console.error(problems.join('\n'))

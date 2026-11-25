@@ -6,6 +6,8 @@
 //   dist/docs/<id>.md        one component as plain Markdown
 //   dist/docs/<id>/index.html  static page with title, description and usage for crawlers and link
 //                            previews. It sends people on to the app route #/docs/components/<id>.
+//   dist/docs/<old id>.md and dist/docs/<old id>/index.html
+//                            for a renamed doc (movedDocs): point to the new id
 //   dist/sitemap.xml, dist/robots.txt
 import fs from 'node:fs'
 import path from 'node:path'
@@ -23,18 +25,23 @@ if (!fs.existsSync(DIST)) {
 // componentDocs.ts has no imports, so strip its types and load it as a module.
 const src = fs.readFileSync(path.join(ROOT, 'src/site/componentDocs.ts'), 'utf8')
 const { code } = await transform(src, { loader: 'ts', format: 'esm' })
-const { docs } = await import('data:text/javascript;base64,' + Buffer.from(code).toString('base64'))
+const { docs, movedDocs, themeSetup } = await import('data:text/javascript;base64,' + Buffer.from(code).toString('base64'))
 
 const registry = JSON.parse(fs.readFileSync(path.join(ROOT, 'registry.json'), 'utf8'))
 
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 const cell = (s) => String(s ?? '').replace(/\|/g, '\\|').replace(/\n/g, ' ')
 const fileOf = (d) => d.importPath.split('/').pop()
+// "first time: …" → "First time: ….". A step that ends in a colon leads into a code block.
+const step = (s) => s[0].toUpperCase() + s.slice(1) + (s.endsWith(':') ? '' : '.')
 
 function markdown(d) {
   const out = []
   out.push(`# ${d.title}`, '', `Category: ${d.categoryEn ?? d.category}`, '', d.descriptionEn, '')
-  out.push('## Install', '', '```bash', `npx shadcn@latest add ${BASE}/r/${fileOf(d)}.json`, '```', '')
+  // Theme setup first, so an agent that reads only this file still ends up with a styled component.
+  const t = themeSetup.en
+  out.push('## Install', '', step(t.theme), '', '```bash', themeSetup.command(BASE), '```', '', step(t.css), '', '```css', themeSetup.css, '```', '')
+  out.push(step(t.component), '', '```bash', `npx shadcn@latest add ${BASE}/r/${fileOf(d)}.json`, '```', '')
   out.push('## Usage', '', '```tsx', d.usage, '```', '')
   for (const ex of d.examples) out.push(`## ${ex.titleEn ?? ex.title}`, '', '```tsx', ex.code, '```', '')
   out.push('## API', '', '| Prop | Type | Default | Description |', '|---|---|---|---|')
@@ -75,6 +82,27 @@ function page(d) {
 `
 }
 
+// A renamed doc's old URL. Crawlers follow the refresh to the new static page; browsers go
+// straight to the app route.
+function movedPage(to) {
+  const target = `../../#/docs/components/${to}`
+  return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Moved · Flatpack UI</title>
+<link rel="canonical" href="${BASE}/docs/${to}/" />
+<meta name="robots" content="noindex" />
+<meta http-equiv="refresh" content="0; url=../${to}/" />
+<script>location.replace(${JSON.stringify(target)})</script>
+</head>
+<body>
+<p>Moved to <a href="../${to}/">${esc(to)}</a>.</p>
+</body>
+</html>
+`
+}
+
 fs.mkdirSync(path.join(DIST, 'docs'), { recursive: true })
 const full = []
 for (const d of docs) {
@@ -83,6 +111,13 @@ for (const d of docs) {
   fs.mkdirSync(path.join(DIST, 'docs', d.id), { recursive: true })
   fs.writeFileSync(path.join(DIST, 'docs', d.id, 'index.html'), page(d))
   full.push(md)
+}
+// Renamed doc ids (movedDocs in componentDocs.ts): the old page forwards, the old Markdown says where it went.
+for (const [from, to] of movedDocs) {
+  if (!docs.some((d) => d.id === to)) throw new Error(`movedDocs: "${from}" points to "${to}", which has no doc`)
+  fs.mkdirSync(path.join(DIST, 'docs', from), { recursive: true })
+  fs.writeFileSync(path.join(DIST, 'docs', from, 'index.html'), movedPage(to))
+  fs.writeFileSync(path.join(DIST, 'docs', `${from}.md`), `# Moved\n\nThese docs are now at ${BASE}/docs/${to}.md\n`)
 }
 
 const groups = new Map()
@@ -96,7 +131,7 @@ const index = [
   '',
   '> A React 19 + Base UI + Tailwind CSS 4 component library. Shape by role, black and white, whitespace. Copy the source into your project; one stylesheet themes everything through data-slot attributes.',
   '',
-  `Install a component with the shadcn CLI: \`npx shadcn@latest add ${BASE}/r/<name>.json\`. Install the theme first: \`npx shadcn@latest add ${BASE}/r/flatpack-theme.json\`.`,
+  `Install a component with the shadcn CLI: \`npx shadcn@latest add ${BASE}/r/<name>.json\`. Install the theme first: \`${themeSetup.command(BASE)}\`, ${themeSetup.en.css} \`${themeSetup.css.replace('\n', ' ')}\`.`,
   '',
   '## Guides',
   '',

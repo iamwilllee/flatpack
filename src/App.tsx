@@ -7,13 +7,20 @@ import BlocksPage from '@/pages/BlocksPage'
 import DocsPage from '@/pages/DocsPage'
 import TemplatesPage from '@/pages/TemplatesPage'
 import ComponentDocPage from '@/pages/ComponentDocPage'
-import { docs } from '@/site/componentDocs'
+import { docs, movedDocs } from '@/site/componentDocs'
 import { Separator } from '@/components/ui/primitives'
 import { LangProvider, useI18n } from '@/site/i18n'
 import { useTheme } from '@/site/theme'
 import { Toaster } from '@/components/ui/toast'
 
 const ROUTES: Route[] = ['home', 'components', 'create', 'blocks', 'docs', 'templates']
+
+// A renamed doc keeps its old link: swap in the new URL without adding a history entry.
+function redirectMovedDoc() {
+  const id = window.location.hash.match(/^#\/docs\/components\/([\w-]+)$/)?.[1]
+  const moved = id ? movedDocs.get(id) : undefined
+  if (moved) window.history.replaceState(null, '', `#/docs/components/${moved}`)
+}
 
 function parseHash(): { route: Route; docId: string | null } {
   const hash = window.location.hash
@@ -27,12 +34,12 @@ function parseHash(): { route: Route; docId: string | null } {
 
 function AppShell() {
   const { t } = useI18n()
-  const [state, setState] = useState(parseHash())
+  const [state, setState] = useState(() => { redirectMovedDoc(); return parseHash() })
   const { theme, toggle } = useTheme()
   const dark = theme === 'dark'
 
   useEffect(() => {
-    const onHash = () => { setState(parseHash()); window.scrollTo({ top: 0 }) }
+    const onHash = () => { redirectMovedDoc(); setState(parseHash()); window.scrollTo({ top: 0 }) }
     window.addEventListener('hashchange', onHash)
     return () => window.removeEventListener('hashchange', onHash)
   }, [])

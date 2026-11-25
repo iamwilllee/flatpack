@@ -45,6 +45,8 @@ import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupButton } from '
 import { Composer } from '@/components/ui/composer'
 import { DataTable } from '@/components/ui/data-table'
 import { Badge } from '@/components/ui/badge'
+import { Sidebar, SidebarSection, SidebarItem } from '@/components/ui/sidebar'
+import { Kicker, Separator } from '@/components/ui/primitives'
 import { PHOTOS } from '@/site/photos'
 import { useTheme } from '@/site/theme'
 
@@ -61,6 +63,32 @@ const rooms = [
 ]
 // About a day before page load.
 const placedAt = new Date(Date.now() - 26 * 3600 * 1000)
+
+// A small app frame, so the sidebar sits inside the preview instead of over the page.
+function SidebarDemo() {
+  const [page, setPage] = useState('Overview')
+  const item = (label: string, icon: React.ReactNode) => (
+    <SidebarItem icon={icon} active={page === label} onClick={() => setPage(label)}>{label}</SidebarItem>
+  )
+  return (
+    <div style={{ display: 'flex', width: '100%', maxWidth: 480, background: 'var(--fp-bg)' }}>
+      <Sidebar data-demo="sidebar" aria-label="Workspace">
+        <SidebarSection label="Workspace">
+          {item('Overview', <LayoutGrid size={16} />)}
+          {item('Library', <BookOpen size={16} />)}
+          {item('Saved', <Heart size={16} />)}
+        </SidebarSection>
+        <SidebarSection label="Account">
+          {item('Appearance', <Moon size={16} />)}
+        </SidebarSection>
+      </Sidebar>
+      <div style={{ flex: 1, minWidth: 0, padding: 'var(--fp-space-5)' }}>
+        <div style={{ fontSize: 'var(--fp-text-lg)', fontWeight: 'var(--fp-weight-semibold)' }}>{page}</div>
+        <p style={{ margin: 'var(--fp-space-2) 0 0', fontSize: 'var(--fp-text-sm)', color: 'var(--fp-muted)' }}>Pick another item to move the ink block.</p>
+      </div>
+    </div>
+  )
+}
 
 function CommandDemo() {
   const [open, setOpen] = useState(false)
@@ -476,6 +504,19 @@ export function ExtraDemo({ id, variant = 0 }: { id: string; variant?: number })
       return <div style={row}><StatusDot>Running</StatusDot><StatusDot status="success">Delivered</StatusDot><StatusDot status="danger">Failed</StatusDot><StatusDot status="idle">Paused</StatusDot></div>
     case 'visually-hidden':
       return <Button size="icon" variant="outline"><Heart size={16} /><VisuallyHidden>Add to favourites</VisuallyHidden></Button>
+    case 'sidebar':
+      return <SidebarDemo />
+    case 'primitives':
+      return (
+        <div style={col}>
+          <div>
+            <Kicker>Autumn collection</Kicker>
+            <div style={{ marginTop: 'var(--fp-space-2)', fontSize: 'var(--fp-text-xl)', fontWeight: 'var(--fp-weight-semibold)' }}>Quiet rooms, fewer things</div>
+          </div>
+          <Separator />
+          <p style={{ margin: 0, fontSize: 'var(--fp-text-sm)', color: 'var(--fp-muted)' }}>Twelve pieces, each sized for a small flat.</p>
+        </div>
+      )
     default:
       return null
   }
@@ -488,4 +529,5 @@ export const EXTRA_IDS = [
   'scroll-area', 'tree', 'description-list', 'carousel', 'lightbox', 'avatar-group', 'status-dot', 'timestamp',
   'kbd', 'spinner', 'reveal', 'code-block', 'visually-hidden',
   'drawer', 'form', 'otp-field', 'meter', 'input-group', 'composer', 'data-table',
+  'sidebar', 'primitives',
 ]

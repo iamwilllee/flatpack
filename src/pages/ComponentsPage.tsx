@@ -49,7 +49,7 @@ const sections = [
   { id: 'dialog', label: 'Dialog', icon: <ComponentIcon id="dialog" /> },
   { id: 'tabs', label: 'Tabs', icon: <ComponentIcon id="tabs" /> },
   { id: 'sheet', label: 'Sheet', icon: <ComponentIcon id="sheet" /> },
-  { id: 'dropdown', label: 'Dropdown', icon: <ComponentIcon id="dropdown" /> },
+  { id: 'dropdown-menu', label: 'Dropdown', icon: <ComponentIcon id="dropdown-menu" /> },
   { id: 'table', label: 'Table', icon: <ComponentIcon id="table" /> },
   { id: 'breadcrumb', label: 'Breadcrumb', icon: <ComponentIcon id="breadcrumb" /> },
   { id: 'image', label: 'Image', icon: <ComponentIcon id="image" /> },
@@ -82,7 +82,7 @@ const CODES: Record<string, string> = {
   "cmp-dialog": "<Dialog>\n  <DialogTrigger>Open instructions</DialogTrigger>\n  <DialogContent>\n    <DialogHeader>\n      <DialogTitle>Confirm configuration</DialogTitle>\n      <DialogDescription>\n        Check each setting before you continue.\n      </DialogDescription>\n    </DialogHeader>\n    <DialogFooter>\n      <DialogClose>Back</DialogClose>\n      <DialogClose><Button>Next</Button></DialogClose>\n    </DialogFooter>\n  </DialogContent>\n</Dialog>",
   "cmp-tabs": "<Tabs defaultValue=\"spec\">\n  <TabsList>\n    <TabsTrigger value=\"spec\">Specs</TabsTrigger>\n    <TabsTrigger value=\"review\">Reviews</TabsTrigger>\n    <TabsTrigger value=\"care\">Care</TabsTrigger>\n  </TabsList>\n  <TabsContent value=\"spec\">Solid wood frame, 30 kg capacity.</TabsContent>\n  <TabsContent value=\"review\">\"Ten minutes to assemble.\"</TabsContent>\n  <TabsContent value=\"care\">Wipe with a clean soft cloth.</TabsContent>\n</Tabs>",
   "cmp-sheet": "<Sheet>\n  <SheetTrigger>Cart (2)</SheetTrigger>\n  <SheetContent title=\"Cart\">\n    {/* Cart items */}\n    <Button style={{ width: '100%' }}>Checkout</Button>\n  </SheetContent>\n</Sheet>",
-  "cmp-dropdown": "<DropdownMenu>\n  <DropdownMenuTrigger>Categories</DropdownMenuTrigger>\n  <DropdownMenuContent>\n    <DropdownMenuItem>Living room</DropdownMenuItem>\n    <DropdownMenuItem>Bedroom</DropdownMenuItem>\n    <DropdownMenuSeparator />\n    <DropdownMenuItem>Office</DropdownMenuItem>\n  </DropdownMenuContent>\n</DropdownMenu>",
+  "cmp-dropdown-menu": "<DropdownMenu>\n  <DropdownMenuTrigger>Categories</DropdownMenuTrigger>\n  <DropdownMenuContent>\n    <DropdownMenuItem>Living room</DropdownMenuItem>\n    <DropdownMenuItem>Bedroom</DropdownMenuItem>\n    <DropdownMenuSeparator />\n    <DropdownMenuItem>Office</DropdownMenuItem>\n  </DropdownMenuContent>\n</DropdownMenu>",
   "cmp-table": "<Table>\n  <TableCaption>Item list</TableCaption>\n  <TableHeader>\n    <TableRow>\n      <TableHead>Item</TableHead><TableHead>Qty</TableHead><TableHead>Status</TableHead>\n    </TableRow>\n  </TableHeader>\n  <TableBody>\n    <TableRow>\n      <TableCell>Monitor</TableCell><TableCell>1</TableCell>\n      <TableCell><Badge variant=\"outline\">Done</Badge></TableCell>\n    </TableRow>\n  </TableBody>\n</Table>",
   "cmp-breadcrumb": "<Breadcrumb>\n  <BreadcrumbItem><BreadcrumbLink>Home</BreadcrumbLink></BreadcrumbItem>\n  <BreadcrumbSeparator />\n  <BreadcrumbItem><BreadcrumbLink>Bedroom</BreadcrumbLink></BreadcrumbItem>\n  <BreadcrumbSeparator />\n  <BreadcrumbItem><BreadcrumbCurrent>Beds & mattresses</BreadcrumbCurrent></BreadcrumbItem>\n</Breadcrumb>",
   "cmp-image": "<Image ratio=\"square\" alt=\"Square\" src=\"/product.jpg\" />\n<Image ratio=\"4:3\" alt=\"4:3\" src=\"/room.jpg\" />\n<Image ratio=\"3:4\" alt=\"3:4\" src=\"/detail.jpg\" />\n\n{/* Falls back to the alt placeholder if loading fails; 16:9 is supported too */}",
@@ -284,7 +284,7 @@ export default function ComponentsPage() {
               </Sheet>
             </Demo>
 
-            <Demo id="cmp-dropdown" title="Dropdown" note="click outside closes">
+            <Demo id="cmp-dropdown-menu" title="Dropdown" note="click outside closes">
               <DropdownMenu>
                 <DropdownMenuTrigger>Categories</DropdownMenuTrigger>
                 <DropdownMenuContent>

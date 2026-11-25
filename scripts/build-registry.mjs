@@ -10,8 +10,19 @@ const BASE = process.env.FLATPACK_ORIGIN || 'https://iamwilllee.github.io/flatpa
 
 fs.mkdirSync(OUT_R, { recursive: true })
 
-const SKIP = new Set(['primitives.tsx'])
-const files = fs.readdirSync(UI_DIR).filter((f) => f.endsWith('.tsx') && !SKIP.has(f)).sort()
+// npm dependencies are emitted as name@range with the range package.json declares, so users get the
+// versions this repo is built and tested against instead of whatever is latest.
+const PKG = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'))
+const DECLARED = { ...PKG.peerDependencies, ...PKG.dependencies }
+function pin(deps, item) {
+  return deps.map((dep) => {
+    const range = DECLARED[dep]
+    if (!range) throw new Error(`build-registry: ${item} needs the npm package "${dep}", but package.json does not declare it in dependencies. Add it there so the registry can pin its version.`)
+    return `${dep}@${range}`
+  })
+}
+
+const files = fs.readdirSync(UI_DIR).filter((f) => f.endsWith('.tsx')).sort()
 
 const items = []
 const themeItem = {
@@ -44,7 +55,7 @@ for (const file of files) {
     type: 'registry:ui',
     title,
     description: `Flatpack UI ${title} component.`,
-    dependencies: deps,
+    dependencies: pin(deps, name),
     registryDependencies: registryDeps,
     files: [{ path: `src/components/ui/${file}`, type: 'registry:ui', content }],
   }
@@ -76,7 +87,7 @@ for (const file of fs.readdirSync(BLOCK_DIR).filter((f) => f.endsWith('.tsx')).s
     type: 'registry:block',
     title: name.replace(/(^|-)(\w)/g, (_, __, c) => ' ' + c.toUpperCase()).trim(),
     description: BLOCKS[name],
-    dependencies: deps,
+    dependencies: pin(deps, name),
     registryDependencies: registryDeps.map((d) => (d === 'flatpack-theme' ? `${BASE}/r/flatpack-theme.json` : `${BASE}/r/${d}.json`)),
     files: [{ path: `src/components/blocks/${file}`, type: 'registry:block', target: `components/blocks/${file}`, content }],
   }
@@ -89,7 +100,7 @@ const utilsContent = fs.readFileSync(path.join(ROOT, 'src/lib/utils.ts'), 'utf8'
 const utilsItem = {
   name: 'lib/utils', type: 'registry:lib', title: 'Utils',
   description: 'cn() helper for Flatpack UI.',
-  dependencies: ['clsx', 'tailwind-merge'],
+  dependencies: pin(['clsx', 'tailwind-merge'], 'lib/utils'),
   files: [{ path: 'src/lib/utils.ts', type: 'registry:lib', content: utilsContent }],
 }
 items.push(utilsItem)

@@ -19,6 +19,20 @@ export type ComponentDoc = {
   api: ApiRow[]
 }
 
+// Doc ids that were renamed, old → new. The site and scripts/build-llms.mjs send the old URLs to the new page.
+export const movedDocs = new Map<string, string>([['dropdown', 'dropdown-menu']])
+
+// The one-time setup that goes before any component's install command. Every component's styles live
+// in the flatpack-theme stylesheet, yet no ui item lists it as a registry dependency: re-adding a
+// component would then offer to overwrite a customized theme. ComponentDocPage and
+// scripts/build-llms.mjs (docs/<id>.md, llms.txt) both read this, so they say the same thing.
+export const themeSetup = {
+  command: (origin: string) => `npx shadcn@latest add ${origin}/r/flatpack-theme.json`,
+  css: '@import "tailwindcss";\n@import "./styles/flatpack.css";',
+  zh: { theme: '第一次使用：先装主题样式，所有组件的样式都在这个文件里', css: '再在入口样式（如 src/index.css）里引入，放在 tailwind 之后：', component: '安装组件（依赖的组件会一起装上）' },
+  en: { theme: 'first time only: install the theme, which holds the styles of every component', css: 'then import it in your entry stylesheet (such as src/index.css), after tailwind:', component: 'add the component (its dependencies come with it)' },
+}
+
 export const docs: ComponentDoc[] = [
   {
     id: 'button', title: 'Button', category: '通用', categoryEn: 'General',
@@ -132,7 +146,7 @@ export const docs: ComponentDoc[] = [
     ],
   },
   {
-    id: 'dropdown', title: 'DropdownMenu', category: '导航', categoryEn: 'Navigation',
+    id: 'dropdown-menu', title: 'DropdownMenu', category: '导航', categoryEn: 'Navigation',
     description: '下拉菜单，点击外部自动关闭。由 Trigger / Content / Item / Separator 组合。',
     descriptionEn: 'Dropdown menu that closes on an outside click; composed of Trigger / Content / Item / Separator.',
     importPath: '@/components/ui/dropdown-menu',
@@ -148,6 +162,24 @@ export const docs: ComponentDoc[] = [
     ],
   },
   {
+    id: 'sidebar', title: 'Sidebar', category: '导航', categoryEn: 'Navigation',
+    description: '侧边导航，由 Sidebar / SidebarSection / SidebarItem 组合。每组上方是一行灰色小标题，当前项带 aria-current="page"；用 render 可以把导航项换成路由链接。',
+    descriptionEn: 'Side navigation, composed of Sidebar / SidebarSection / SidebarItem. Each group sits under a small grey caption, the current item carries aria-current="page", and render turns an item into a router link.',
+    importPath: '@/components/ui/sidebar',
+    usage: `import { Sidebar, SidebarSection, SidebarItem } from "@/components/ui/sidebar"\n\n<Sidebar>\n  <SidebarSection label="Workspace">\n    <SidebarItem active>Overview</SidebarItem>\n    <SidebarItem>Orders</SidebarItem>\n  </SidebarSection>\n</Sidebar>`,
+    examples: [
+      { title: '工作台导航', titleEn: 'Workspace navigation', code: `<Sidebar aria-label="Workspace">\n  <SidebarSection label="Workspace">\n    <SidebarItem icon={<LayoutGrid size={16} />} active>Overview</SidebarItem>\n    <SidebarItem icon={<BookOpen size={16} />}>Library</SidebarItem>\n    <SidebarItem icon={<Heart size={16} />}>Saved</SidebarItem>\n  </SidebarSection>\n  <SidebarSection label="Account">\n    <SidebarItem icon={<Moon size={16} />}>Appearance</SidebarItem>\n  </SidebarSection>\n</Sidebar>`, render: 'preview' },
+    ],
+    api: [
+      { prop: 'Sidebar', type: 'HTMLAttributes<HTMLElement>', desc: '外框，渲染 <aside>，HTML 属性透传', descEn: 'The frame: renders an <aside> and forwards HTML attributes' },
+      { prop: 'SidebarSection label', type: 'string', desc: '必填，这一组上方的灰色小标题；其余 HTML 属性透传到外层 div', descEn: 'Required: the grey caption above the group. Other HTML attributes go to the wrapping div' },
+      { prop: 'SidebarItem active', type: 'boolean', default: 'false', desc: '当前项：加 data-active 和 aria-current="page"', descEn: 'The current item: sets data-active and aria-current="page"' },
+      { prop: 'SidebarItem icon', type: 'ReactNode', desc: '文字前的图标（lucide 16px）', descEn: 'Icon before the text (lucide, 16px)' },
+      { prop: 'SidebarItem render', type: 'ReactElement', desc: '换成别的元素，比如路由链接：render={<Link to="/x" />}。默认是 <button type="button">', descEn: 'Render another element, such as a router link: render={<Link to="/x" />}. Defaults to <button type="button">' },
+      { prop: 'SidebarItem ...props', type: 'ButtonHTMLAttributes<HTMLButtonElement>', desc: 'onClick 等属性透传；文字是字符串时同时用作 title', descEn: 'onClick and other attributes are forwarded; a string label is also used as the title' },
+    ],
+  },
+  {
     id: 'table', title: 'Table', category: '数据展示', categoryEn: 'Data display',
     description: '表格。等宽大写表头、悬停高亮，适合物料清单这类清单数据。',
     descriptionEn: 'Table with monospace uppercase headers and hover highlight, built for list-style data such as item lists.',
@@ -157,6 +189,20 @@ export const docs: ComponentDoc[] = [
       { title: '物料清单', titleEn: 'Item list', code: `<Table>\n  <TableCaption>ITEM LIST</TableCaption>\n  <TableHeader>\n    <TableRow>\n      <TableHead>Item</TableHead><TableHead>Qty</TableHead><TableHead>Status</TableHead>\n    </TableRow>\n  </TableHeader>\n  <TableBody>\n    <TableRow>\n      <TableCell>Monitor</TableCell><TableCell>1</TableCell>\n      <TableCell><Badge variant="outline">Done</Badge></TableCell>\n    </TableRow>\n  </TableBody>\n</Table>`, render: 'preview' },
     ],
     api: [{ prop: '...props', type: 'Native table attributes', desc: '各子组件透传 HTML 属性', descEn: 'Each subcomponent forwards HTML attributes' }],
+  },
+  {
+    id: 'primitives', title: 'Primitives', category: '通用', categoryEn: 'General',
+    description: '两个小部件：Separator 是一条 1px 横线，Kicker 是标题上方的一行灰色小字。要带文字或竖向的分隔线，用 Divider。',
+    descriptionEn: 'Two small parts: Separator, a plain 1px horizontal rule, and Kicker, the grey line of text above a heading. For a rule with a label, or a vertical one, use Divider.',
+    importPath: '@/components/ui/primitives',
+    usage: `import { Separator, Kicker } from "@/components/ui/primitives"\n\n<Kicker>Autumn collection</Kicker>\n<h2>Quiet rooms, fewer things</h2>\n<Separator />`,
+    examples: [
+      { title: '分区标题', titleEn: 'Section heading', code: `<div>\n  <Kicker>Autumn collection</Kicker>\n  <h2>Quiet rooms, fewer things</h2>\n</div>\n<Separator />\n<p>Twelve pieces, each sized for a small flat.</p>`, render: 'preview' },
+    ],
+    api: [
+      { prop: 'Separator', type: 'HTMLAttributes<HTMLHRElement>', desc: '渲染 <hr>：一条 1px 的 --fp-line 横线，HTML 属性透传', descEn: 'Renders an <hr>: a 1px rule in --fp-line. HTML attributes are forwarded' },
+      { prop: 'Kicker', type: 'HTMLAttributes<HTMLDivElement>', desc: '渲染 <div>：14px、字重 500、--fp-muted 灰色，HTML 属性透传', descEn: 'Renders a <div> in 14px, weight 500, --fp-muted grey. HTML attributes are forwarded' },
+    ],
   },
   {
     id: 'breadcrumb', title: 'Breadcrumb', category: '导航', categoryEn: 'Navigation',

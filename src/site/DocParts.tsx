@@ -75,7 +75,7 @@ export function InlineDemo({ id, variant }: { id: string; variant: number }) {
       return <div style={{ width: '100%', maxWidth: 360 }}><Tabs defaultValue="spec"><TabsList><TabsTrigger value="spec">Specs</TabsTrigger><TabsTrigger value="review">Reviews</TabsTrigger><TabsTrigger value="care">Care</TabsTrigger></TabsList><TabsContent value="spec">Solid pine frame, holds up to 30 kg.</TabsContent><TabsContent value="review">Takes ten minutes to assemble.</TabsContent><TabsContent value="care">Wipe with a soft cloth.</TabsContent></Tabs></div>
     case 'sheet':
       return <Sheet><SheetTrigger>Cart (2)</SheetTrigger><SheetContent title="Cart"><div style={{ padding: 'var(--fp-space-3) 0', fontSize: 'var(--fp-text-xs)' }}>Minimal side table · ¥ 499</div><Button style={{ width: '100%' }}>Checkout</Button></SheetContent></Sheet>
-    case 'dropdown':
+    case 'dropdown-menu':
       return <DropdownMenu><DropdownMenuTrigger>Category</DropdownMenuTrigger><DropdownMenuContent><DropdownMenuItem>Living room</DropdownMenuItem><DropdownMenuItem>Bedroom</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem>Office and study</DropdownMenuItem></DropdownMenuContent></DropdownMenu>
     case 'table':
       return <div style={{ width: '100%', maxWidth: 420 }}><Table><TableCaption>Item list</TableCaption><TableHeader><TableRow><TableHead>Item</TableHead><TableHead>Qty</TableHead><TableHead>Status</TableHead></TableRow></TableHeader><TableBody><TableRow><TableCell>Monitor</TableCell><TableCell>1</TableCell><TableCell><Badge variant="outline">Done</Badge></TableCell></TableRow><TableRow><TableCell>Keyboard</TableCell><TableCell>4</TableCell><TableCell><Badge>In progress</Badge></TableCell></TableRow></TableBody></Table></div>

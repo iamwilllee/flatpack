@@ -37,6 +37,12 @@ test('doc pages render without runtime errors', async ({ page }) => {
   expect(errors).toEqual([])
 })
 
+test('a renamed doc id forwards to the new page', async ({ page }) => {
+  await page.goto('/#/docs/components/dropdown')
+  await expect(page).toHaveURL(/#\/docs\/components\/dropdown-menu$/)
+  await expect(page.getByRole('heading', { level: 1, name: 'DropdownMenu' })).toBeVisible()
+})
+
 test.describe('interactions', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/#/components')
