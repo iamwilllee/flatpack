@@ -5,7 +5,10 @@ import path from 'node:path'
 
 const ROOT = path.resolve(import.meta.dirname, '..')
 const UI_DIR = path.join(ROOT, 'src/components/ui')
-const OUT_R = path.join(ROOT, 'public/r')
+// FLATPACK_OUT writes the registry (r/*.json and registry.json) into that folder instead of the repo,
+// so scripts/e2e-registry.mjs can build one for a local server without touching tracked files.
+const OUT = process.env.FLATPACK_OUT
+const OUT_R = OUT ? path.join(OUT, 'r') : path.join(ROOT, 'public/r')
 const BASE = process.env.FLATPACK_ORIGIN || 'https://iamwilllee.github.io/flatpack'
 
 fs.mkdirSync(OUT_R, { recursive: true })
@@ -107,8 +110,12 @@ items.push(utilsItem)
 fs.writeFileSync(path.join(OUT_R, 'utils.json'), JSON.stringify({ $schema: 'https://ui.shadcn.com/schema/registry-item.json', ...utilsItem }, null, 2))
 
 const registry = { $schema: 'https://ui.shadcn.com/schema/registry.json', name: 'flatpack-ui', homepage: BASE, items }
-fs.writeFileSync(path.join(ROOT, 'registry.json'), JSON.stringify(registry, null, 2))
-fs.writeFileSync(path.join(ROOT, 'public/registry.json'), JSON.stringify(registry, null, 2))
+if (OUT) {
+  fs.writeFileSync(path.join(OUT, 'registry.json'), JSON.stringify(registry, null, 2))
+} else {
+  fs.writeFileSync(path.join(ROOT, 'registry.json'), JSON.stringify(registry, null, 2))
+  fs.writeFileSync(path.join(ROOT, 'public/registry.json'), JSON.stringify(registry, null, 2))
+}
 
 // Figma tokens are generated (and copied to public/) by scripts/build-tokens.mjs.
 
