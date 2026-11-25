@@ -174,6 +174,24 @@ Templates 里的真实照片来自 [Unsplash](https://unsplash.com/license)（�
 - `dist/docs/<id>/index.html`：每个组件一个可被搜索引擎收录的静态页（标题、描述、canonical、Open Graph），打开后跳到 `#/docs/components/<id>`；另有 `sitemap.xml` 和 `robots.txt`
 - `skills/flatpack-ui/SKILL.md`：给 Agent 用的技能，包含组件清单、导入路径、设计约束与可复制的用法范例
 
+## 配合 AI 使用
+
+三种方式，按需选一种或组合：
+
+1. **llms.txt**：把 `https://iamwilllee.github.io/flatpack/llms.txt` 给 AI（Cursor 里用 `@Docs` 添加）。它是带链接的组件索引，每个组件另有 `docs/<id>.md`；`llms-full.txt` 是全量文档。
+2. **shadcn MCP**：本库就是 shadcn registry，不需要单独的 MCP 服务。在项目的 `components.json` 里加上命名空间：
+
+   ```json
+   {
+     "registries": {
+       "@flatpack": "https://iamwilllee.github.io/flatpack/r/{name}.json"
+     }
+   }
+   ```
+
+   再在 AI 客户端里启用 shadcn MCP（Claude Code 等运行 `npx shadcn@latest mcp init --client claude`；其他客户端的 `command` 填 `npx`，`args` 填 `["shadcn@latest", "mcp"]`）。之后可以直接说"从 @flatpack 里加一个登录页"，AI 会搜索并安装。
+3. **SKILL**：见下一节，适合让 Agent 在搭页面时遵守设计约束。
+
 ## 给 Agent 用（SKILL）
 
 [skills/flatpack-ui/SKILL.md](./skills/flatpack-ui/SKILL.md) 让 Agent 拿到就能用我们的组件库搭界面。安装到当前环境：
