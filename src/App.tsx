@@ -1,17 +1,19 @@
-import { useState, useEffect } from 'react'
+import { lazy, Suspense, useState, useEffect } from 'react'
 import { TopNav, type Route } from '@/site/TopNav'
 import HomePage from '@/pages/HomePage'
-import ComponentsPage from '@/pages/ComponentsPage'
-import CreatePage from '@/pages/CreatePage'
-import BlocksPage from '@/pages/BlocksPage'
-import DocsPage from '@/pages/DocsPage'
-import TemplatesPage from '@/pages/TemplatesPage'
-import ComponentDocPage from '@/pages/ComponentDocPage'
 import { docs, movedDocs } from '@/site/componentDocs'
 import { Separator } from '@/components/ui/primitives'
 import { LangProvider, useI18n } from '@/site/i18n'
 import { useTheme } from '@/site/theme'
 import { Toaster } from '@/components/ui/toast'
+
+// The home page loads with the app; every other page is its own chunk, fetched on first visit.
+const ComponentsPage = lazy(() => import('@/pages/ComponentsPage'))
+const CreatePage = lazy(() => import('@/pages/CreatePage'))
+const BlocksPage = lazy(() => import('@/pages/BlocksPage'))
+const DocsPage = lazy(() => import('@/pages/DocsPage'))
+const TemplatesPage = lazy(() => import('@/pages/TemplatesPage'))
+const ComponentDocPage = lazy(() => import('@/pages/ComponentDocPage'))
 
 const ROUTES: Route[] = ['home', 'components', 'create', 'blocks', 'docs', 'templates']
 
@@ -56,16 +58,18 @@ function AppShell() {
     <div style={{ minHeight: '100vh', background: 'var(--fp-bg)', color: 'var(--fp-ink)' }}>
       <TopNav route={route} dark={dark} onTheme={toggle} onNavigate={navigate} />
       {docId ? (
-        <ComponentDocPage key={docId} id={docId} onNavigate={navigate} />
+        <Suspense fallback={null}><ComponentDocPage key={docId} id={docId} onNavigate={navigate} /></Suspense>
       ) : (
         <>
           <main className="fp-container" style={{ paddingBlock: route === 'home' ? 0 : 'var(--fp-space-7) var(--fp-space-9)' }}>
-            {route === 'home' && <HomePage onNavigate={navigate} />}
-            {route === 'components' && <ComponentsPage />}
-            {route === 'create' && <CreatePage />}
-            {route === 'blocks' && <BlocksPage />}
-            {route === 'docs' && <DocsPage onNavigate={navigate} />}
-            {route === 'templates' && <TemplatesPage />}
+            <Suspense fallback={null}>
+              {route === 'home' && <HomePage onNavigate={navigate} />}
+              {route === 'components' && <ComponentsPage />}
+              {route === 'create' && <CreatePage />}
+              {route === 'blocks' && <BlocksPage />}
+              {route === 'docs' && <DocsPage onNavigate={navigate} />}
+              {route === 'templates' && <TemplatesPage />}
+            </Suspense>
           </main>
           <footer className="fp-container" style={{ paddingBottom: 'var(--fp-space-6)' }}>
             <Separator />
