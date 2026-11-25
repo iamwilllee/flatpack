@@ -24,10 +24,12 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npm run build
       - run: npm run test:unit
       - run: npx playwright install --with-deps chromium
       - run: npm test
+      # Build last: `npm test` rebuilds the site (vite build empties dist/), which would delete llms.txt,
+      # sitemap.xml and docs/*.md that the full build writes after vite.
+      - run: npm run build
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
