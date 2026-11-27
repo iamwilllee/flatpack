@@ -7,7 +7,7 @@ import dataTable01 from '@/components/blocks/data-table-01.tsx?raw'
 import chat01 from '@/components/blocks/chat-01.tsx?raw'
 import agent01 from '@/components/blocks/agent-01.tsx?raw'
 
-export type BlockCategory = 'Commerce' | 'Dashboard' | 'Account' | 'AI' | 'Site'
+export type BlockCategory = 'Corporate' | 'Commerce' | 'Dashboard' | 'Account' | 'AI'
 
 export type Block = {
   id: string
@@ -20,11 +20,12 @@ export type Block = {
   registry?: string
 }
 
-export const categories: ('All' | BlockCategory)[] = ['All', 'Commerce', 'Dashboard', 'Account', 'Site', 'AI']
+// Same names and order as the Templates page: Corporate, Commerce, Dashboard.
+export const categories: ('All' | BlockCategory)[] = ['All', 'Corporate', 'Commerce', 'Dashboard', 'Account', 'AI']
 
 export const blocks: Block[] = [
   {
-    id: 'product-site', title: 'Product site', category: 'Site',
+    id: 'product-site', title: 'Product site', category: 'Corporate',
     description: '产品官网：一个承诺、一个动作，再用特性、步骤和常见问题支撑。',
     descriptionEn: 'Product website: one promise and one action, backed by features, steps and answers.',
     code: `<header>Brand · Badge · nav</header>
@@ -41,7 +42,7 @@ export const blocks: Block[] = [
 <Collapse items={faq} />`,
   },
   {
-    id: 'directory', title: 'Directory', category: 'Site',
+    id: 'directory', title: 'Directory', category: 'Corporate',
     description: '目录与阅读：搜索、分类筛选、结果列表和分页，空结果有出口。',
     descriptionEn: 'Directory: search, category filters, results and pages, with a way out of empty results.',
     code: `<Input leading={<Search />} value={query} onChange={…} />
