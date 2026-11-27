@@ -14,7 +14,7 @@ const dict = {
   'nav.components': { zh: '组件', en: 'Components' },
   'nav.blocks': { zh: '整屏', en: 'Blocks' },
   'nav.create': { zh: '调参', en: 'Create' },
-  'nav.templates': { zh: '站点', en: 'Templates' },
+  'nav.templates': { zh: '整站', en: 'Templates' },
   'nav.search': { zh: '搜索文档', en: 'Search docs' },
   'nav.started': { zh: '开始使用', en: 'Get Started' },
   'nav.theme': { zh: '切换主题', en: 'Toggle theme' },
@@ -59,8 +59,8 @@ const dict = {
   'cmp.kicker': { zh: '组件库', en: 'Component library' },
   'cmp.title': { zh: `${N} 个组件`, en: `${N} components` },
   'cmp.intro': {
-    zh: '通用、导航、数据录入、数据展示与反馈——覆盖最常用的基础场景。全部靠 data-slot 换肤。',
-    en: 'General, navigation, data entry, data display and feedback — the common building blocks. All themed through data-slot.',
+    zh: '按用途分组：通用、布局、导航、数据录入、数据展示、反馈和 AI。全部通过 data-slot 换肤。',
+    en: 'Grouped by use: general, layout, navigation, data entry, data display, feedback and AI. All themed through data-slot.',
   },
   'cmp.sidebar': { zh: `组件 · ${N}`, en: `Components · ${N}` },
   'cmp.viewCode': { zh: '查看代码', en: 'View code' },
@@ -72,7 +72,7 @@ const dict = {
   // docs page
   'docs.kicker': { zh: '文档', en: 'Documentation' },
   'docs.title': { zh: '开始使用', en: 'Get started' },
-  'docs.intro': { zh: 'Flatpack UI 是一套黑白、留白的组件系统：可点的小件是胶囊，承载内容的面是直角。核心是一个 CSS 文件：组件用 data-slot 标记部位，主题层靠属性选择器上样式。换掉这一个文件，就换掉整套外观。', en: 'Flatpack UI is a black-and-white component system with pill controls and square surfaces. Its core is one CSS file: components mark their parts with data-slot, and the theme layer styles them. Swap that file and you swap the whole look.' },
+  'docs.intro': { zh: 'Flatpack UI 是一套黑白、留白的组件系统，理念是「纸上的工具」：拿来看的内容是方的，拿来用的控件是圆的。核心是一个 CSS 文件：组件用 data-slot 标出每个部位，样式表按属性找到它们。换掉这一个文件，就换掉整套外观。', en: 'Flatpack UI is a black-and-white component system built on one idea, tools on paper: what you read is square and what you touch is round. Its core is one CSS file: components mark their parts with data-slot and the stylesheet finds them by attribute. Swap that file and you swap the whole look.' },
   'docs.componentsCard': { zh: '组件文档', en: 'Component docs' },
   'docs.componentsCardDesc': {
     zh: `${N} 个组件，每个都有完整用法、变体示例与 API 参数表`,
@@ -81,13 +81,13 @@ const dict = {
   'docs.overview': { zh: '组件总览', en: 'Overview' },
   'docs.stackTitle': { zh: '1. 技术栈与安装', en: '1. Stack & install' },
   'docs.stackDesc': {
-    zh: 'Flatpack UI 构建在以下基础之上。组件源码在 src/components/ui/，直接复制到你的项目；分发采用 shadcn registry 格式。',
-    en: 'Flatpack UI is built on the following. Component source lives in src/components/ui/ — copy it into your project. Distribution uses the shadcn registry format.',
+    zh: 'Flatpack UI 构建在以下基础之上。用 shadcn CLI 安装，组件源码会复制到你的项目里，归你所有。',
+    en: 'Flatpack UI is built on the following. You install it with the shadcn CLI, which copies the component source into your project for you to own.',
   },
   'docs.usageTitle': { zh: '2. 使用', en: '2. Usage' },
   'docs.usageDesc': { zh: '所有组件接受原生 props，换肤对使用方透明。', en: 'Every component accepts native props; theming is invisible to you.' },
   'docs.langTitle': { zh: '3. 设计语言', en: '3. Design language' },
-  'docs.langDesc': { zh: '方向是简单、舒适、直接：内容是主角，界面本身几乎不出声。三条原则替换了早先的 Boardcraft 四原则。', en: 'The direction is simple, comfortable and direct: content leads and the interface stays quiet. Three rules replace the earlier four Boardcraft principles.' },
+  'docs.langDesc': { zh: '方向是简单、舒适、直接：内容是主角，界面本身几乎不出声。', en: 'The direction is simple, comfortable and direct: content leads and the interface stays quiet.' },
   'docs.colorsTitle': { zh: '4. 颜色', en: '4. Color' },
   'docs.colorsDesc': { zh: '一条 10 级中性灰阶，所有颜色都从里面取。下面是实际 token 值，来自 tokens/flatpack.tokens.json。', en: 'One 10-step neutral gray scale; every color comes from it. These are the live token values from tokens/flatpack.tokens.json.' },
   'docs.themeTitle': { zh: '5. 主题切换', en: '5. Theming' },
@@ -116,9 +116,9 @@ const dict = {
 
   // blocks page
   'theme.label': { zh: '主题', en: 'Theme' },
-  'blocks.kicker': { zh: '整屏示例', en: 'Full screens' },
+  'blocks.kicker': { zh: '完整页面', en: 'Full screens' },
   'blocks.title': { zh: '整屏示例', en: 'Blocks' },
-  'blocks.desc': { zh: '整屏示例，全部用 Flatpack UI 组件拼成。看效果、读代码，然后复制过去改成你自己的。', en: 'Whole screens composed entirely from Flatpack UI components. Look, read, then copy and make them yours.' },
+  'blocks.desc': { zh: '全部用 Flatpack UI 组件拼成的完整页面。看效果、读代码，然后复制过去改成你自己的。', en: 'Whole screens composed entirely from Flatpack UI components. Look, read, then copy and make them yours.' },
   'blocks.preview': { zh: '预览', en: 'Preview' },
   'blocks.code': { zh: '代码', en: 'Code' },
   'blocks.fullscreen': { zh: '全屏查看', en: 'Fullscreen' },
@@ -150,11 +150,11 @@ const dict = {
   'create.screenType': { zh: '字体样张', en: 'Type specimen' },
 
   // templates
-  'tpl.kicker': { zh: 'Live site examples', en: 'Live site examples' },
+  'tpl.kicker': { zh: '可以操作的整站', en: 'Live site examples' },
   'tpl.title': { zh: '整站示例', en: 'Templates' },
   'tpl.desc': {
-    zh: '三种完整站点，用 Flatpack UI 组件搭成。切换类型、点导航、填表单、加购物车——都是真的能用的。',
-    en: 'Three complete sites built from Flatpack UI components. Switch types, use the nav, fill forms, add to cart — everything actually works.',
+    zh: '三个完整的站点，全部用 Flatpack UI 组件搭成。切换类型、点导航、填表单、加购物车，每一步都能真的操作。',
+    en: 'Three complete sites built from Flatpack UI components. Switch types, use the nav, fill in forms and add to the cart: every step really works.',
   },
   'tpl.corporate': { zh: '官网', en: 'Corporate' },
   'tpl.commerce': { zh: '电商', en: 'Commerce' },

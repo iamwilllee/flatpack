@@ -5,7 +5,8 @@
 //   src/styles/flatpack.css           between /* @tokens:start */ and /* @tokens:end */
 //   figma/flatpack-tokens.json         Tokens Studio format (global / light / dark sets)
 //   public/figma/flatpack-tokens.json  copy served by the site
-//   README.md, DESIGN_LANGUAGE.md      between <!-- tokens:start --> and <!-- tokens:end -->
+//   README.md, README.zh-CN.md         the idea and principles only, between <!-- tokens:start --> and <!-- tokens:end -->
+//   DESIGN_LANGUAGE.md                 the full spec, between the same markers
 //
 // Create-page choices: put `{ "preset": "fp1-…" }` (or `{ "values": { "density": "compact", … } }`)
 // in tokens/overrides.json, or run `npm run build:tokens -- --preset fp1-…` to write that file.
@@ -216,7 +217,7 @@ function figma() {
 }
 
 // ---- Markdown -------------------------------------------------------------
-function markdown(lang) {
+function markdown(lang, { full = true } = {}) {
   const zh = lang === 'zh'
   const L = []
   L.push(zh ? '<!-- 本段由 scripts/build-tokens.mjs 从 tokens/flatpack.tokens.json 生成，请勿手改 -->' : '<!-- Generated from tokens/flatpack.tokens.json by scripts/build-tokens.mjs. Do not edit by hand. -->')
@@ -238,6 +239,12 @@ function markdown(lang) {
   L.push('')
   P.exceptions.forEach((x) => L.push(`- ${zh ? x.zh : x.en}`))
   L.push('')
+  if (!full) {
+    L.push(zh
+      ? '完整的 token（颜色、字号、间距、圆角、主题、Create 页可调项）见 [DESIGN_LANGUAGE.md](./DESIGN_LANGUAGE.md) 和文档站的「设计语言」一节。'
+      : 'The full token set (color, type, space, radius, themes and the Create page dials) is in [DESIGN_LANGUAGE.md](./DESIGN_LANGUAGE.md) (Chinese) and on the docs site under Design language.')
+    return L.join('\n')
+  }
   L.push(zh ? '### 颜色（中性灰，不带蓝调）' : '### Color (neutral, no blue cast)')
   L.push('')
   L.push(zh ? '| Token | 浅色 | 深色 | 用途 |' : '| Token | Light | Dark | Use |')
@@ -307,6 +314,7 @@ const fig = JSON.stringify(figma(), null, 2) + '\n'
 fs.writeFileSync(path.join(ROOT, 'figma/flatpack-tokens.json'), fig)
 fs.mkdirSync(path.join(ROOT, 'public/figma'), { recursive: true })
 fs.writeFileSync(path.join(ROOT, 'public/figma/flatpack-tokens.json'), fig)
-replaceBetween('README.md', '<!-- tokens:start -->', '<!-- tokens:end -->', markdown('zh'))
+replaceBetween('README.md', '<!-- tokens:start -->', '<!-- tokens:end -->', markdown('en', { full: false }))
+replaceBetween('README.zh-CN.md', '<!-- tokens:start -->', '<!-- tokens:end -->', markdown('zh', { full: false }))
 replaceBetween('DESIGN_LANGUAGE.md', '<!-- tokens:start -->', '<!-- tokens:end -->', markdown('zh'))
-console.log('tokens → flatpack.css, figma/flatpack-tokens.json, README.md, DESIGN_LANGUAGE.md')
+console.log('tokens → flatpack.css, figma/flatpack-tokens.json, README.md, README.zh-CN.md, DESIGN_LANGUAGE.md')

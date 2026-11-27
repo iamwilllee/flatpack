@@ -269,7 +269,7 @@ Full API tables for every component live in the library's `src/site/componentDoc
 
 ## Theming
 
-The theme follows the system by default. Toggle by setting `data-theme` on `<html>` (the site saves the choice in localStorage as `fp-theme` and sets it in index.html before first paint):
+Light is the default; dark is `data-theme="dark"` on `<html>`. The stylesheet does not read the system setting itself: to follow it, set the attribute from `matchMedia('(prefers-color-scheme: dark)')` before first paint, as the docs site's index.html does (it also saves the user's choice in localStorage as `fp-theme`):
 
 ```ts
 document.documentElement.setAttribute('data-theme', 'dark')  // or 'light'
