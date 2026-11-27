@@ -158,7 +158,7 @@ const dict = {
   },
   'tpl.corporate': { zh: '官网', en: 'Corporate' },
   'tpl.commerce': { zh: '电商', en: 'Commerce' },
-  'tpl.admin': { zh: '后台', en: 'Admin' },
+  'tpl.admin': { zh: '后台', en: 'Dashboard' },
   'tpl.reset': { zh: '重置', en: 'Reset' },
   'tpl.fullscreen': { zh: '全屏预览', en: 'Fullscreen' },
   'tpl.close': { zh: '关闭', en: 'Close' },

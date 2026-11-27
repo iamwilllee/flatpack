@@ -12,7 +12,7 @@ import { AdminSite } from '@/templates/AdminSite'
 
 type Kind = 'corporate' | 'commerce' | 'admin'
 
-const META: Record<Kind, { key: string; url: string; desc: { zh: string; en: string }; stack: string }> = {
+const META: Record<Kind, { key: 'tpl.corporate' | 'tpl.commerce' | 'tpl.admin'; url: string; desc: { zh: string; en: string }; stack: string }> = {
   corporate: {
     key: 'tpl.corporate', url: 'nordform.example',
     desc: { zh: '品牌官网：首页、服务、关于、联系表单，可真实提交。', en: 'Brand site: home, services, about and a working contact form.' },
@@ -25,7 +25,7 @@ const META: Record<Kind, { key: string; url: string; desc: { zh: string; en: str
   },
   admin: {
     key: 'tpl.admin', url: 'console.nordform.example',
-    desc: { zh: '后台控制台：侧栏导航、订单状态流转、筛选、设置开关。', en: 'Admin console: sidebar nav, order status flow, filters and settings.' },
+    desc: { zh: '后台控制台：侧栏导航、订单状态流转、筛选、设置开关。', en: 'Dashboard: sidebar nav, order status flow, filters and settings.' },
     stack: 'Sidebar · Table · Statistic · Progress · Tabs · Switch',
   },
 }
@@ -118,7 +118,7 @@ export default function TemplatesPage() {
 
       {/* info strip */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--fp-space-3)', marginBottom: 'var(--fp-space-4)', flexWrap: 'wrap' }}>
-        <Badge>{META[kind].key === 'tpl.corporate' ? 'Corporate' : META[kind].key === 'tpl.commerce' ? 'Commerce' : 'Admin'}</Badge>
+        <Badge>{t(META[kind].key)}</Badge>
         <span style={{ fontSize: 'var(--fp-text-xs)', color: 'var(--fp-muted)' }}>{lang === 'zh' ? meta.desc.zh : meta.desc.en}</span>
         <code style={{ marginLeft: 'auto', fontFamily: 'var(--fp-mono)', fontSize: 'var(--fp-text-xs)', color: 'var(--fp-muted)' }}>{meta.stack}</code>
       </div>
