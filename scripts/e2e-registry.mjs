@@ -130,7 +130,7 @@ createRoot(document.getElementById('root')!).render(
     <Message><Thinking duration={3}>steps</Thinking><ToolCall name="Search" detail="3 results" /></Message>
     <TaskList aria-label="Tasks" tasks={[{ id: '1', title: 'Read', status: 'running' }]} />
     <Approval title="Go?" />
-    <Diff patch={'-a\n+b'} /><DiffValue from="1" to="2" />
+    <Diff patch={'-a\\n+b'} /><DiffValue from="1" to="2" />
     <p>Text <Citation n={1} title="S" href="https://example.com" /></p><Sources items={[{ title: 'S', href: 'https://example.com' }]} />
     <Chat01 />
   </>,
