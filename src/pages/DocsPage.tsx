@@ -31,7 +31,7 @@ export default function App() {
 
   const stack: { n: string; zh: string; en: string }[] = [
     { n: 'React 19 + React DOM', zh: '组件运行时', en: 'Component runtime' },
-    { n: 'Base UI', zh: '无样式交互原语：15 个交互组件的基础（Dialog / Select / Menu / Tabs…）', en: 'Unstyled interaction primitives behind 15 components (Dialog / Select / Menu / Tabs…)' },
+    { n: 'Base UI', zh: '无样式交互原语：所有交互组件的基础（Dialog / Select / Menu / Tabs…）', en: 'Unstyled interaction primitives behind every interactive component (Dialog / Select / Menu / Tabs…)' },
     { n: 'Tailwind CSS 4', zh: '布局与间距工具类；主题层在其后引入', en: 'Layout and spacing utilities; theme loads after it' },
     { n: 'TypeScript', zh: '类型定义', en: 'Type definitions' },
     { n: 'lucide-react', zh: '图标', en: 'Icons' },
@@ -186,7 +186,7 @@ export default function App() {
       </section>
 
       <div style={{ marginTop: 'var(--fp-space-7)', display: 'flex', gap: 'var(--fp-space-2)', flexWrap: 'wrap' }}>
-        <Badge variant="outline">63 components</Badge><Badge variant="outline">2 themes</Badge><Badge variant="outline">1 CSS file</Badge><Badge variant="outline">Figma tokens</Badge>
+        <Badge variant="outline">{docs.length} components</Badge><Badge variant="outline">Light and dark</Badge><Badge variant="outline">1 CSS file</Badge><Badge variant="outline">Figma tokens</Badge>
       </div>
     </div>
 

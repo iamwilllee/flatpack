@@ -91,7 +91,7 @@ export default defineConfig({ plugins: [react(), tailwindcss()], resolve: { alia
     // Used by examples/project-overview, the page an agent built from SKILL.md.
     'input', 'badge', 'avatar', 'segmented', 'select', 'statistic', 'status-dot', 'field', 'form', 'dialog', 'toast',
     // The AI group.
-    'composer', 'message', 'thinking', 'tool-call', 'task-list', 'approval', 'diff', 'sources', 'chat-01']) {
+    'composer', 'message', 'thinking', 'tool-call', 'task-list', 'approval', 'diff', 'sources', 'chat-01', 'agent-01']) {
     await run('npx', ['--yes', 'shadcn@latest', 'add', `${ORIGIN}/r/${name}.json`, '--yes', '--overwrite'], { cwd: APP })
     console.log(`  added ${name}`)
   }
@@ -117,6 +117,7 @@ import { Approval } from '@/components/ui/approval'
 import { Diff, DiffValue } from '@/components/ui/diff'
 import { Citation, Sources } from '@/components/ui/sources'
 import { Chat01 } from '@/components/blocks/chat-01'
+import { Agent01 } from '@/components/blocks/agent-01'
 
 createRoot(document.getElementById('root')!).render(
   <>
@@ -133,6 +134,7 @@ createRoot(document.getElementById('root')!).render(
     <Diff patch={'-a\\n+b'} /><DiffValue from="1" to="2" />
     <p>Text <Citation n={1} title="S" href="https://example.com" /></p><Sources items={[{ title: 'S', href: 'https://example.com' }]} />
     <Chat01 />
+    <Agent01 onApprove={async () => {}} />
   </>,
 )
 `)
@@ -141,7 +143,7 @@ createRoot(document.getElementById('root')!).render(
 
   step('check what was installed')
   const css = fs.readFileSync(path.join(APP, 'dist/assets', fs.readdirSync(path.join(APP, 'dist/assets')).find((f) => f.endsWith('.css'))), 'utf8')
-  for (const slot of ['data-slot=button', 'data-slot=sidebar', 'data-slot=dropdown-content', 'data-slot=block-login', 'data-slot=block-data-table']) {
+  for (const slot of ['data-slot=button', 'data-slot=sidebar', 'data-slot=dropdown-content', 'data-slot=block-login', 'data-slot=block-data-table', 'data-slot=block-agent']) {
     if (!css.replace(/["']/g, '').includes(slot)) throw new Error(`built CSS has no rule for ${slot}`)
   }
   // The registry pins each npm package to the range in package.json; npm may pick any version inside it.

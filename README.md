@@ -94,7 +94,7 @@
 ## 技术栈
 
 - **React 19 + TypeScript** — 组件运行时
-- **Base UI** — 无样式交互原语。Button、Checkbox、Switch、RadioGroup、Select、Dialog、Sheet、DropdownMenu、Tabs、Tooltip、Popover、Progress、Avatar、Collapse、Segmented 等 38 个组件基于它构建（状态管理、键盘交互、无障碍由 Base UI 提供）
+- **Base UI** — 无样式交互原语。Button、Checkbox、Switch、RadioGroup、Select、Dialog、Sheet、DropdownMenu、Tabs、Tooltip、Popover、Progress、Avatar、Collapse、Segmented、Thinking 等所有交互组件基于它构建（状态管理、键盘交互、无障碍由 Base UI 提供）
 - **Tailwind CSS 4** — 布局工具类
 - **lucide-react** — 图标
 - **clsx + tailwind-merge** — `cn()` 类名合并
@@ -118,7 +118,7 @@
 | 第五批：高频件（对照 Astryx） | Textarea、Field / Fieldset、NumberInput、Slider、Combobox、ToggleGroup / ButtonGroup、Toolbar、AlertDialog、Toast、HoverCard、ScrollArea、CommandPalette（⌘K）、Kbd、Spinner、AvatarGroup、CodeBlock |
 | 第六批：中等体量 | Calendar、DatePicker / DateRangePicker、FileInput、MultiSelect、Tree、DescriptionList、ContextMenu、Menubar、Carousel、Lightbox、Timestamp、StatusDot、VisuallyHidden |
 | 第七批：形状按角色 | ChipGroup（独立筛选项，可带数量）；Input 增加 `variant="filled"` 与 `leading` / `trailing` 图标位 |
-| 第九批：数据与区块 | DataTable（排序、多选、分页、空状态）；可安装区块 login-01 / settings-01 / data-table-01 / chat-01（`src/components/blocks/`） |
+| 第九批：数据与区块 | DataTable（排序、多选、分页、空状态）；可安装区块 login-01 / settings-01 / data-table-01 / chat-01 / agent-01（`src/components/blocks/`） |
 | 第十批：AI 对话与 Agent | Message（一条消息）、Thinking（折叠的推理过程）、ToolCall（工具调用小标签）、TaskList（Agent 任务状态）、Approval（执行前确认）、Diff（统一 diff 与表格单元格改动）、Sources / Citation（来源清单与行内编号）；Composer 也归入「AI」分类 |
 | 第八批：对照 coss ui | Drawer（四边滑入、滑动关闭、吸附点）、Form（提交校验、服务端错误）、OtpField、Meter、InputGroup（图标 / 单位 / 按钮同一个边框）、Composer（AI 对话输入框，回车发送，输入法选字不误发）；Field 增加 `validate` / `validationMode` |
 
@@ -126,7 +126,7 @@
 
 - 第五、六批里能用 Base UI 原语的都用了（Field、NumberField、Slider、Combobox、ToggleGroup、Toolbar、AlertDialog、Toast、PreviewCard、ScrollArea、ContextMenu、Menubar），键盘和无障碍由它负责。
 - StatusDot 按规范做成 8px 方块；Spinner 是三个方块轮流改透明度，只在加载时出现，开启「减少动态效果」时静止。
-- AI 对话部件在文档里归为「AI」分类：Composer、Message、Thinking、ToolCall、TaskList、Approval、Diff、Sources。整屏是可安装区块 chat-01，由这些组件拼成。
+- AI 对话部件在文档里归为「AI」分类：Composer、Message、Thinking、ToolCall、TaskList、Approval、Diff、Sources。整屏有两个可安装区块，都由这些组件拼成：chat-01（对话）和 agent-01（Agent 运行：计划、工具调用、删除前审批、带来源的总结）。
 
 ## 品牌标识
 
@@ -214,7 +214,7 @@ ln -s "$PWD/skills/flatpack-ui" ~/.dsh/skills/flatpack-ui
 - [x] Templates Tab：官网 / 电商 / 后台三套可交互整站示例
 - [x] 文档站（首页 / 组件 / 文档 / Create / Blocks）
 - [x] shadcn registry 分发 + Figma tokens
-- [x] 组件扩充到 77 个，4 个可安装的区块（login / settings / data-table / chat）
+- [x] 组件扩充到 77 个，5 个可安装的区块（login / settings / data-table / chat / agent）
 - [x] 给 AI 用：llms.txt、每个组件一份 Markdown、SKILL、shadcn MCP（通过 registry 命名空间）
 - [x] registry 端到端检查（`npm run test:registry`，CI 每周跑一次）
 - [ ] 多框架适配（Vue / Solid）

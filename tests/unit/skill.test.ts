@@ -38,6 +38,15 @@ describe('SKILL.md', () => {
     expect(unknown.filter((v) => !examples.has(v))).toEqual([])
   })
 
+  it('the site states no hard-coded component count', () => {
+    // A number next to "components" / "个组件" in site source goes stale as components are added.
+    for (const f of ['src/site/i18n.tsx', 'src/pages/DocsPage.tsx', 'src/pages/HomePage.tsx', 'src/pages/ComponentsPage.tsx', 'src/App.tsx']) {
+      let text = ''
+      try { text = readFileSync(path.join(ROOT, f), 'utf8') } catch { continue }
+      expect(text, f).not.toMatch(/\b\d{2,3} (components|个组件)|组件 · \d{2,3}|Components · \d{2,3}/)
+    }
+  })
+
   it('has tsx samples that type-check against the library', () => {
     const blocks = [...skill.matchAll(/```tsx\n([\s\S]*?)```/g)].map((m) => m[1])
     expect(blocks.length).toBeGreaterThan(0)

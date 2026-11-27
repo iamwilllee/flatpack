@@ -1,4 +1,8 @@
 import * as React from 'react'
+import { docs } from '@/site/componentDocs'
+
+// The component count comes from the docs, so the site never states a stale number.
+const N = docs.length
 
 export type Lang = 'zh' | 'en'
 
@@ -47,20 +51,20 @@ const dict = {
   'home.advice': { zh: '咨询服务', en: 'Consultation' },
   'home.adviceDesc': { zh: '专业规划空间', en: 'Plan your space' },
   'home.searchProducts': { zh: '搜索商品…', en: 'Search products…' },
-  'home.compCount': { zh: '63 个组件', en: '63 components' },
+  'home.compCount': { zh: `${N} 个组件`, en: `${N} components` },
 
   // components page
   'cmp.kicker': { zh: '组件库', en: 'Component library' },
-  'cmp.title': { zh: '63 个组件', en: '63 components' },
+  'cmp.title': { zh: `${N} 个组件`, en: `${N} components` },
   'cmp.intro': {
     zh: '通用、导航、数据录入、数据展示与反馈——覆盖最常用的基础场景。全部靠 data-slot 换肤。',
     en: 'General, navigation, data entry, data display and feedback — the common building blocks. All themed through data-slot.',
   },
-  'cmp.sidebar': { zh: '组件 · 63', en: 'Components · 63' },
+  'cmp.sidebar': { zh: `组件 · ${N}`, en: `Components · ${N}` },
   'cmp.viewCode': { zh: '查看代码', en: 'View code' },
   'cmp.hideCode': { zh: '隐藏代码', en: 'Hide code' },
   'cmp.copy': { zh: '复制', en: 'Copy' },
-  'cmp.footerA': { zh: 'Flatpack UI · 63 个组件', en: 'Flatpack UI · 63 components' },
+  'cmp.footerA': { zh: `Flatpack UI · ${N} 个组件`, en: `Flatpack UI · ${N} components` },
   'cmp.footerB': { zh: '换掉一个 CSS，换掉整套系统', en: 'Swap one CSS file, swap the system' },
 
   // docs page
@@ -69,8 +73,8 @@ const dict = {
   'docs.intro': { zh: 'Flatpack UI 是一套黑白、留白的组件系统：可点的小件是胶囊，承载内容的面是直角。核心是一个 CSS 文件：组件用 data-slot 标记部位，主题层靠属性选择器上样式。换掉这一个文件，就换掉整套外观。', en: 'Flatpack UI is a black-and-white component system with pill controls and square surfaces. Its core is one CSS file: components mark their parts with data-slot, and the theme layer styles them. Swap that file and you swap the whole look.' },
   'docs.componentsCard': { zh: '组件文档', en: 'Component docs' },
   'docs.componentsCardDesc': {
-    zh: '60 个组件，每个都有完整用法、变体示例与 API 参数表',
-    en: '60 components, each with usage, variant examples and an API table',
+    zh: `${N} 个组件，每个都有完整用法、变体示例与 API 参数表`,
+    en: `${N} components, each with usage, variant examples and an API table`,
   },
   'docs.overview': { zh: '组件总览', en: 'Overview' },
   'docs.stackTitle': { zh: '1. 技术栈与安装', en: '1. Stack & install' },
@@ -159,7 +163,7 @@ const dict = {
 
   // app footer
   'app.footerA': { zh: 'Flatpack UI · 形状按角色 · 黑白 · 留白', en: 'Flatpack UI · Shape by role · Black and white · Whitespace' },
-  'app.footerB': { zh: '63 个组件 · 2 套主题 · 1 个 CSS 文件', en: '63 components · 2 themes · 1 CSS file' },
+  'app.footerB': { zh: `${N} 个组件 · 浅色与深色 · 1 个 CSS 文件`, en: `${N} components · light and dark · 1 CSS file` },
 } satisfies Record<string, Entry>
 
 export type TKey = keyof typeof dict

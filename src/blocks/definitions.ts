@@ -5,6 +5,7 @@ import login01 from '@/components/blocks/login-01.tsx?raw'
 import settings01 from '@/components/blocks/settings-01.tsx?raw'
 import dataTable01 from '@/components/blocks/data-table-01.tsx?raw'
 import chat01 from '@/components/blocks/chat-01.tsx?raw'
+import agent01 from '@/components/blocks/agent-01.tsx?raw'
 
 export type BlockCategory = 'Commerce' | 'Dashboard' | 'Account' | 'AI' | 'Site'
 
@@ -162,5 +163,11 @@ export const blocks: Block[] = [
     description: 'AI 助手对话页：会话列表、消息和 Composer 输入框。回复可以包含工具调用和改动对比；生成中可停止。',
     descriptionEn: 'AI assistant: conversation list, messages and the Composer. Replies can hold tool calls and diffs; a running reply can be stopped.',
     code: chat01,
+  },
+  {
+    id: 'agent', title: 'Agent run', category: 'AI', registry: 'agent-01',
+    description: 'Agent 运行页：右侧是计划和每一步的状态，左侧是运行记录（推理、工具调用）。删除数据之前停下来等人批准，拒绝或停止后不再执行后续步骤，完成后给出带来源的总结。',
+    descriptionEn: 'Agent run: the plan and each step\'s state on the right, the log (reasoning, tool calls) on the left. It stops for approval before deleting anything; after a denial or a stop nothing else runs, and when it finishes it reports back with its sources.',
+    code: agent01,
   },
 ]

@@ -1389,8 +1389,9 @@ svg.lucide { stroke-width: 1.5; }
 [data-slot="diff-line"][data-kind="add"] { color: var(--fp-success); }
 [data-slot="diff-line"][data-kind="del"] { color: var(--fp-danger); text-decoration: line-through; text-decoration-thickness: 1px; }
 [data-slot="diff-line"][data-kind="hunk"] { color: var(--fp-muted); }
-[data-slot="diff-value"] { display: inline-flex; align-items: baseline; gap: var(--fp-space-2); }
-[data-slot="diff-value-from"] { color: var(--fp-danger); text-decoration: line-through; text-decoration-thickness: 1px; }
+/* Plain inline, so punctuation after it stays on the same line. */
+[data-slot="diff-value"] { white-space: nowrap; }
+[data-slot="diff-value-from"] { margin-right: var(--fp-space-2); color: var(--fp-danger); text-decoration: line-through; text-decoration-thickness: 1px; }
 [data-slot="diff-value-to"] { color: var(--fp-success); text-decoration: none; }
 
 [data-slot="citation"] {
@@ -1650,7 +1651,7 @@ a[data-slot="citation"]:hover { color: var(--fp-ink); border-color: var(--fp-lin
 /* ---- blocks (src/components/blocks) --------------------------------------- */
 /* Each block sizes itself by its own width: the root is a size container and its layout child
  * answers the @container queries, so a block fits a page, a side panel or a preview alike. */
-[data-slot="block-login"], [data-slot="block-settings"], [data-slot="block-data-table"], [data-slot="block-chat"] { container-type: inline-size; color: var(--fp-ink); background: var(--fp-bg); }
+[data-slot="block-login"], [data-slot="block-settings"], [data-slot="block-data-table"], [data-slot="block-chat"], [data-slot="block-agent"] { container-type: inline-size; color: var(--fp-ink); background: var(--fp-bg); }
 [data-slot="block-login-layout"] { display: grid; grid-template-columns: 1fr 1fr; min-height: 480px; }
 [data-slot="block-login-panel"] { display: flex; flex-direction: column; justify-content: space-between; gap: var(--fp-space-6); padding: var(--fp-space-7); }
 [data-slot="block-login-form"] { align-self: center; width: 100%; max-width: 400px; margin: 0 auto; padding: var(--fp-space-7); }
@@ -1661,6 +1662,14 @@ a[data-slot="citation"]:hover { color: var(--fp-ink); border-color: var(--fp-lin
 [data-slot="block-chat-main"] { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 [data-slot="block-chat-log"] { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: var(--fp-space-5); padding: var(--fp-space-5); width: 100%; max-width: 720px; margin: 0 auto; }
 [data-slot="block-chat-input"] { padding: 0 var(--fp-space-5) var(--fp-space-5); width: 100%; max-width: 720px; margin: 0 auto; }
+[data-slot="block-agent-layout"] {
+  display: grid; grid-template-columns: minmax(0, 1fr) 280px; grid-template-areas: "header header" "log plan";
+  column-gap: var(--fp-space-6); row-gap: var(--fp-space-5); padding: var(--fp-space-5); min-height: 560px; align-items: start;
+}
+[data-slot="block-agent-header"] { grid-area: header; display: flex; justify-content: space-between; align-items: flex-start; gap: var(--fp-space-4); padding-bottom: var(--fp-space-4); border-bottom: 1px solid var(--fp-line); }
+[data-slot="block-agent-header"] [data-slot="status-dot"] { margin-top: var(--fp-space-1); font-size: var(--fp-text-sm); }
+[data-slot="block-agent-plan"] { grid-area: plan; display: flex; flex-direction: column; gap: var(--fp-space-3); }
+[data-slot="block-agent-log"] { grid-area: log; display: flex; flex-direction: column; gap: var(--fp-space-5); min-width: 0; }
 @container (max-width: 640px) {
   [data-slot="block-login-layout"] { grid-template-columns: 1fr; }
   [data-slot="block-login-panel"] { display: none; }
@@ -1671,6 +1680,7 @@ a[data-slot="citation"]:hover { color: var(--fp-ink); border-color: var(--fp-lin
   [data-slot="block-data-table-layout"] { padding: var(--fp-space-4); }
 }
 @container (max-width: 720px) {
+  [data-slot="block-agent-layout"] { grid-template-columns: minmax(0, 1fr); grid-template-areas: "header" "plan" "log"; padding: var(--fp-space-4); }
   [data-slot="block-chat-layout"] > [data-block-chat-list] { display: none; }
   [data-slot="block-chat-log"], [data-slot="block-chat-input"] { padding-inline: var(--fp-space-4); }
 }

@@ -75,6 +75,7 @@ const BLOCKS = {
   'settings-01': 'Account settings: section list and a profile form with switches and a toast on save.',
   'data-table-01': 'Orders list: search, status chips with counts, a sortable and selectable table, bulk delete.',
   'chat-01': 'Assistant screen: conversation list, messages and a Composer with stop.',
+  'agent-01': 'Agent run: a plan with live task states, a log of tool calls, an approval before the destructive step, and a cited summary.',
 }
 for (const file of fs.readdirSync(BLOCK_DIR).filter((f) => f.endsWith('.tsx')).sort()) {
   const name = file.replace(/\.tsx$/, '')

@@ -20,6 +20,7 @@ import { Login01 } from '@/components/blocks/login-01'
 import { Settings01 } from '@/components/blocks/settings-01'
 import { DataTable01 } from '@/components/blocks/data-table-01'
 import { Chat01, type ChatMessage } from '@/components/blocks/chat-01'
+import { Agent01 } from '@/components/blocks/agent-01'
 
 const frame: React.CSSProperties = { background: 'var(--fp-bg)', padding: 'var(--fp-space-5)', minHeight: 420 }
 const row: React.CSSProperties = { display: 'flex', alignItems: 'center', justifyContent: 'space-between' }
@@ -217,6 +218,7 @@ export const screenMap: Record<string, React.ComponentType> = {
   directory: Directory,
   workbench: Workbench,
   assistant: Assistant,
+  agent: Agent01,
   storefront: Storefront,
   'product-detail': ProductDetail,
   cart: CartCheckout,
