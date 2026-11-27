@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "approval",
+  "type": "registry:ui",
+  "title": "Approval",
+  "description": "Flatpack UI Approval component.",
+  "dependencies": [
+    "lucide-react@^1.78.0"
+  ],
+  "registryDependencies": [
+    "https://iamwilllee.github.io/flatpack/r/button.json"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/approval.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nimport { Check, X } from 'lucide-react'\nimport { Button } from '@/components/ui/button'\n\nexport type ApprovalStatus = 'pending' | 'approved' | 'denied'\n\nexport type ApprovalProps = Omit<React.ComponentProps<'div'>, 'title' | 'onChange'> & {\n  /** What the assistant wants to do: \"Delete 12 draft orders?\" */\n  title: React.ReactNode\n  description?: React.ReactNode\n  /** Details to check before deciding: a CodeBlock, a list of the items affected. */\n  children?: React.ReactNode\n  /** Controlled status. Without it the component keeps its own, starting at `defaultStatus`. */\n  status?: ApprovalStatus\n  defaultStatus?: ApprovalStatus\n  onApprove?: () => void\n  onDeny?: () => void\n  approveLabel?: string\n  denyLabel?: string\n  approvedLabel?: string\n  deniedLabel?: string\n}\n\n/**\n * A question the assistant asks before it acts, placed in the message flow. It shows two buttons\n * until the user decides, then the buttons give way to the result so the history reads correctly.\n */\nexport function Approval({\n  title, description, children, status, defaultStatus = 'pending', onApprove, onDeny,\n  approveLabel = 'Approve', denyLabel = 'Deny', approvedLabel = 'Approved', deniedLabel = 'Denied', ...props\n}: ApprovalProps) {\n  const [inner, setInner] = React.useState<ApprovalStatus>(defaultStatus)\n  const current = status ?? inner\n  const id = React.useId()\n  const decide = (next: ApprovalStatus, cb?: () => void) => {\n    if (status === undefined) setInner(next)\n    cb?.()\n  }\n  return (\n    <div data-slot=\"approval\" data-status={current} role=\"group\" aria-labelledby={`${id}-title`} {...props}>\n      <div data-slot=\"approval-title\" id={`${id}-title`}>{title}</div>\n      {description && <div data-slot=\"approval-description\">{description}</div>}\n      {children}\n      <div data-slot=\"approval-footer\" aria-live=\"polite\">\n        {current === 'pending' ? (\n          <>\n            <Button size=\"sm\" variant=\"outline\" onClick={() => decide('denied', onDeny)}>{denyLabel}</Button>\n            <Button size=\"sm\" onClick={() => decide('approved', onApprove)}>{approveLabel}</Button>\n          </>\n        ) : (\n          <span data-slot=\"approval-result\">\n            {current === 'approved' ? <Check size={16} aria-hidden=\"true\" /> : <X size={16} aria-hidden=\"true\" />}\n            {current === 'approved' ? approvedLabel : deniedLabel}\n          </span>\n        )}\n      </div>\n    </div>\n  )\n}\n"
+    }
+  ]
+}

@@ -1328,12 +1328,59 @@ svg.lucide { stroke-width: 1.5; }
 [data-slot="status-dot"][data-status="danger"] { color: var(--fp-danger); }
 [data-slot="status-dot"][data-status="idle"] { color: var(--fp-muted); }
 
-/* ---- AI chat block parts -------------------------------------------------- */
-[data-slot="chat-message"] { display: flex; gap: var(--fp-space-3); align-items: flex-start; }
-[data-slot="chat-message"][data-role="user"] { flex-direction: row-reverse; }
-[data-slot="chat-bubble"] { max-width: 80%; font-size: var(--fp-text-sm); line-height: var(--fp-leading-body); }
-[data-slot="chat-message"][data-role="user"] [data-slot="chat-bubble"] { background: var(--fp-surface); padding: var(--fp-space-2) var(--fp-space-3); }
-[data-slot="chat-tool"] { display: flex; align-items: center; gap: var(--fp-space-2); padding: var(--fp-space-2) 0; font-size: var(--fp-text-xs); color: var(--fp-muted); border-top: 1px solid var(--fp-line); border-bottom: 1px solid var(--fp-line); }
+/* ---- AI parts: message, thinking, tool call, task list, approval --------- */
+[data-slot="message"] { display: flex; gap: var(--fp-space-3); align-items: flex-start; }
+[data-slot="message"][data-role="user"] { flex-direction: row-reverse; }
+[data-slot="message-body"] { max-width: 80%; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: var(--fp-space-3); font-size: var(--fp-text-sm); line-height: var(--fp-leading-body); }
+[data-slot="message"][data-role="user"] [data-slot="message-body"] { background: var(--fp-surface); padding: var(--fp-space-2) var(--fp-space-3); border-radius: var(--fp-radius-surface); }
+
+[data-slot="thinking"] { font-size: var(--fp-text-sm); }
+[data-slot="thinking-trigger"] {
+  display: inline-flex; align-items: center; gap: var(--fp-space-2);
+  padding: 0; border: 0; background: transparent; color: var(--fp-muted); font: inherit;
+  transition: color var(--fp-duration) var(--fp-ease);
+}
+[data-slot="thinking-trigger"]:hover { color: var(--fp-ink); }
+[data-slot="thinking-icon"] { transition: transform var(--fp-duration) var(--fp-ease); }
+[data-slot="thinking-trigger"][data-panel-open] [data-slot="thinking-icon"] { transform: rotate(180deg); }
+[data-slot="thinking-content"] { margin-top: var(--fp-space-2); padding-left: var(--fp-space-3); border-left: 1px solid var(--fp-line); color: var(--fp-muted); display: flex; flex-direction: column; gap: var(--fp-space-2); }
+[data-slot="thinking-content"][hidden] { display: none; }
+
+[data-slot="tool-call"] {
+  display: inline-flex; align-items: center; gap: var(--fp-space-2); max-width: 100%;
+  height: var(--fp-control-sm); padding: 0 var(--fp-space-3);
+  border: 1px solid var(--fp-line); border-radius: var(--fp-radius-control);
+  font-size: var(--fp-text-xs); color: var(--fp-ink);
+}
+[data-slot="tool-call"] svg { flex-shrink: 0; }
+[data-slot="tool-call-name"] { white-space: nowrap; }
+[data-slot="tool-call-detail"] { color: var(--fp-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+[data-slot="tool-call"][data-status="done"] svg { color: var(--fp-success); }
+[data-slot="tool-call"][data-status="error"] svg { color: var(--fp-danger); }
+
+[data-slot="task-list"] { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--fp-line); }
+[data-slot="task"] { display: flex; align-items: center; gap: var(--fp-space-3); padding: var(--fp-space-3) 0; border-bottom: 1px solid var(--fp-line); font-size: var(--fp-text-sm); }
+[data-slot="task-marker"] { display: inline-flex; align-items: center; justify-content: center; width: var(--fp-icon); flex-shrink: 0; color: var(--fp-muted); }
+[data-slot="task"][data-status="done"] [data-slot="task-marker"] { color: var(--fp-success); }
+[data-slot="task"][data-status="failed"] [data-slot="task-marker"] { color: var(--fp-danger); }
+[data-slot="task-title"] { flex: 1; min-width: 0; }
+[data-slot="task"][data-status="queued"] [data-slot="task-title"] { color: var(--fp-muted); }
+[data-slot="task-detail"] { color: var(--fp-muted); font-size: var(--fp-text-xs); white-space: nowrap; }
+[data-slot="task"][data-status="failed"] [data-slot="task-detail"] { color: var(--fp-danger); }
+
+/* In the message flow, so a content surface: one border, no shadow. */
+[data-slot="approval"] {
+  display: flex; flex-direction: column; gap: var(--fp-space-3); width: 100%; max-width: 480px;
+  font-size: var(--fp-text-sm);
+  padding: var(--fp-space-4); background: var(--fp-bg);
+  border: 1px solid var(--fp-line); border-radius: var(--fp-radius-surface);
+}
+[data-slot="approval-title"] { font-weight: var(--fp-weight-semibold); }
+[data-slot="approval-description"] { color: var(--fp-muted); }
+[data-slot="approval-footer"] { display: flex; justify-content: flex-end; gap: var(--fp-space-2); }
+[data-slot="approval-result"] { display: inline-flex; align-items: center; gap: var(--fp-space-2); color: var(--fp-muted); }
+[data-slot="approval"][data-status="approved"] [data-slot="approval-result"] svg { color: var(--fp-success); }
+[data-slot="approval"][data-status="denied"] [data-slot="approval-result"] svg { color: var(--fp-danger); }
 [data-slot="diff-line"] { display: block; padding: 0 var(--fp-space-3); font-family: var(--fp-mono); font-size: var(--fp-text-xs); line-height: 1.8; white-space: pre; }
 [data-slot="diff-line"][data-kind="add"] { color: var(--fp-success); }
 [data-slot="diff-line"][data-kind="del"] { color: var(--fp-danger); text-decoration: line-through; text-decoration-thickness: 1px; }

@@ -43,6 +43,11 @@ import { Meter } from '@/components/ui/meter'
 import { Form } from '@/components/ui/form'
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupButton } from '@/components/ui/input-group'
 import { Composer } from '@/components/ui/composer'
+import { Message } from '@/components/ui/message'
+import { Thinking } from '@/components/ui/thinking'
+import { ToolCall } from '@/components/ui/tool-call'
+import { TaskList } from '@/components/ui/task-list'
+import { Approval } from '@/components/ui/approval'
 import { DataTable } from '@/components/ui/data-table'
 import { Badge } from '@/components/ui/badge'
 import { Sidebar, SidebarSection, SidebarItem } from '@/components/ui/sidebar'
@@ -280,6 +285,59 @@ export function ExtraDemo({ id, variant = 0 }: { id: string; variant?: number })
       )
     case 'composer':
       return <ComposerDemo />
+    case 'message':
+      return (
+        <div style={{ ...col, maxWidth: 480, gap: 'var(--fp-space-5)' }}>
+          <Message role="user">Which chairs are low on stock?</Message>
+          <Message>
+            <ToolCall name="Searched inventory" detail="3 results" />
+            <p style={{ margin: 0 }}>Three chairs are below 10 units.</p>
+          </Message>
+        </div>
+      )
+    case 'thinking':
+      return (
+        <div style={{ ...col, maxWidth: 480, gap: 'var(--fp-space-4)' }}>
+          <Thinking status="thinking">
+            <span>Looking for chairs with fewer than 10 units.</span>
+          </Thinking>
+          <Thinking duration={12}>
+            <span>Checked stock for the three chairs, then read the reorder rule.</span>
+            <ToolCall name="Searched inventory" detail="3 results" />
+          </Thinking>
+        </div>
+      )
+    case 'tool-call':
+      return (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--fp-space-3)' }}>
+          <ToolCall status="running" name="Searching inventory" />
+          <ToolCall name="Searched inventory" detail="3 results" />
+          <ToolCall status="error" name="Edit orders.ts" detail="file is read-only" />
+        </div>
+      )
+    case 'task-list':
+      return (
+        <div style={{ ...col, maxWidth: 480 }}>
+          <TaskList
+            aria-label="Agent tasks"
+            tasks={[
+              { id: '1', title: 'Read the order export', status: 'done', detail: '2.1s' },
+              { id: '2', title: 'Check stock levels', status: 'failed', detail: 'Timed out' },
+              { id: '3', title: 'Update reorder rules', status: 'running' },
+              { id: '4', title: 'Write the summary', status: 'queued' },
+            ]}
+          />
+        </div>
+      )
+    case 'approval':
+      return (
+        <div style={col}>
+          <Approval
+            title="Delete 12 draft orders?"
+            description="The assistant wants to remove every draft older than 30 days. This cannot be undone."
+          />
+        </div>
+      )
     case 'data-table':
       return <DataTableDemo />
     case 'textarea':
@@ -528,6 +586,6 @@ export const EXTRA_IDS = [
   'chip-group', 'toggle-group', 'toolbar', 'alert-dialog', 'toast', 'hover-card', 'command-palette', 'context-menu', 'menubar',
   'scroll-area', 'tree', 'description-list', 'carousel', 'lightbox', 'avatar-group', 'status-dot', 'timestamp',
   'kbd', 'spinner', 'reveal', 'code-block', 'visually-hidden',
-  'drawer', 'form', 'otp-field', 'meter', 'input-group', 'composer', 'data-table',
+  'drawer', 'form', 'otp-field', 'meter', 'input-group', 'composer', 'message', 'thinking', 'tool-call', 'task-list', 'approval', 'data-table',
   'sidebar', 'primitives',
 ]

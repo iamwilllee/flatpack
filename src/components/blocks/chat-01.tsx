@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { MessageSquare, Paperclip, Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Avatar } from '@/components/ui/avatar'
 import { Kbd } from '@/components/ui/kbd'
-import { Spinner } from '@/components/ui/spinner'
+import { Message } from '@/components/ui/message'
+import { Thinking } from '@/components/ui/thinking'
 import { Composer } from '@/components/ui/composer'
 import { Sidebar, SidebarSection, SidebarItem } from '@/components/ui/sidebar'
 
@@ -70,18 +70,8 @@ export function Chat01({ initialMessages = [], onSend = echo, conversations = ['
             {messages.length === 0 && !pending && (
               <p style={{ margin: 'auto', color: 'var(--fp-muted)', fontSize: 'var(--fp-text-sm)' }}>Ask about stock, orders or customers.</p>
             )}
-            {messages.map((m) => (
-              <div key={m.id} data-slot="chat-message" data-role={m.role}>
-                <Avatar name={m.role === 'assistant' ? 'AI' : 'You'} size="sm" />
-                <div data-slot="chat-bubble">{m.content}</div>
-              </div>
-            ))}
-            {pending && (
-              <div data-slot="chat-message" data-role="assistant">
-                <Avatar name="AI" size="sm" />
-                <div data-slot="chat-bubble"><span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--fp-space-2)', color: 'var(--fp-muted)' }}><Spinner /> Thinking…</span></div>
-              </div>
-            )}
+            {messages.map((m) => <Message key={m.id} role={m.role}>{m.content}</Message>)}
+            {pending && <Message role="assistant"><Thinking status="thinking" /></Message>}
             <div ref={end} />
           </div>
           <div data-slot="block-chat-input">

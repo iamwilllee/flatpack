@@ -1163,7 +1163,7 @@ export const docs: ComponentDoc[] = [
     ],
   },
   {
-    id: 'composer', title: 'Composer', category: '数据录入', categoryEn: 'Data entry',
+    id: 'composer', title: 'Composer', category: 'AI', categoryEn: 'AI',
     description: '对话和 AI 助手界面的消息框：随文字增高的输入区、操作栏和发送按钮。回车发送，Shift+回车换行。中文、日文输入法选字时按回车只确认文字，不会发送。',
     descriptionEn: 'The message box of a chat or assistant screen: a textarea that grows with its text, an action bar and a send button. Enter sends, Shift+Enter adds a line. Enter during IME composition (pinyin, kana) only confirms the text.',
     importPath: '@/components/ui/composer',
@@ -1200,6 +1200,87 @@ export const docs: ComponentDoc[] = [
       { prop: 'empty', type: 'ReactNode', desc: '没有数据时显示，默认一个 Empty', descEn: 'Shown when there are no rows; an Empty by default' },
       { prop: 'caption / aria-label', type: 'ReactNode / string', desc: '表格的名字，二选一', descEn: 'The table name; give one of the two' },
       { prop: 'selectAllLabel / selectRowLabel / paginationLabel', type: 'string / (row) => string / string', desc: '可访问名称，默认英文', descEn: 'Accessible names, English by default' },
+    ],
+  },
+  {
+    id: 'message', title: 'Message', category: 'AI', categoryEn: 'AI',
+    description: '对话里的一条消息：头像加内容。用户的消息在右侧、浅灰底；助手的消息在左侧、无底色。内容可以是文字，也可以是 Thinking、ToolCall、代码块按顺序叠起来。',
+    descriptionEn: 'One turn of a conversation: an avatar and the content. The user\'s message sits on the right with a grey ground; the assistant\'s is plain text on the left. The content can be text, or Thinking, ToolCall and a code block stacked in the order they were produced.',
+    importPath: '@/components/ui/message',
+    usage: `import { Message } from "@/components/ui/message"\n\n<Message role="user">Which chairs are low on stock?</Message>\n<Message>Three chairs are below 10 units.</Message>`,
+    examples: [
+      { title: '一问一答', titleEn: 'A question and an answer', code: `<Message role="user">Which chairs are low on stock?</Message>\n<Message>\n  <ToolCall name="Searched inventory" detail="3 results" />\n  <p>Three chairs are below 10 units.</p>\n</Message>`, render: 'preview' },
+    ],
+    api: [
+      { prop: 'role', type: '"user" | "assistant"', default: '"assistant"', desc: '谁写的。决定位置和底色', descEn: 'Who wrote it. Sets the side and the ground' },
+      { prop: 'name', type: 'string', desc: '默认头像的名字（取前两个字母）。默认「AI」或「You」', descEn: 'Name for the default avatar (its first two letters). "AI" or "You" by default' },
+      { prop: 'avatar', type: 'ReactNode', desc: '替换默认头像', descEn: 'Replaces the default avatar' },
+      { prop: 'children', type: 'ReactNode', desc: '消息内容。多个子元素竖向排列', descEn: 'The content. Several children stack vertically' },
+    ],
+  },
+  {
+    id: 'thinking', title: 'Thinking', category: 'AI', categoryEn: 'AI',
+    description: '助手的推理过程，折叠成一行，让答案留在最前面。思考时显示加载指示并默认展开；结束后一行写「Thought for 12s」，点开可以检查每一步。',
+    descriptionEn: 'The assistant\'s reasoning, folded under one line so the answer stays in front. While it works the line shows a spinner and the trace is open; when it finishes it reads "Thought for 12s" and the user can open it to check the steps.',
+    importPath: '@/components/ui/thinking',
+    usage: `import { Thinking } from "@/components/ui/thinking"\n\n<Thinking duration={12}>\n  Checked stock for the three chairs, then read the reorder rule.\n</Thinking>`,
+    examples: [
+      { title: '思考中与已完成', titleEn: 'Working and finished', code: `<Thinking status="thinking">\n  Looking for chairs with fewer than 10 units.\n</Thinking>\n<Thinking duration={12}>\n  Checked stock for the three chairs, then read the reorder rule.\n</Thinking>`, render: 'preview' },
+    ],
+    api: [
+      { prop: 'status', type: '"thinking" | "done"', default: '"done"', desc: '思考中显示加载指示并默认展开', descEn: 'While thinking it shows a spinner and starts open' },
+      { prop: 'duration', type: 'number', desc: '思考了几秒，显示在完成后的标题里', descEn: 'Seconds it thought for, shown in the finished label' },
+      { prop: 'label', type: 'ReactNode', desc: '替换标题文字，用于本地化', descEn: 'Replaces the label, for localization' },
+      { prop: 'open / defaultOpen / onOpenChange', type: 'boolean / boolean / (open) => void', desc: '展开状态，受控或非受控', descEn: 'Open state, controlled or uncontrolled' },
+      { prop: 'children', type: 'ReactNode', desc: '推理内容。不传时只显示一行文字，不能展开', descEn: 'The reasoning. Without children the label is plain text and does not unfold' },
+    ],
+  },
+  {
+    id: 'tool-call', title: 'ToolCall', category: 'AI', categoryEn: 'AI',
+    description: '一次工具调用或代码改动，做成消息中间的一个紧凑小标签：状态图标、名称和一段等宽的细节。',
+    descriptionEn: 'A tool call or code edit as one compact chip in the middle of a message: a status icon, a name and a short detail in the mono face.',
+    importPath: '@/components/ui/tool-call',
+    usage: `import { ToolCall } from "@/components/ui/tool-call"\n\n<ToolCall name="Searched inventory" detail="3 results" />`,
+    examples: [
+      { title: '三种状态', titleEn: 'The three states', code: `<ToolCall status="running" name="Searching inventory" />\n<ToolCall name="Searched inventory" detail="3 results" />\n<ToolCall status="error" name="Edit orders.ts" detail="file is read-only" />`, render: 'preview' },
+    ],
+    api: [
+      { prop: 'name', type: 'string', desc: '调用了什么', descEn: 'What was called' },
+      { prop: 'detail', type: 'string', desc: '参数或结果：一个查询、路径、「3 results」。用等宽字体', descEn: 'The arguments or result: a query, a path, "3 results". Set in the mono face' },
+      { prop: 'status', type: '"running" | "done" | "error"', default: '"done"', desc: '运行中显示加载指示，完成是对勾，失败是叉', descEn: 'Running shows a spinner, done a check, error a cross' },
+      { prop: 'statusLabels', type: 'Record<status, string>', desc: '屏幕阅读器读出的状态文字，默认英文', descEn: 'Status text read by screen readers, English by default' },
+    ],
+  },
+  {
+    id: 'task-list', title: 'TaskList', category: 'AI', categoryEn: 'AI',
+    description: 'Agent 正在做的事，一行一个任务，带状态：排队、运行中、完成、失败。右侧可放时长或错误信息。',
+    descriptionEn: 'What an agent is working on, one row per task with its state: queued, running, done or failed. The right side can hold a duration or an error.',
+    importPath: '@/components/ui/task-list',
+    usage: `import { TaskList } from "@/components/ui/task-list"\n\n<TaskList\n  aria-label="Agent tasks"\n  tasks={[\n    { id: '1', title: 'Read the order export', status: 'done', detail: '2.1s' },\n    { id: '2', title: 'Update reorder rules', status: 'running' },\n  ]}\n/>`,
+    examples: [
+      { title: '一次运行的进度', titleEn: 'The progress of one run', code: `<TaskList\n  aria-label="Agent tasks"\n  tasks={[\n    { id: '1', title: 'Read the order export', status: 'done', detail: '2.1s' },\n    { id: '2', title: 'Check stock levels', status: 'failed', detail: 'Timed out' },\n    { id: '3', title: 'Update reorder rules', status: 'running' },\n    { id: '4', title: 'Write the summary', status: 'queued' },\n  ]}\n/>`, render: 'preview' },
+    ],
+    api: [
+      { prop: 'tasks', type: 'Task[]', desc: '每项：id、title、status（queued / running / done / failed），可选 detail', descEn: 'Each task: id, title, status (queued / running / done / failed) and an optional detail' },
+      { prop: 'statusLabels', type: 'Record<status, string>', desc: '屏幕阅读器读出的状态文字，默认英文', descEn: 'Status text read by screen readers, English by default' },
+      { prop: 'aria-label', type: 'string', desc: '列表的名字', descEn: 'The list name' },
+    ],
+  },
+  {
+    id: 'approval', title: 'Approval', category: 'AI', categoryEn: 'AI',
+    description: '助手在动手之前向人提的问题，放在消息流里。决定之前显示两个按钮，决定之后按钮换成结果，历史记录读起来才对。',
+    descriptionEn: 'A question the assistant asks before it acts, placed in the message flow. It shows two buttons until the user decides, then the buttons give way to the result so the history reads correctly.',
+    importPath: '@/components/ui/approval',
+    usage: `import { Approval } from "@/components/ui/approval"\n\n<Approval\n  title="Delete 12 draft orders?"\n  description="This cannot be undone."\n  onApprove={() => run()}\n  onDeny={() => cancel()}\n/>`,
+    examples: [
+      { title: '执行前确认', titleEn: 'Confirm before acting', code: `<Approval\n  title="Delete 12 draft orders?"\n  description="The assistant wants to remove every draft older than 30 days. This cannot be undone."\n  onApprove={() => run()}\n  onDeny={() => cancel()}\n/>`, render: 'preview' },
+    ],
+    api: [
+      { prop: 'title / description', type: 'ReactNode', desc: '要做什么，和补充说明', descEn: 'What the assistant wants to do, and a note' },
+      { prop: 'children', type: 'ReactNode', desc: '决定前要核对的细节：代码块、受影响的条目', descEn: 'Details to check before deciding: a code block, the items affected' },
+      { prop: 'onApprove / onDeny', type: '() => void', desc: '点按钮时调用', descEn: 'Called when a button is pressed' },
+      { prop: 'status / defaultStatus', type: '"pending" | "approved" | "denied"', default: '"pending"', desc: '受控状态，或非受控的初始状态。已决定后只显示结果', descEn: 'Controlled status, or the uncontrolled start. Once decided it shows only the result' },
+      { prop: 'approveLabel / denyLabel / approvedLabel / deniedLabel', type: 'string', desc: '按钮和结果文字，默认英文', descEn: 'Button and result text, English by default' },
     ],
   },
 ]

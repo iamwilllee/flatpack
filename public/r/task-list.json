@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "task-list",
+  "type": "registry:ui",
+  "title": "Task List",
+  "description": "Flatpack UI Task List component.",
+  "dependencies": [
+    "lucide-react@^1.78.0"
+  ],
+  "registryDependencies": [
+    "https://iamwilllee.github.io/flatpack/r/spinner.json",
+    "https://iamwilllee.github.io/flatpack/r/visually-hidden.json"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/task-list.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nimport { Check, Circle, X } from 'lucide-react'\nimport { Spinner } from '@/components/ui/spinner'\nimport { VisuallyHidden } from '@/components/ui/visually-hidden'\n\nexport type TaskStatus = 'queued' | 'running' | 'done' | 'failed'\nexport type Task = { id: string; title: React.ReactNode; status: TaskStatus; /** Right side: a duration, an error, a count. */ detail?: React.ReactNode }\n\nexport type TaskListProps = Omit<React.ComponentProps<'ul'>, 'children'> & {\n  tasks: Task[]\n  /** Accessible status text, for localized products. */\n  statusLabels?: Record<TaskStatus, string>\n}\n\nconst DEFAULT_LABELS: Record<TaskStatus, string> = { queued: 'Queued', running: 'Running', done: 'Done', failed: 'Failed' }\n\n/** What an agent is working on, one row per task with its state. Give the list an `aria-label`. */\nexport function TaskList({ tasks, statusLabels = DEFAULT_LABELS, ...props }: TaskListProps) {\n  return (\n    <ul data-slot=\"task-list\" {...props}>\n      {tasks.map((t) => (\n        <li key={t.id} data-slot=\"task\" data-status={t.status}>\n          <span data-slot=\"task-marker\">\n            {t.status === 'running' ? <Spinner label={statusLabels.running} /> : (\n              <>\n                {t.status === 'done' ? <Check size={16} aria-hidden=\"true\" /> : t.status === 'failed' ? <X size={16} aria-hidden=\"true\" /> : <Circle size={16} aria-hidden=\"true\" />}\n                <VisuallyHidden>{statusLabels[t.status]}: </VisuallyHidden>\n              </>\n            )}\n          </span>\n          <span data-slot=\"task-title\">{t.title}</span>\n          {t.detail != null && <span data-slot=\"task-detail\">{t.detail}</span>}\n        </li>\n      ))}\n    </ul>\n  )\n}\n"
+    }
+  ]
+}

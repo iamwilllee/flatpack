@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tool-call",
+  "type": "registry:ui",
+  "title": "Tool Call",
+  "description": "Flatpack UI Tool Call component.",
+  "dependencies": [
+    "lucide-react@^1.78.0"
+  ],
+  "registryDependencies": [
+    "https://iamwilllee.github.io/flatpack/r/spinner.json",
+    "https://iamwilllee.github.io/flatpack/r/visually-hidden.json"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/tool-call.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nimport { Check, X } from 'lucide-react'\nimport { Spinner } from '@/components/ui/spinner'\nimport { VisuallyHidden } from '@/components/ui/visually-hidden'\n\nexport type ToolCallStatus = 'running' | 'done' | 'error'\n\nexport type ToolCallProps = Omit<React.ComponentProps<'span'>, 'children'> & {\n  /** What was called: \"Search inventory\", \"Edit orders.ts\". */\n  name: string\n  /** What it was called with or returned: a query, a path, \"3 results\". Set in the mono face. */\n  detail?: string\n  status?: ToolCallStatus\n  /** Accessible status text, for localized products. */\n  statusLabels?: Record<ToolCallStatus, string>\n}\n\nconst DEFAULT_LABELS: Record<ToolCallStatus, string> = { running: 'Running', done: 'Done', error: 'Failed' }\n\n/** A tool call or code edit as one compact chip in the middle of a message. */\nexport function ToolCall({ name, detail, status = 'done', statusLabels = DEFAULT_LABELS, ...props }: ToolCallProps) {\n  return (\n    <span data-slot=\"tool-call\" data-status={status} {...props}>\n      {status === 'running' ? <Spinner label={statusLabels.running} /> : (\n        <>\n          {status === 'done' ? <Check size={16} aria-hidden=\"true\" /> : <X size={16} aria-hidden=\"true\" />}\n          <VisuallyHidden>{statusLabels[status]}: </VisuallyHidden>\n        </>\n      )}\n      <span data-slot=\"tool-call-name\">{name}</span>\n      {detail && <span data-slot=\"tool-call-detail\" className=\"fp-num\">{detail}</span>}\n    </span>\n  )\n}\n"
+    }
+  ]
+}

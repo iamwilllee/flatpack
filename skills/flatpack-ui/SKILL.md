@@ -78,7 +78,7 @@ All imports are from `@/components/ui/<name>` (adjust the alias to the target pr
 | Actions | `Button`, `ButtonGroup` / `ToggleGroup` / `Toggle` (`toggle-group`), `Toolbar` + `ToolbarButton/ToolbarToggle/ToolbarGroup/ToolbarSeparator/ToolbarSpacer` |
 | Containers | `Card` + `CardHeader/CardTitle/CardDescription/CardContent/CardFooter` |
 | Labels / status | `Badge`, `StatusDot` (8px square: default / success / danger / idle), `Kbd` / `KbdGroup`, `Kicker` (from `primitives`) |
-| Text input | `Input`, `Label`, `Textarea`, `NumberInput`, `Field` / `Fieldset` / `FieldControl` (label + help + error; `validate`), `Form` (`onFormSubmit(values)`, server `errors`), `InputGroup` + `InputGroupAddon/InputGroupInput/InputGroupButton`, `OtpField` (one-time code), `Composer` (chat message box; `onSubmit(text)`, `loading` + `onStop`) |
+| Text input | `Input`, `Label`, `Textarea`, `NumberInput`, `Field` / `Fieldset` / `FieldControl` (label + help + error; `validate`), `Form` (`onFormSubmit(values)`, server `errors`), `InputGroup` + `InputGroupAddon/InputGroupInput/InputGroupButton`, `OtpField` (one-time code) |
 | Choice | `Select`, `Combobox` (typeahead), `MultiSelect` (chips), `Checkbox`, `RadioGroup`, `Switch`, `Segmented`, `Slider` (single or range) |
 | Dates / files | `Calendar`, `DatePicker`, `DateRangePicker`, `FileInput` (collects files only) |
 | Overlays | `Dialog`, `AlertDialog` (confirm; `danger` for destructive), `Sheet`, `Drawer` (swipe to close; `side`, `snapPoints`), `Popover`, `HoverCard`, `DropdownMenu`, `ContextMenu`, `Menubar`, `Tooltip`, `CommandPalette` (⌘K), `Lightbox` / `LightboxGallery` |
@@ -86,9 +86,10 @@ All imports are from `@/components/ui/<name>` (adjust the alias to the target pr
 | Navigation | `Tabs`, `Breadcrumb`, `Pagination`, `Sidebar` + `SidebarSection/SidebarItem` |
 | Data display | `DataTable` (sort, select, page; `columns`, `getRowId`), `Table` (+ parts), `DescriptionList`, `Tree`, `Image`, `Carousel`, `Avatar`, `AvatarGroup`, `Statistic`, `Timestamp`, `Collapse`, `Empty`, `CodeBlock` / `Code` |
 | Layout / utility | `Divider`, `Separator` (from `primitives`), `ScrollArea`, `Masonry` (waterfall), `VisuallyHidden`, `Reveal` (opt-in entrance fade: add `data-reveal` to an element), `BorderBeam` (optional decorative border line; not used by default because the rules have no looping animation) |
+| AI | `Composer` (message box; `onSubmit(text)`, `loading` + `onStop`), `Message` (`role` user or assistant; children stack), `Thinking` (folded reasoning; `status`, `duration`), `ToolCall` (compact chip; `name`, `detail`, `status`), `TaskList` (`tasks` with `status` queued / running / done / failed), `Approval` (ask before acting; `onApprove`, `onDeny`) |
 | Whole screens (blocks, `@/components/blocks/<name>`) | `Login01` (`onSignIn` may return field errors), `Settings01` (`onSave`), `DataTable01` (orders list, `onDelete`), `Chat01` (`onSend(text, signal)` returns the reply). Start from one of these before composing a screen by hand |
 
-70 components total. If a need isn't in the table, compose from these before adding new source. Not provided on purpose: rich text editor, Markdown renderer, Cascader, Transfer. For AI chat screens, copy the `assistant` block in `src/blocks/BlockScreens.tsx`.
+75 components total. If a need isn't in the table, compose from these before adding new source. Not provided on purpose: rich text editor, Markdown renderer, Cascader, Transfer. For a whole AI chat screen start from `Chat01`; for one with tool calls and a diff, copy the `assistant` block in `src/blocks/BlockScreens.tsx`.
 
 Density, fonts and the optional warm gray are token-level: set `data-fp-density="compact"` (or `data-fp-font`, `data-fp-heading`, `data-fp-gray`) on any element, or write a preset code into `tokens/overrides.json` and run `npm run build:tokens`. Themes (`flatpack`, `catalog`, `sage`) swap palette, accent, surface radius and font stack as one unit: set `data-fp-theme="sage"` on any element. Fill and selected states use `--fp-accent` / `--fp-on-accent`, text uses `--fp-ink`. Never add one-off radius, accent colors, shadows or blur outside a theme.
 
@@ -205,6 +206,34 @@ import { Divider } from '@/components/ui/divider'
 <Statistic label="Open tasks" value="186" trend={{ value: -4.1, direction: 'up' }} />
 <Collapse items={[{ key: 'a', title: 'Question', children: 'Answer' }]} />
 <Divider label="or" />
+```
+
+```tsx
+import { Composer } from '@/components/ui/composer'
+import { Message } from '@/components/ui/message'
+import { Thinking } from '@/components/ui/thinking'
+import { ToolCall } from '@/components/ui/tool-call'
+import { TaskList } from '@/components/ui/task-list'
+import { Approval } from '@/components/ui/approval'
+
+// A conversation: messages stack their children in the order the assistant produced them.
+<Message role="user">Which chairs are low on stock?</Message>
+<Message>
+  <Thinking duration={3}>Checked stock for every chair.</Thinking>
+  <ToolCall name="Searched inventory" detail="3 results" />
+  <p>Three chairs are below 10 units.</p>
+</Message>
+// While the reply is running: <Thinking status="thinking" /> or a ToolCall with status="running".
+
+<TaskList aria-label="Agent tasks" tasks={[
+  { id: '1', title: 'Read the order export', status: 'done', detail: '2.1s' },
+  { id: '2', title: 'Update reorder rules', status: 'running' },
+]} />
+
+// Ask before a destructive step. It shows the result after the user decides.
+<Approval title="Delete 12 draft orders?" description="This cannot be undone." onApprove={() => {}} onDeny={() => {}} />
+
+<Composer placeholder="Ask anything" loading={false} onSubmit={(text) => {}} onStop={() => {}} />
 ```
 
 ```tsx

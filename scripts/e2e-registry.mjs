@@ -89,7 +89,9 @@ export default defineConfig({ plugins: [react(), tailwindcss()], resolve: { alia
   step('shadcn add: theme, components, block')
   for (const name of ['flatpack-theme', 'button', 'sidebar', 'primitives', 'dropdown-menu', 'data-table-01', 'login-01',
     // Used by examples/project-overview, the page an agent built from SKILL.md.
-    'input', 'badge', 'avatar', 'segmented', 'select', 'statistic', 'status-dot', 'field', 'form', 'dialog', 'toast']) {
+    'input', 'badge', 'avatar', 'segmented', 'select', 'statistic', 'status-dot', 'field', 'form', 'dialog', 'toast',
+    // The AI group.
+    'composer', 'message', 'thinking', 'tool-call', 'task-list', 'approval', 'chat-01']) {
     await run('npx', ['--yes', 'shadcn@latest', 'add', `${ORIGIN}/r/${name}.json`, '--yes', '--overwrite'], { cwd: APP })
     console.log(`  added ${name}`)
   }
@@ -107,6 +109,12 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 import { Login01 } from '@/components/blocks/login-01'
 import { DataTable01 } from '@/components/blocks/data-table-01'
 import App from './App'
+import { Message } from '@/components/ui/message'
+import { Thinking } from '@/components/ui/thinking'
+import { ToolCall } from '@/components/ui/tool-call'
+import { TaskList } from '@/components/ui/task-list'
+import { Approval } from '@/components/ui/approval'
+import { Chat01 } from '@/components/blocks/chat-01'
 
 createRoot(document.getElementById('root')!).render(
   <>
@@ -117,6 +125,10 @@ createRoot(document.getElementById('root')!).render(
     <Login01 />
     <DataTable01 />
     <App />
+    <Message><Thinking duration={3}>steps</Thinking><ToolCall name="Search" detail="3 results" /></Message>
+    <TaskList aria-label="Tasks" tasks={[{ id: '1', title: 'Read', status: 'running' }]} />
+    <Approval title="Go?" />
+    <Chat01 />
   </>,
 )
 `)

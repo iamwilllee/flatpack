@@ -37,6 +37,11 @@ import { Form } from '@/components/ui/form'
 import { Field, FieldControl } from '@/components/ui/field'
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupButton } from '@/components/ui/input-group'
 import { Composer } from '@/components/ui/composer'
+import { Message } from '@/components/ui/message'
+import { Thinking } from '@/components/ui/thinking'
+import { ToolCall } from '@/components/ui/tool-call'
+import { TaskList } from '@/components/ui/task-list'
+import { Approval } from '@/components/ui/approval'
 import { DataTable } from '@/components/ui/data-table'
 
 describe('Checkbox', () => {
@@ -623,6 +628,115 @@ describe('Composer', () => {
     expect(screen.queryByRole('button', { name: 'Send' })).toBeNull()
     await userEvent.click(screen.getByRole('button', { name: 'Stop' }))
     expect(onStop).toHaveBeenCalled()
+  })
+})
+
+describe('Message', () => {
+  it('puts the role on the root, names the default avatar and lets avatar replace it', () => {
+    const { container, rerender } = render(<Message role="user">Hi</Message>)
+    const root = container.querySelector('[data-slot="message"]')!
+    expect(root).toHaveAttribute('data-role', 'user')
+    expect(screen.getByTitle('You')).toBeInTheDocument()
+    rerender(<Message name="Bot" avatar={<span>custom</span>} className="x" data-testid="m">Hello</Message>)
+    expect(screen.getByText('custom')).toBeInTheDocument()
+    expect(screen.getByTestId('m')).toHaveClass('x')
+    expect(screen.getByTestId('m')).toHaveAttribute('data-role', 'assistant')
+  })
+})
+
+describe('Thinking', () => {
+  it('starts open while thinking and closed when done, and the trigger toggles it', async () => {
+    const first = render(<Thinking status="thinking">step one</Thinking>)
+    expect(screen.getByRole('button', { name: /Thinking/ })).toHaveAttribute('aria-expanded', 'true')
+    expect(screen.getByText('step one')).toBeVisible()
+    first.unmount()
+    render(<Thinking duration={12}>step one</Thinking>)
+    const trigger = screen.getByRole('button', { name: 'Thought for 12s' })
+    expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    await userEvent.click(trigger)
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
+    expect(screen.getByText('step one')).toBeVisible()
+  })
+  it('reports changes when controlled and uses label to localize', async () => {
+    const onOpenChange = vi.fn()
+    render(<Thinking open={false} onOpenChange={onOpenChange} label="已思考 3 秒">步骤</Thinking>)
+    await userEvent.click(screen.getByRole('button', { name: '已思考 3 秒' }))
+    expect(onOpenChange).toHaveBeenCalledWith(true)
+    expect(screen.getByRole('button', { name: '已思考 3 秒' })).toHaveAttribute('aria-expanded', 'false')
+  })
+  it('is plain text, not a button, when there is nothing to unfold', () => {
+    render(<Thinking status="thinking" />)
+    expect(screen.queryByRole('button')).toBeNull()
+    expect(screen.getByText('Thinking…')).toBeInTheDocument()
+  })
+})
+
+describe('ToolCall', () => {
+  it('says its state to screen readers for each status', () => {
+    const { rerender } = render(<ToolCall name="Search" detail="3 results" />)
+    expect(screen.getByText(/Done:/)).toBeInTheDocument()
+    expect(screen.getByText('3 results')).toBeInTheDocument()
+    rerender(<ToolCall name="Search" status="error" />)
+    expect(screen.getByText(/Failed:/)).toBeInTheDocument()
+    rerender(<ToolCall name="Search" status="running" />)
+    expect(screen.getByRole('status', { name: 'Running' })).toBeInTheDocument()
+    rerender(<ToolCall name="搜索" status="done" statusLabels={{ running: '运行中', done: '完成', error: '失败' }} />)
+    expect(screen.getByText(/完成:/)).toBeInTheDocument()
+  })
+})
+
+describe('TaskList', () => {
+  it('renders one row per task with its status in text, and only running tasks show a spinner', () => {
+    render(
+      <TaskList
+        aria-label="Agent tasks"
+        tasks={[
+          { id: '1', title: 'Read', status: 'done', detail: '2s' },
+          { id: '2', title: 'Check', status: 'failed', detail: 'Timed out' },
+          { id: '3', title: 'Update', status: 'running' },
+          { id: '4', title: 'Write', status: 'queued' },
+        ]}
+      />,
+    )
+    const rows = within(screen.getByRole('list', { name: 'Agent tasks' })).getAllByRole('listitem')
+    expect(rows).toHaveLength(4)
+    expect(rows[0]).toHaveTextContent('Done: Read2s')
+    expect(rows[1]).toHaveTextContent('Failed: CheckTimed out')
+    expect(rows[3]).toHaveTextContent('Queued: Write')
+    expect(within(rows[2]).getByRole('status', { name: 'Running' })).toBeInTheDocument()
+    expect(screen.getAllByRole('status')).toHaveLength(1)
+  })
+})
+
+describe('Approval', () => {
+  it('shows two buttons, then the result, and calls the matching callback once', async () => {
+    const onApprove = vi.fn()
+    const onDeny = vi.fn()
+    render(<Approval title="Delete 12 drafts?" description="Cannot be undone." onApprove={onApprove} onDeny={onDeny}><code>orders</code></Approval>)
+    const group = screen.getByRole('group', { name: 'Delete 12 drafts?' })
+    expect(within(group).getByText('orders')).toBeInTheDocument()
+    await userEvent.click(within(group).getByRole('button', { name: 'Approve' }))
+    expect(onApprove).toHaveBeenCalledTimes(1)
+    expect(onDeny).not.toHaveBeenCalled()
+    expect(within(group).queryByRole('button')).toBeNull()
+    expect(within(group).getByText('Approved')).toBeInTheDocument()
+  })
+  it('records a denial, and a controlled status is not changed by the user', async () => {
+    const onDeny = vi.fn()
+    const { rerender } = render(<Approval title="Go?" onDeny={onDeny} />)
+    await userEvent.click(screen.getByRole('button', { name: 'Deny' }))
+    expect(onDeny).toHaveBeenCalled()
+    expect(screen.getByText('Denied')).toBeInTheDocument()
+    rerender(<Approval title="Go?" status="pending" onApprove={() => {}} />)
+  })
+  it('stays pending when controlled until the parent changes status', async () => {
+    const onApprove = vi.fn()
+    const { rerender } = render(<Approval title="Go?" status="pending" onApprove={onApprove} />)
+    await userEvent.click(screen.getByRole('button', { name: 'Approve' }))
+    expect(onApprove).toHaveBeenCalled()
+    expect(screen.getByRole('button', { name: 'Approve' })).toBeInTheDocument()
+    rerender(<Approval title="Go?" status="approved" approvedLabel="已批准" />)
+    expect(screen.getByText('已批准')).toBeInTheDocument()
   })
 })
 

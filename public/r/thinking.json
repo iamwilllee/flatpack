@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "thinking",
+  "type": "registry:ui",
+  "title": "Thinking",
+  "description": "Flatpack UI Thinking component.",
+  "dependencies": [
+    "@base-ui/react@1.9.0",
+    "lucide-react@^1.78.0"
+  ],
+  "registryDependencies": [
+    "https://iamwilllee.github.io/flatpack/r/spinner.json"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/thinking.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nimport { ChevronDown } from 'lucide-react'\nimport { Collapsible } from '@base-ui/react/collapsible'\nimport { Spinner } from '@/components/ui/spinner'\n\nexport type ThinkingProps = Omit<React.ComponentProps<'div'>, 'children' | 'onChange'> & {\n  /** `thinking` shows a spinner and opens by default; `done` shows the finished label. */\n  status?: 'thinking' | 'done'\n  /** Seconds the assistant thought for. Shown in the finished label. */\n  duration?: number\n  /** Replaces the label. Use it to localize: \"思考中\" / \"已思考 12 秒\". */\n  label?: React.ReactNode\n  open?: boolean\n  defaultOpen?: boolean\n  onOpenChange?: (open: boolean) => void\n  /** The reasoning: paragraphs, a list of steps, ToolCall chips. Without children there is nothing to unfold, so the label is plain text. */\n  children?: React.ReactNode\n}\n\n/**\n * The assistant's reasoning, folded under one line so the answer stays in front. While it is\n * working the line shows a spinner and the trace is open; when it finishes the line reads\n * \"Thought for 12s\" and the user can open it to check the steps.\n */\nexport function Thinking({ status = 'done', duration, label, open, defaultOpen, onOpenChange, children, ...props }: ThinkingProps) {\n  const text = label ?? (status === 'thinking' ? 'Thinking…' : duration != null ? `Thought for ${duration}s` : 'Thought process')\n  // Nothing to unfold yet (the reply has just started): a plain line, not a button.\n  if (children == null) {\n    return (\n      <div data-slot=\"thinking\" data-status={status} {...props}>\n        <span data-slot=\"thinking-trigger\" data-static=\"\">\n          {status === 'thinking' && <Spinner label=\"Working\" />}\n          <span>{text}</span>\n        </span>\n      </div>\n    )\n  }\n  return (\n    <div data-slot=\"thinking\" data-status={status} {...props}>\n      <Collapsible.Root open={open} defaultOpen={defaultOpen ?? status === 'thinking'} onOpenChange={(o) => onOpenChange?.(o)}>\n        <Collapsible.Trigger data-slot=\"thinking-trigger\">\n          {status === 'thinking' && <Spinner label=\"Working\" />}\n          <span>{text}</span>\n          <ChevronDown data-slot=\"thinking-icon\" size={16} aria-hidden=\"true\" />\n        </Collapsible.Trigger>\n        <Collapsible.Panel data-slot=\"thinking-content\">{children}</Collapsible.Panel>\n      </Collapsible.Root>\n    </div>\n  )\n}\n"
+    }
+  ]
+}
