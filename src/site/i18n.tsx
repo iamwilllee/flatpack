@@ -22,10 +22,10 @@ const dict = {
 
   // home
   'home.title': { zh: '构建，且清晰。', en: 'Build with clarity.' },
-  'home.sub': { zh: '形状按角色、黑白、留白。一套让内容做主角的组件系统。', en: 'Shape by role, black and white, plenty of space. A component system that lets the content lead.' },
+  'home.sub': { zh: '纸上的工具：看的方，用的圆。黑白、留白，一套让内容做主角的组件系统。', en: 'Tools on paper: square to read, round to touch. Black and white, plenty of space. A component system that lets the content lead.' },
   'home.viewComponents': { zh: '浏览组件', en: 'View Components' },
   'home.tune': { zh: '调整字号和字距', en: 'Tune type' },
-  'home.kicker': { zh: '形状按角色 · 黑白 · 留白', en: 'Shape by role · Black and white · Whitespace' },
+  'home.kicker': { zh: '看的方，用的圆 · 黑白 · 留白', en: 'Square to read, round to touch · Black and white · Whitespace' },
   'home.showcase': { zh: '组件', en: 'Components' },
   'home.showcaseTitle': { zh: '安静的界面，清楚的层级', en: 'Quiet surfaces, clear hierarchy' },
   'home.showcaseDesc': { zh: '下面每一块都是真实组件。卡片只有一层 1px 边框，强调只有墨色一种。', en: 'Every piece below is a real component. Cards have a single 1px border, and ink is the only emphasis.' },
@@ -34,6 +34,8 @@ const dict = {
   'home.product': { zh: '扶手椅', en: 'Armchair' },
   'home.productMeta': { zh: '棉麻面料 · 68 × 72 cm', en: 'Linen upholstery · 68 × 72 cm' },
   'home.principles': { zh: '三条原则', en: 'Three rules' },
+  'docs.shapeQuestions': { zh: '给新组件选形状，依次问', en: 'Choosing the shape of a new component, ask in order' },
+  'docs.shapeExceptions': { zh: '例外', en: 'Exceptions' },
   'home.taskProgress': { zh: '任务进度', en: 'Task progress' },
   'home.stockAlert': { zh: '库存提醒', en: 'Stock alerts' },
   'home.newBadge': { zh: '新品', en: 'New' },
@@ -162,7 +164,7 @@ const dict = {
   'tpl.close': { zh: '关闭', en: 'Close' },
 
   // app footer
-  'app.footerA': { zh: 'Flatpack UI · 形状按角色 · 黑白 · 留白', en: 'Flatpack UI · Shape by role · Black and white · Whitespace' },
+  'app.footerA': { zh: 'Flatpack UI · 看的方，用的圆 · 黑白 · 留白', en: 'Flatpack UI · Square to read, round to touch · Black and white · Whitespace' },
   'app.footerB': { zh: `${N} 个组件 · 浅色与深色 · 1 个 CSS 文件`, en: `${N} components · light and dark · 1 CSS file` },
 } satisfies Record<string, Entry>
 

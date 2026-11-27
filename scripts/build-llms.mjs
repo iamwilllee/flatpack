@@ -129,7 +129,7 @@ for (const d of docs) {
 const index = [
   '# Flatpack UI',
   '',
-  '> A React 19 + Base UI + Tailwind CSS 4 component library. Shape by role, black and white, whitespace. Copy the source into your project; one stylesheet themes everything through data-slot attributes.',
+  '> A React 19 + Base UI + Tailwind CSS 4 component library. Tools on paper: square to read, round to touch; black and white; whitespace. Copy the source into your project; one stylesheet themes everything through data-slot attributes.',
   '',
   `Install a component with the shadcn CLI: \`npx shadcn@latest add ${BASE}/r/<name>.json\`. Install the theme first: \`${themeSetup.command(BASE)}\`, ${themeSetup.en.css} \`${themeSetup.css.replace('\n', ' ')}\`.`,
   '',

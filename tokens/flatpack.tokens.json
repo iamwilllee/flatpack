@@ -1,12 +1,46 @@
 {
   "$description": "Flatpack UI design tokens. Single source of truth: flatpack.css, figma/flatpack-tokens.json, README.md and DESIGN_LANGUAGE.md are generated from this file by `npm run build:tokens`. Tune choices made on the Create page go into tokens/overrides.json (or `npm run build:tokens -- --preset <code>`), and are applied on top of this file.",
+  "philosophy": {
+    "zh": "纸上的工具",
+    "en": "Tools on paper",
+    "zhDesc": "把界面当成一张印刷品。内容是纸上印的东西：方的，黑白的，靠页边和留白分区。控件是放在纸上、给手用的工具，所以是圆的；只有从纸上拿起来的浮层才有影子。下面三条原则都从这里来。",
+    "enDesc": "Treat the interface as a printed page. Content is what is printed on it: square, black and white, divided by margins and space. Controls are tools placed on the page for the hand, so they are round, and only the layers lifted off the page cast a shadow. The three principles below follow from this.",
+    "questions": [
+      {
+        "zh": "能操作吗（点、输入、拖动、移除）？能，就是圆的：单行用胶囊，多行用 20px。",
+        "en": "Can you act on it (press, type, drag, remove)? Then it is round: a pill on one line, 20px over several."
+      },
+      {
+        "zh": "浮在页面上吗？浮着，就用 20px，并加阴影。",
+        "en": "Does it float above the page? Then it takes 20px and a shadow."
+      },
+      {
+        "zh": "都不是，只是拿来看的？那就是直角。",
+        "en": "Neither, only there to be read? Then it is square."
+      }
+    ],
+    "exceptions": [
+      {
+        "zh": "徽章（Badge）不能点，但它小，常和按钮排在一行，所以保留胶囊，像贴在纸上的贴纸。",
+        "en": "A Badge cannot be pressed, but it is small and often sits in a row of buttons, so it stays a pill, like a sticker on the page."
+      },
+      {
+        "zh": "复选框是方的，单选圆点是圆的。这是通行的惯例，形状本身告诉人能选几个。",
+        "en": "Checkboxes are square and radio dots are round. That is the common convention, and the shape itself says how many can be chosen."
+      },
+      {
+        "zh": "头像是圆的，因为它代表人，不是内容面。",
+        "en": "Avatars are round because they stand for people, not for a content surface."
+      }
+    ]
+  },
   "principles": [
     {
       "id": "shape",
-      "zh": "形状按角色",
-      "en": "Shape by role",
-      "zhDesc": "可点的单行小件（按钮、筛选项、输入框、徽章）用一种圆角，承载内容的面（卡片、图片、表格、代码块）用另一种，没有中间值。默认前者是胶囊、后者是直角。浮在页面上的层（弹窗、菜单、Toast）和多行的输入框（Textarea、Composer、多选框）单独用一种圆角：多行框做不成胶囊，用这个圆角和单行输入框保持一家。想要全直角，选「直角」预设，主题也可以给内容面一个小圆角。",
-      "enDesc": "Clickable single-line parts (buttons, chips, inputs, badges) share one radius; surfaces that hold content (cards, images, tables, code) share another. Nothing in between. By default the first is a pill and the second is square. Layers that float above the page (dialogs, menus, toasts) and multi-line fields (Textarea, Composer, multi-select) get their own radius: a multi-line field cannot be a pill, so this keeps it in the same family as the single-line inputs. For all-square pick the Square preset; a theme may give surfaces a small radius."
+      "zh": "看的方，用的圆",
+      "en": "Square to read, round to touch",
+      "zhDesc": "拿来看的用直角：卡片、图片、表格、代码块，像纸上印的东西。拿来用的是圆的：单行控件用胶囊，多行输入框和浮层用 20px。没有中间值。",
+      "enDesc": "What you read is square: cards, images, tables and code, like print on a page. What you touch is round: pills on one line, 20px for multi-line fields and floating layers. Nothing in between."
     },
     {
       "id": "mono",

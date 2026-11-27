@@ -1,6 +1,6 @@
 # Flatpack UI
 
-> 简单、舒适、直接：形状按角色、黑白、留白。内容是主角，界面本身几乎不出声。
+> 纸上的工具：看的方，用的圆；黑白；留白。内容是主角，界面本身几乎不出声。
 
 完整的设计规范见 [DESIGN_LANGUAGE.md](./DESIGN_LANGUAGE.md)。所有 token 只有一份源文件：[`tokens/flatpack.tokens.json`](./tokens/flatpack.tokens.json)。下面这一节、`DESIGN_LANGUAGE.md` 里的同名一节、`flatpack.css` 的 token 块和 `figma/flatpack-tokens.json` 都由 `npm run build:tokens` 从它生成。
 
@@ -9,11 +9,27 @@
 <!-- tokens:start -->
 <!-- 本段由 scripts/build-tokens.mjs 从 tokens/flatpack.tokens.json 生成，请勿手改 -->
 
+### 理念：纸上的工具
+
+把界面当成一张印刷品。内容是纸上印的东西：方的，黑白的，靠页边和留白分区。控件是放在纸上、给手用的工具，所以是圆的；只有从纸上拿起来的浮层才有影子。下面三条原则都从这里来。
+
 ### 三条原则
 
-1. **形状按角色。** 可点的单行小件（按钮、筛选项、输入框、徽章）用一种圆角，承载内容的面（卡片、图片、表格、代码块）用另一种，没有中间值。默认前者是胶囊、后者是直角。浮在页面上的层（弹窗、菜单、Toast）和多行的输入框（Textarea、Composer、多选框）单独用一种圆角：多行框做不成胶囊，用这个圆角和单行输入框保持一家。想要全直角，选「直角」预设，主题也可以给内容面一个小圆角。
+1. **看的方，用的圆。** 拿来看的用直角：卡片、图片、表格、代码块，像纸上印的东西。拿来用的是圆的：单行控件用胶囊，多行输入框和浮层用 20px。没有中间值。
 2. **黑白。** 默认只有一个强调色，就是墨色。层级靠反差和字号拉开，不靠颜色。红、绿只用于状态文字和图标。主题可以把墨色换成自己的品牌色，但每个主题仍然只有一个强调色。
 3. **留白。** 分区用间距。边框只有 1px 一种，卡片里不再套第二层边框。阴影只给浮层用。
+
+**给新组件选形状**，依次问：
+
+1. 能操作吗（点、输入、拖动、移除）？能，就是圆的：单行用胶囊，多行用 20px。
+2. 浮在页面上吗？浮着，就用 20px，并加阴影。
+3. 都不是，只是拿来看的？那就是直角。
+
+**例外：**
+
+- 徽章（Badge）不能点，但它小，常和按钮排在一行，所以保留胶囊，像贴在纸上的贴纸。
+- 复选框是方的，单选圆点是圆的。这是通行的惯例，形状本身告诉人能选几个。
+- 头像是圆的，因为它代表人，不是内容面。
 
 ### 颜色（中性灰，不带蓝调）
 
@@ -117,7 +133,7 @@
 | 第四批补充 | BorderBeam（边框流光，可选装饰件，站内页面不使用）、Masonry（瀑布流） |
 | 第五批：高频件（对照 Astryx） | Textarea、Field / Fieldset、NumberInput、Slider、Combobox、ToggleGroup / ButtonGroup、Toolbar、AlertDialog、Toast、HoverCard、ScrollArea、CommandPalette（⌘K）、Kbd、Spinner、AvatarGroup、CodeBlock |
 | 第六批：中等体量 | Calendar、DatePicker / DateRangePicker、FileInput、MultiSelect、Tree、DescriptionList、ContextMenu、Menubar、Carousel、Lightbox、Timestamp、StatusDot、VisuallyHidden |
-| 第七批：形状按角色 | ChipGroup（独立筛选项，可带数量）；Input 增加 `variant="filled"` 与 `leading` / `trailing` 图标位 |
+| 第七批：形状按角色（后来收成「看的方，用的圆」） | ChipGroup（独立筛选项，可带数量）；Input 增加 `variant="filled"` 与 `leading` / `trailing` 图标位 |
 | 第九批：数据与区块 | DataTable（排序、多选、分页、空状态）；可安装区块 login-01 / settings-01 / data-table-01 / chat-01 / agent-01（`src/components/blocks/`） |
 | 第十批：AI 对话与 Agent | Message（一条消息）、Thinking（折叠的推理过程）、ToolCall（工具调用小标签）、TaskList（Agent 任务状态）、Approval（执行前确认）、Diff（统一 diff 与表格单元格改动）、Sources / Citation（来源清单与行内编号）；Composer 也归入「AI」分类 |
 | 第八批：对照 coss ui | Drawer（四边滑入、滑动关闭、吸附点）、Form（提交校验、服务端错误）、OtpField、Meter、InputGroup（图标 / 单位 / 按钮同一个边框）、Composer（AI 对话输入框，回车发送，输入法选字不误发）；Field 增加 `validate` / `validationMode` |

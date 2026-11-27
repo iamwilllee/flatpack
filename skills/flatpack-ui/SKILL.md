@@ -1,11 +1,11 @@
 ---
 name: flatpack-ui
-description: Build interfaces with Flatpack UI, a React component library whose design rules are shape by role (pill controls, square surfaces), black and white, and whitespace. Use when a user asks to build a page, screen, dashboard, prototype, or UI with Flatpack UI, or mentions Flatpack or the black-and-white component library. Provides component inventory, import paths, design-language rules, and copy-paste patterns so an agent produces on-brand, working UI without inventing APIs.
+description: Build interfaces with Flatpack UI, a React component library whose design idea is tools on paper: square to read, round to touch (square content, round controls and floating layers), black and white, and whitespace. Use when a user asks to build a page, screen, dashboard, prototype, or UI with Flatpack UI, or mentions Flatpack or the black-and-white component library. Provides component inventory, import paths, design-language rules, and copy-paste patterns so an agent produces on-brand, working UI without inventing APIs.
 ---
 
 # Build with Flatpack UI
 
-Flatpack UI is a React 19 + Tailwind CSS 4 component library. Interactive components are built on **Base UI** primitives (unstyled, accessible); the visual layer is a single stylesheet. Its design rules are **shape by role, black and white, whitespace**. Build screens by composing the library's components; do not hand-roll styled `<div>`s when a component exists.
+Flatpack UI is a React 19 + Tailwind CSS 4 component library. Interactive components are built on **Base UI** primitives (unstyled, accessible); the visual layer is a single stylesheet. Its idea is **tools on paper**: the interface is a printed page, content is printed on it, controls are tools placed on it. The rules: **square to read, round to touch; black and white; whitespace**. Build screens by composing the library's components; do not hand-roll styled `<div>`s when a component exists.
 
 ## When to use
 
@@ -58,7 +58,9 @@ The size and spacing tokens are named by step, not by pixel value. `var(--fp-spa
 Use `--fp-space-9` or larger between page sections.
 
 The three rules:
-- **Shape by role**: clickable single-line parts (Button, ChipGroup, Input, Select, Segmented, Badge, Switch, Tooltip, pagination) use `--fp-radius-control` (a pill by default); surfaces that show content (Card, Image, Table, code) use `--fp-radius-surface` (0); layers that float above the page (Dialog, AlertDialog, Popover, Select and Dropdown menus, Combobox, CommandPalette, DatePicker, HoverCard, Toast, Drawer) and multi-line fields (Textarea, Composer, a multi-select box), which cannot be pills, use `--fp-radius-floating` (20px). Menu options are controls, so they are pills. No in-between radii. The "All square" preset (`data-fp-shape="square"` or shape: square in overrides) makes controls and floating layers 0 too.
+- **Square to read, round to touch**: clickable single-line parts (Button, ChipGroup, Input, Select, Segmented, Badge, Switch, Tooltip, pagination) use `--fp-radius-control` (a pill by default); surfaces that show content (Card, Image, Table, code) use `--fp-radius-surface` (0); layers that float above the page (Dialog, AlertDialog, Popover, Select and Dropdown menus, Combobox, CommandPalette, DatePicker, HoverCard, Toast, Drawer) and multi-line fields (Textarea, Composer, a multi-select box), which cannot be pills, use `--fp-radius-floating` (20px). Menu options are controls, so they are pills. No in-between radii. The "All square" preset (`data-fp-shape="square"` or shape: square in overrides) makes controls and floating layers 0 too.
+  To pick the shape of anything not listed, ask in order: (1) Can you act on it (press, type, drag, remove)? Round: a pill on one line, `--fp-radius-floating` over several. (2) Does it float above the page? `--fp-radius-floating` and the shadow. (3) Neither, only there to be read? Square, `--fp-radius-surface`.
+  Exceptions: Badge stays a pill though it cannot be pressed; checkboxes are square and radio dots round, by convention; avatars are round.
 - **Filters and search**: separate filter chips are `<ChipGroup options={[{ value, label, count? }]} />`; a search box is `<Input variant="filled" leading={<Search size={16} />} />`; a secondary link button is `<Button variant="outline">` (ink ring).
 - **Black and white**: one accent per theme, and in the default theme it is ink (`--fp-accent`). No blue links (links are underlined ink), no cyan, no gradients. Red and green appear in status text and icons only, never as a fill.
 - **Whitespace**: separate sections with space (at least 96px between page sections). One 1px border. A card never contains a second bordered box. Only floating layers (Dialog, Popover, Select, Dropdown) have a shadow.

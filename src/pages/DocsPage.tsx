@@ -124,6 +124,10 @@ export default function App() {
       <section id="language" style={{ scrollMarginTop: 96, margin: 'var(--fp-space-8) 0' }}>
         <h2 style={{ fontSize: 'var(--fp-text-lg)', fontWeight: 'var(--fp-weight-semibold)', marginBottom: 'var(--fp-space-2)' }}>{t('docs.langTitle')}</h2>
         <p style={{ color: 'var(--fp-muted)', marginBottom: 'var(--fp-space-4)' }}>{t('docs.langDesc')}</p>
+        <div style={{ margin: 'var(--fp-space-5) 0' }}>
+          <div style={{ fontWeight: 'var(--fp-weight-semibold)', fontSize: 'var(--fp-text-lg)', marginBottom: 'var(--fp-space-2)' }}>{lang === 'zh' ? tokens.philosophy.zh : tokens.philosophy.en}</div>
+          <p style={{ margin: 0 }}>{lang === 'zh' ? tokens.philosophy.zhDesc : tokens.philosophy.enDesc}</p>
+        </div>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           {principles.map((p, i) => (
             <div key={p.id} style={{ display: 'grid', gridTemplateColumns: '48px 1fr', gap: 'var(--fp-space-4)', padding: 'var(--fp-space-5) 0', borderTop: '1px solid var(--fp-line)' }}>
@@ -134,6 +138,20 @@ export default function App() {
               </div>
             </div>
           ))}
+        </div>
+        <div style={{ display: 'grid', gap: 'var(--fp-space-5)', paddingTop: 'var(--fp-space-5)', borderTop: '1px solid var(--fp-line)' }}>
+          <div>
+            <div style={{ fontWeight: 'var(--fp-weight-semibold)', marginBottom: 'var(--fp-space-2)' }}>{t('docs.shapeQuestions')}</div>
+            <ol style={{ margin: 0, paddingLeft: 'var(--fp-space-5)', listStyle: 'decimal', color: 'var(--fp-muted)', display: 'grid', gap: 'var(--fp-space-1)' }}>
+              {tokens.philosophy.questions.map((q) => <li key={q.en}>{lang === 'zh' ? q.zh : q.en}</li>)}
+            </ol>
+          </div>
+          <div>
+            <div style={{ fontWeight: 'var(--fp-weight-semibold)', marginBottom: 'var(--fp-space-2)' }}>{t('docs.shapeExceptions')}</div>
+            <ul style={{ margin: 0, paddingLeft: 'var(--fp-space-5)', listStyle: 'disc', color: 'var(--fp-muted)', display: 'grid', gap: 'var(--fp-space-1)' }}>
+              {tokens.philosophy.exceptions.map((x) => <li key={x.en}>{lang === 'zh' ? x.zh : x.en}</li>)}
+            </ul>
+          </div>
         </div>
       </section>
 
