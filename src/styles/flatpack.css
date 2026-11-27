@@ -99,7 +99,7 @@
   --fp-border: 1px;
   --fp-radius-control: 9999px;           /* Clickable single-line parts */
   --fp-radius-surface: 0;                /* Surfaces that hold content. 0 by default; a theme may set a small radius */
-  --fp-radius-floating: 20px;            /* Layers that float above the page (dialog, menus, toast). 20px by default; 0 in the Square preset */
+  --fp-radius-floating: 20px;            /* Layers that float above the page (dialog, menus, toast) and frames that hold pill controls (Composer). 20px by default; 0 in the Square preset */
   --fp-control-sm: 32px;
   --fp-control-md: 40px;
   --fp-control-lg: 48px;
@@ -1631,7 +1631,8 @@ a[data-slot="citation"]:hover { color: var(--fp-ink); border-color: var(--fp-lin
 [data-slot="composer"] {
   display: flex; flex-direction: column; width: 100%;
   background: var(--fp-bg);
-  border: 1px solid var(--fp-line-strong); border-radius: var(--fp-radius-surface);
+  /* A frame around pill controls (the send button), so it rounds like the floating layers do. */
+  border: 1px solid var(--fp-line-strong); border-radius: var(--fp-radius-floating);
   transition: border-color var(--fp-duration) var(--fp-ease);
 }
 [data-slot="composer"]:hover { border-color: var(--fp-muted); }

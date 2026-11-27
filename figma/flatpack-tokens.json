@@ -174,7 +174,7 @@
       "floating": {
         "value": "20",
         "type": "borderRadius",
-        "description": "浮在页面上的层（弹窗、菜单、Toast），默认 20px，直角预设下为 0"
+        "description": "浮在页面上的层（弹窗、菜单、Toast）和装着胶囊控件的外框（Composer），默认 20px，直角预设下为 0"
       },
       "round": {
         "value": "50%",
