@@ -1283,4 +1283,36 @@ export const docs: ComponentDoc[] = [
       { prop: 'approveLabel / denyLabel / approvedLabel / deniedLabel', type: 'string', desc: '按钮和结果文字，默认英文', descEn: 'Button and result text, English by default' },
     ],
   },
+  {
+    id: 'diff', title: 'Diff', category: 'AI', categoryEn: 'AI',
+    description: '助手改了什么：用统一 diff 格式写入，删掉的行划线、加入的行标绿，每行前有 +/- 记号，不靠颜色一种信号。表格里改过的单元格用 DiffValue，旧值划线、新值在后。',
+    descriptionEn: 'What the assistant changed. Pass a unified diff: removed lines are struck out and added lines are green, each with a +/- marker so colour is not the only signal. For a changed cell in a table, DiffValue shows the old value struck out and the new one after it.',
+    importPath: '@/components/ui/diff',
+    usage: `import { Diff, DiffValue } from "@/components/ui/diff"\n\n<Diff file="rules/armchair.json" patch={patch} />\n<DiffValue from="10" to="6" />`,
+    examples: [
+      { title: '代码改动与单元格改动', titleEn: 'A code change and a changed cell', code: `<Diff\n  file="rules/armchair.json"\n  patch={[\n    '@@ -1,3 +1,3 @@',\n    ' {',\n    '-  "reorderPoint": 10,',\n    '+  "reorderPoint": 6,',\n    '   "supplier": "Nordic Wood"',\n    ' }',\n  ].join('\\n')}\n/>\n\n<DiffValue from="10" to="6" />`, render: 'preview' },
+    ],
+    api: [
+      { prop: 'patch', type: 'string', desc: '统一 diff：以 + 开头是加入，- 是删除，空格是未改动，@@ 行标记一段的开始。有 @@ 行时，开头的 --- / +++ 文件头会被去掉', descEn: 'A unified diff: "+" adds, "-" removes, a space leaves a line as is, and an @@ line starts a section. When the patch has an @@ line, the leading --- / +++ file headers are dropped' },
+      { prop: 'file', type: 'string', desc: '显示在上方的文件名', descEn: 'File name shown above the lines' },
+      { prop: 'labels', type: '{ add, del }', desc: '屏幕阅读器读出的「新增」「删除」文字，默认英文', descEn: 'Text read by screen readers for added and removed lines, English by default' },
+      { prop: 'DiffValue: from / to', type: 'ReactNode', desc: '改动前和改动后的值，用于表格单元格', descEn: 'The value before and after, for a table cell' },
+    ],
+  },
+  {
+    id: 'sources', title: 'Sources', category: 'AI', categoryEn: 'AI',
+    description: '回答依据的来源。句子里用 Citation 放一个编号小标签，指向一条来源；回答末尾用 Sources 列出带编号的来源清单，编号和小标签一一对应。',
+    descriptionEn: 'The sources an answer was built from. Put a numbered Citation chip inside a sentence to point at one source, and list the numbered sources at the end with Sources. The numbers match.',
+    importPath: '@/components/ui/sources',
+    usage: `import { Citation, Sources } from "@/components/ui/sources"\n\n<p>Oak stools are low <Citation n={1} title="Inventory export" href="https://example.com/stock" />.</p>\n<Sources items={[{ title: "Inventory export", href: "https://example.com/stock" }]} />`,
+    examples: [
+      { title: '行内引用与来源清单', titleEn: 'Inline citations and the list', code: `<p>\n  The armchair is down to 4 units <Citation n={1} title="Inventory export" href="https://example.com/stock" />\n  and the supplier needs two weeks <Citation n={2} title="Supplier terms" href="https://example.org/terms" />.\n</p>\n<Sources\n  items={[\n    { title: 'Inventory export', href: 'https://example.com/stock' },\n    { title: 'Supplier terms', href: 'https://example.org/terms' },\n  ]}\n/>`, render: 'preview' },
+    ],
+    api: [
+      { prop: 'Citation: n', type: 'number', desc: '来源编号，对应 Sources 清单里的序号', descEn: 'The source number, as in the Sources list' },
+      { prop: 'Citation: title / href', type: 'string', desc: '来源标题（给屏幕阅读器和悬停提示）和链接。没有 href 时只是文字小标签', descEn: 'Source title (for screen readers and the hover hint) and link. Without href the chip is plain text' },
+      { prop: 'Sources: items', type: '{ title, href?, note? }[]', desc: '来源清单，按顺序编号。note 默认是 href 的域名', descEn: 'The sources, numbered in order. note defaults to the host of href' },
+      { prop: 'Sources: label', type: 'string', default: '"Sources"', desc: '清单标题，也是它的可访问名称', descEn: 'The heading above the list and its accessible name' },
+    ],
+  },
 ]

@@ -106,7 +106,7 @@
 
 改 token：编辑 `tokens/flatpack.tokens.json`，再跑 `npm run build:tokens`。`npm run check:design` 会扫描 tsx，发现写死的字号、间距、圆角、阴影或不存在的 `--fp-*` 变量就报错。
 
-## 组件清单（75 个）
+## 组件清单（77 个）
 
 | 批次 | 组件 |
 |---|---|
@@ -119,14 +119,14 @@
 | 第六批：中等体量 | Calendar、DatePicker / DateRangePicker、FileInput、MultiSelect、Tree、DescriptionList、ContextMenu、Menubar、Carousel、Lightbox、Timestamp、StatusDot、VisuallyHidden |
 | 第七批：形状按角色 | ChipGroup（独立筛选项，可带数量）；Input 增加 `variant="filled"` 与 `leading` / `trailing` 图标位 |
 | 第九批：数据与区块 | DataTable（排序、多选、分页、空状态）；可安装区块 login-01 / settings-01 / data-table-01 / chat-01（`src/components/blocks/`） |
-| 第十批：AI 对话与 Agent | Message（一条消息）、Thinking（折叠的推理过程）、ToolCall（工具调用小标签）、TaskList（Agent 任务状态）、Approval（执行前确认）；Composer 也归入「AI」分类 |
+| 第十批：AI 对话与 Agent | Message（一条消息）、Thinking（折叠的推理过程）、ToolCall（工具调用小标签）、TaskList（Agent 任务状态）、Approval（执行前确认）、Diff（统一 diff 与表格单元格改动）、Sources / Citation（来源清单与行内编号）；Composer 也归入「AI」分类 |
 | 第八批：对照 coss ui | Drawer（四边滑入、滑动关闭、吸附点）、Form（提交校验、服务端错误）、OtpField、Meter、InputGroup（图标 / 单位 / 按钮同一个边框）、Composer（AI 对话输入框，回车发送，输入法选字不误发）；Field 增加 `validate` / `validationMode` |
 
-共 **75 个组件**。定位从「补高频、避重型」调整为「补高频，重型件只做到够用」：日期、上传、树、多选这类以前排除的件现在提供，但只做通用部分——日历自己实现、不引第三方库，FileInput 只收集文件、不管上传，Tree 只做展开和选择、不做拖拽和懒加载。富文本编辑器、Markdown 渲染、Cascader、Transfer 仍然不做。
+共 **77 个组件**。定位从「补高频、避重型」调整为「补高频，重型件只做到够用」：日期、上传、树、多选这类以前排除的件现在提供，但只做通用部分——日历自己实现、不引第三方库，FileInput 只收集文件、不管上传，Tree 只做展开和选择、不做拖拽和懒加载。富文本编辑器、Markdown 渲染、Cascader、Transfer 仍然不做。
 
 - 第五、六批里能用 Base UI 原语的都用了（Field、NumberField、Slider、Combobox、ToggleGroup、Toolbar、AlertDialog、Toast、PreviewCard、ScrollArea、ContextMenu、Menubar），键盘和无障碍由它负责。
 - StatusDot 按规范做成 8px 方块；Spinner 是三个方块轮流改透明度，只在加载时出现，开启「减少动态效果」时静止。
-- AI 对话部件在文档里归为「AI」分类：Composer、Message、Thinking、ToolCall、TaskList、Approval。整屏是可安装区块 chat-01，由这些组件拼成。改动对比（Diff）和引用来源（Sources）还没拆成组件。
+- AI 对话部件在文档里归为「AI」分类：Composer、Message、Thinking、ToolCall、TaskList、Approval、Diff、Sources。整屏是可安装区块 chat-01，由这些组件拼成。
 
 ## 品牌标识
 
@@ -214,7 +214,7 @@ ln -s "$PWD/skills/flatpack-ui" ~/.dsh/skills/flatpack-ui
 - [x] Templates Tab：官网 / 电商 / 后台三套可交互整站示例
 - [x] 文档站（首页 / 组件 / 文档 / Create / Blocks）
 - [x] shadcn registry 分发 + Figma tokens
-- [x] 组件扩充到 75 个，4 个可安装的区块（login / settings / data-table / chat）
+- [x] 组件扩充到 77 个，4 个可安装的区块（login / settings / data-table / chat）
 - [x] 给 AI 用：llms.txt、每个组件一份 Markdown、SKILL、shadcn MCP（通过 registry 命名空间）
 - [x] registry 端到端检查（`npm run test:registry`，CI 每周跑一次）
 - [ ] 多框架适配（Vue / Solid）

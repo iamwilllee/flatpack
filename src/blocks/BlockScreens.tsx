@@ -1,7 +1,4 @@
-import {
-  ShoppingBag, Heart, User, Package, ChevronRight,
-  FileCode,
-} from 'lucide-react'
+import { ShoppingBag, Heart, User, Package, ChevronRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
@@ -9,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Image } from '@/components/ui/image'
 import { Thinking } from '@/components/ui/thinking'
 import { ToolCall } from '@/components/ui/tool-call'
+import { Diff } from '@/components/ui/diff'
 import { Avatar } from '@/components/ui/avatar'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbCurrent, BreadcrumbSeparator } from '@/components/ui/breadcrumb'
 import { Segmented } from '@/components/ui/segmented'
@@ -204,12 +202,7 @@ const seed: ChatMessage[] = [
         </Thinking>
         <ToolCall name="Searched inventory" detail="3 results" />
         <p style={{ margin: 0 }}>Three chairs are low: the armchair (<span className="fp-num">4</span>), the lounge chair (<span className="fp-num">7</span>) and the oak stool (<span className="fp-num">9</span>). I changed the armchair rule:</p>
-        <div style={{ background: 'var(--fp-surface)', padding: 'var(--fp-space-2) 0' }}>
-          <div style={{ ...muted, display: 'flex', alignItems: 'center', gap: 'var(--fp-space-2)', padding: '0 var(--fp-space-3) var(--fp-space-2)' }}><FileCode size={16} /> rules/armchair.json</div>
-          <span data-slot="diff-line" data-kind="del">-  "reorderPoint": 10,</span>
-          <span data-slot="diff-line" data-kind="add">+  "reorderPoint": 6,</span>
-          <span data-slot="diff-line">   "supplier": "Nordic Wood"</span>
-        </div>
+        <Diff file="rules/armchair.json" patch={'-  "reorderPoint": 10,\n+  "reorderPoint": 6,\n   "supplier": "Nordic Wood"'} />
       </>
     ),
   },

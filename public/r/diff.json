@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "diff",
+  "type": "registry:ui",
+  "title": "Diff",
+  "description": "Flatpack UI Diff component.",
+  "dependencies": [
+    "lucide-react@^1.78.0"
+  ],
+  "registryDependencies": [
+    "https://iamwilllee.github.io/flatpack/r/visually-hidden.json"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/diff.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\nimport { FileCode } from 'lucide-react'\nimport { VisuallyHidden } from '@/components/ui/visually-hidden'\n\nexport type DiffLineKind = 'add' | 'del' | 'context' | 'hunk'\nexport type DiffLabels = { add: string; del: string }\n\nexport type DiffProps = Omit<React.ComponentProps<'figure'>, 'children'> & {\n  /** The change in unified diff form: lines that start with \"+\" are added, \"-\" removed, a space unchanged. `@@` lines mark where a section starts. */\n  patch: string\n  /** File name shown above the lines. */\n  file?: string\n  /** Screen reader text for added and removed lines, for localized products. */\n  labels?: DiffLabels\n}\n\nconst DEFAULT_LABELS: DiffLabels = { add: 'Added: ', del: 'Removed: ' }\n\n/**\n * Turn a unified diff into lines. The `--- a/file` and `+++ b/file` header lines are dropped, but\n * only when the patch also has an `@@` line; in a bare snippet they are ordinary changed lines.\n */\nexport function parsePatch(patch: string): { kind: DiffLineKind; text: string }[] {\n  const lines = patch.replace(/\\r?\\n$/, '').split(/\\r?\\n/)\n  const hasHunk = lines.some((l) => l.startsWith('@@'))\n  const out: { kind: DiffLineKind; text: string }[] = []\n  let seenHunk = false\n  for (const l of lines) {\n    if (l.startsWith('@@')) { seenHunk = true; out.push({ kind: 'hunk', text: l }); continue }\n    if (hasHunk && !seenHunk && (l.startsWith('--- ') || l.startsWith('+++ ') || l.startsWith('diff ') || l.startsWith('index '))) continue\n    if (l.startsWith('+')) out.push({ kind: 'add', text: l.slice(1) })\n    else if (l.startsWith('-')) out.push({ kind: 'del', text: l.slice(1) })\n    else out.push({ kind: 'context', text: l.startsWith(' ') ? l.slice(1) : l })\n  }\n  return out\n}\n\n/** Code the assistant changed, as the lines that went away and the lines that came in. */\nexport function Diff({ patch, file, labels = DEFAULT_LABELS, ...props }: DiffProps) {\n  const lines = parsePatch(patch)\n  return (\n    <figure data-slot=\"diff\" {...props}>\n      {file && <figcaption data-slot=\"diff-file\"><FileCode size={16} aria-hidden=\"true\" />{file}</figcaption>}\n      <pre data-slot=\"diff-body\">\n        {lines.map((l, i) => (\n          <span key={i} data-slot=\"diff-line\" data-kind={l.kind}>\n            {l.kind === 'add' && <VisuallyHidden>{labels.add}</VisuallyHidden>}\n            {l.kind === 'del' && <VisuallyHidden>{labels.del}</VisuallyHidden>}\n            <span data-slot=\"diff-marker\" aria-hidden=\"true\">{l.kind === 'add' ? '+' : l.kind === 'del' ? '-' : ' '}</span>\n            {l.text}\n          </span>\n        ))}\n      </pre>\n    </figure>\n  )\n}\n\nexport type DiffValueProps = Omit<React.ComponentProps<'span'>, 'children'> & {\n  from: React.ReactNode\n  to: React.ReactNode\n  labels?: { from: string; to: string }\n}\n\n/** One value that changed, for a table cell: the old value struck out, then the new one. */\nexport function DiffValue({ from, to, labels = { from: 'Was: ', to: 'Now: ' }, ...props }: DiffValueProps) {\n  return (\n    <span data-slot=\"diff-value\" {...props}>\n      <del data-slot=\"diff-value-from\"><VisuallyHidden>{labels.from}</VisuallyHidden>{from}</del>\n      <ins data-slot=\"diff-value-to\"><VisuallyHidden>{labels.to}</VisuallyHidden>{to}</ins>\n    </span>\n  )\n}\n"
+    }
+  ]
+}

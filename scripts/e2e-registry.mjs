@@ -91,7 +91,7 @@ export default defineConfig({ plugins: [react(), tailwindcss()], resolve: { alia
     // Used by examples/project-overview, the page an agent built from SKILL.md.
     'input', 'badge', 'avatar', 'segmented', 'select', 'statistic', 'status-dot', 'field', 'form', 'dialog', 'toast',
     // The AI group.
-    'composer', 'message', 'thinking', 'tool-call', 'task-list', 'approval', 'chat-01']) {
+    'composer', 'message', 'thinking', 'tool-call', 'task-list', 'approval', 'diff', 'sources', 'chat-01']) {
     await run('npx', ['--yes', 'shadcn@latest', 'add', `${ORIGIN}/r/${name}.json`, '--yes', '--overwrite'], { cwd: APP })
     console.log(`  added ${name}`)
   }
@@ -114,6 +114,8 @@ import { Thinking } from '@/components/ui/thinking'
 import { ToolCall } from '@/components/ui/tool-call'
 import { TaskList } from '@/components/ui/task-list'
 import { Approval } from '@/components/ui/approval'
+import { Diff, DiffValue } from '@/components/ui/diff'
+import { Citation, Sources } from '@/components/ui/sources'
 import { Chat01 } from '@/components/blocks/chat-01'
 
 createRoot(document.getElementById('root')!).render(
@@ -128,6 +130,8 @@ createRoot(document.getElementById('root')!).render(
     <Message><Thinking duration={3}>steps</Thinking><ToolCall name="Search" detail="3 results" /></Message>
     <TaskList aria-label="Tasks" tasks={[{ id: '1', title: 'Read', status: 'running' }]} />
     <Approval title="Go?" />
+    <Diff patch={'-a\n+b'} /><DiffValue from="1" to="2" />
+    <p>Text <Citation n={1} title="S" href="https://example.com" /></p><Sources items={[{ title: 'S', href: 'https://example.com' }]} />
     <Chat01 />
   </>,
 )

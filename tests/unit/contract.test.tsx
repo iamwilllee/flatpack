@@ -42,6 +42,8 @@ import { Thinking } from '@/components/ui/thinking'
 import { ToolCall } from '@/components/ui/tool-call'
 import { TaskList } from '@/components/ui/task-list'
 import { Approval } from '@/components/ui/approval'
+import { Diff, DiffValue, parsePatch } from '@/components/ui/diff'
+import { Citation, Sources } from '@/components/ui/sources'
 import { DataTable } from '@/components/ui/data-table'
 
 describe('Checkbox', () => {
@@ -737,6 +739,53 @@ describe('Approval', () => {
     expect(screen.getByRole('button', { name: 'Approve' })).toBeInTheDocument()
     rerender(<Approval title="Go?" status="approved" approvedLabel="已批准" />)
     expect(screen.getByText('已批准')).toBeInTheDocument()
+  })
+})
+
+describe('Diff', () => {
+  const patch = ['@@ -1,3 +1,3 @@', ' {', '-  "a": 10,', '+  "a": 6,', ' }'].join('\n')
+  it('reads a unified diff into kinds, and says added and removed in text, not only in colour', () => {
+    expect(parsePatch(patch).map((l) => l.kind)).toEqual(['hunk', 'context', 'del', 'add', 'context'])
+    const { container } = render(<Diff file="rules.json" patch={patch} />)
+    expect(screen.getByText('rules.json')).toBeInTheDocument()
+    const del = container.querySelector('[data-kind="del"]')!
+    const add = container.querySelector('[data-kind="add"]')!
+    expect(del).toHaveTextContent('Removed: - "a": 10,')
+    expect(add).toHaveTextContent('Added: + "a": 6,')
+    // The marker is decoration; the hidden text carries the meaning.
+    expect(del.querySelector('[data-slot="diff-marker"]')).toHaveAttribute('aria-hidden', 'true')
+  })
+  it('drops file headers only when the patch has an @@ line', () => {
+    const full = ['--- a/x', '+++ b/x', '@@ -1 +1 @@', '-old', '+new'].join('\n')
+    expect(parsePatch(full).map((l) => l.kind)).toEqual(['hunk', 'del', 'add'])
+    // A bare snippet: "--- " is a removed line that starts with "--", not a header.
+    expect(parsePatch('--- comment\n+++ other')).toEqual([{ kind: 'del', text: '-- comment' }, { kind: 'add', text: '++ other' }])
+  })
+  it('localizes the labels, and DiffValue shows the old and new value for screen readers', () => {
+    const { container } = render(<><Diff patch="+x" labels={{ add: '新增：', del: '删除：' }} /><DiffValue from="10" to="6" /></>)
+    expect(container.querySelector('[data-kind="add"]')).toHaveTextContent('新增：+x')
+    expect(container.querySelector('del')).toHaveTextContent('Was: 10')
+    expect(container.querySelector('ins')).toHaveTextContent('Now: 6')
+  })
+})
+
+describe('Sources and Citation', () => {
+  it('numbers the list, defaults the note to the host and names the section', () => {
+    render(<Sources items={[{ title: 'Inventory export', href: 'https://www.example.com/stock' }, { title: 'Memo', note: 'internal' }]} />)
+    const section = screen.getByRole('region', { name: 'Sources' })
+    const items = within(section).getAllByRole('listitem')
+    expect(items).toHaveLength(2)
+    expect(items[0]).toHaveTextContent('1Inventory exportexample.com')
+    expect(within(items[0]).getByRole('link', { name: 'Inventory export' })).toHaveAttribute('target', '_blank')
+    expect(items[1]).toHaveTextContent('2Memointernal')
+    expect(within(items[1]).queryByRole('link')).toBeNull()
+  })
+  it('makes a link chip with the source in its name, or plain text without href', () => {
+    render(<p><Citation n={1} title="Inventory export" href="https://example.com/stock" /><Citation n={2} title="Memo" /></p>)
+    const link = screen.getByRole('link', { name: 'Source 1: Inventory export' })
+    expect(link).toHaveAttribute('href', 'https://example.com/stock')
+    expect(link).toHaveAttribute('rel', 'noreferrer')
+    expect(screen.getByRole('img', { name: 'Source 2: Memo' })).toBeInTheDocument()
   })
 })
 

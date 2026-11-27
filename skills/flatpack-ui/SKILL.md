@@ -86,10 +86,10 @@ All imports are from `@/components/ui/<name>` (adjust the alias to the target pr
 | Navigation | `Tabs`, `Breadcrumb`, `Pagination`, `Sidebar` + `SidebarSection/SidebarItem` |
 | Data display | `DataTable` (sort, select, page; `columns`, `getRowId`), `Table` (+ parts), `DescriptionList`, `Tree`, `Image`, `Carousel`, `Avatar`, `AvatarGroup`, `Statistic`, `Timestamp`, `Collapse`, `Empty`, `CodeBlock` / `Code` |
 | Layout / utility | `Divider`, `Separator` (from `primitives`), `ScrollArea`, `Masonry` (waterfall), `VisuallyHidden`, `Reveal` (opt-in entrance fade: add `data-reveal` to an element), `BorderBeam` (optional decorative border line; not used by default because the rules have no looping animation) |
-| AI | `Composer` (message box; `onSubmit(text)`, `loading` + `onStop`), `Message` (`role` user or assistant; children stack), `Thinking` (folded reasoning; `status`, `duration`), `ToolCall` (compact chip; `name`, `detail`, `status`), `TaskList` (`tasks` with `status` queued / running / done / failed), `Approval` (ask before acting; `onApprove`, `onDeny`) |
+| AI | `Composer` (message box; `onSubmit(text)`, `loading` + `onStop`), `Message` (`role` user or assistant; children stack), `Thinking` (folded reasoning; `status`, `duration`), `ToolCall` (compact chip; `name`, `detail`, `status`), `TaskList` (`tasks` with `status` queued / running / done / failed), `Approval` (ask before acting; `onApprove`, `onDeny`), `Diff` (`patch` in unified diff form, `file`; `DiffValue from to` for a table cell), `Sources` + `Citation` (numbered source list and the inline `[1]` chip) |
 | Whole screens (blocks, `@/components/blocks/<name>`) | `Login01` (`onSignIn` may return field errors), `Settings01` (`onSave`), `DataTable01` (orders list, `onDelete`), `Chat01` (`onSend(text, signal)` returns the reply). Start from one of these before composing a screen by hand |
 
-75 components total. If a need isn't in the table, compose from these before adding new source. Not provided on purpose: rich text editor, Markdown renderer, Cascader, Transfer. For a whole AI chat screen start from `Chat01`; for one with tool calls and a diff, copy the `assistant` block in `src/blocks/BlockScreens.tsx`.
+77 components total. If a need isn't in the table, compose from these before adding new source. Not provided on purpose: rich text editor, Markdown renderer, Cascader, Transfer. For a whole AI chat screen start from `Chat01`; for one with tool calls and a diff, copy the `assistant` block in `src/blocks/BlockScreens.tsx`.
 
 Density, fonts and the optional warm gray are token-level: set `data-fp-density="compact"` (or `data-fp-font`, `data-fp-heading`, `data-fp-gray`) on any element, or write a preset code into `tokens/overrides.json` and run `npm run build:tokens`. Themes (`flatpack`, `catalog`, `sage`) swap palette, accent, surface radius and font stack as one unit: set `data-fp-theme="sage"` on any element. Fill and selected states use `--fp-accent` / `--fp-on-accent`, text uses `--fp-ink`. Never add one-off radius, accent colors, shadows or blur outside a theme.
 
@@ -215,6 +215,8 @@ import { Thinking } from '@/components/ui/thinking'
 import { ToolCall } from '@/components/ui/tool-call'
 import { TaskList } from '@/components/ui/task-list'
 import { Approval } from '@/components/ui/approval'
+import { Diff, DiffValue } from '@/components/ui/diff'
+import { Citation, Sources } from '@/components/ui/sources'
 
 // A conversation: messages stack their children in the order the assistant produced them.
 <Message role="user">Which chairs are low on stock?</Message>
@@ -232,6 +234,13 @@ import { Approval } from '@/components/ui/approval'
 
 // Ask before a destructive step. It shows the result after the user decides.
 <Approval title="Delete 12 draft orders?" description="This cannot be undone." onApprove={() => {}} onDeny={() => {}} />
+
+// Show an edit as a unified diff (+ added, - removed, space unchanged). A changed table cell: <DiffValue from="10" to="6" />.
+<Diff file="rules/armchair.json" patch={'-  "reorderPoint": 10,\n+  "reorderPoint": 6,'} />
+
+// Cite what the answer rests on: numbered chips in the text, the matching list below.
+<p>Four units left <Citation n={1} title="Inventory export" href="https://example.com/stock" />.</p>
+<Sources items={[{ title: 'Inventory export', href: 'https://example.com/stock' }]} />
 
 <Composer placeholder="Ask anything" loading={false} onSubmit={(text) => {}} onStop={() => {}} />
 ```

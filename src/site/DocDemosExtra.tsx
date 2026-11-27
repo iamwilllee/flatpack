@@ -48,6 +48,8 @@ import { Thinking } from '@/components/ui/thinking'
 import { ToolCall } from '@/components/ui/tool-call'
 import { TaskList } from '@/components/ui/task-list'
 import { Approval } from '@/components/ui/approval'
+import { Diff, DiffValue } from '@/components/ui/diff'
+import { Citation, Sources } from '@/components/ui/sources'
 import { DataTable } from '@/components/ui/data-table'
 import { Badge } from '@/components/ui/badge'
 import { Sidebar, SidebarSection, SidebarItem } from '@/components/ui/sidebar'
@@ -329,6 +331,26 @@ export function ExtraDemo({ id, variant = 0 }: { id: string; variant?: number })
           />
         </div>
       )
+    case 'diff':
+      return (
+        <div style={{ ...col, maxWidth: 480, gap: 'var(--fp-space-4)' }}>
+          <Diff
+            file="rules/armchair.json"
+            patch={['@@ -1,3 +1,3 @@', ' {', '-  "reorderPoint": 10,', '+  "reorderPoint": 6,', '   "supplier": "Nordic Wood"', ' }'].join('\n')}
+          />
+          <span style={{ fontSize: 'var(--fp-text-sm)' }}>Reorder point: <DiffValue from="10" to="6" /></span>
+        </div>
+      )
+    case 'sources':
+      return (
+        <div style={{ ...col, maxWidth: 480, gap: 'var(--fp-space-4)' }}>
+          <p style={{ margin: 0, fontSize: 'var(--fp-text-sm)' }}>
+            The armchair is down to 4 units <Citation n={1} title="Inventory export" href="https://example.com/stock" /> and the
+            supplier needs two weeks <Citation n={2} title="Supplier terms" href="https://example.org/terms" />.
+          </p>
+          <Sources items={[{ title: 'Inventory export', href: 'https://example.com/stock' }, { title: 'Supplier terms', href: 'https://example.org/terms' }]} />
+        </div>
+      )
     case 'approval':
       return (
         <div style={col}>
@@ -586,6 +608,6 @@ export const EXTRA_IDS = [
   'chip-group', 'toggle-group', 'toolbar', 'alert-dialog', 'toast', 'hover-card', 'command-palette', 'context-menu', 'menubar',
   'scroll-area', 'tree', 'description-list', 'carousel', 'lightbox', 'avatar-group', 'status-dot', 'timestamp',
   'kbd', 'spinner', 'reveal', 'code-block', 'visually-hidden',
-  'drawer', 'form', 'otp-field', 'meter', 'input-group', 'composer', 'message', 'thinking', 'tool-call', 'task-list', 'approval', 'data-table',
+  'drawer', 'form', 'otp-field', 'meter', 'input-group', 'composer', 'message', 'thinking', 'tool-call', 'task-list', 'approval', 'diff', 'sources', 'data-table',
   'sidebar', 'primitives',
 ]

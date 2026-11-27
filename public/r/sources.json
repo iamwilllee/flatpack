@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sources",
+  "type": "registry:ui",
+  "title": "Sources",
+  "description": "Flatpack UI Sources component.",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/ui/sources.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from 'react'\n\nexport type Source = { title: string; href?: string; /** Shown under the title. Default: the host of `href`. */ note?: string }\n\nfunction host(href?: string) {\n  if (!href) return undefined\n  try { return new URL(href).host.replace(/^www\\./, '') } catch { return undefined }\n}\n\nexport type CitationProps = Omit<React.ComponentProps<'a'>, 'children' | 'href'> & {\n  /** The source number, as in the Sources list. */\n  n: number\n  /** Title of the source. It names the link for screen readers and shows on hover. */\n  title?: string\n  /** Opens in a new tab. Without it the chip is plain text. */\n  href?: string\n}\n\n/** A numbered chip inside a sentence that points at one source: \"…in stock [1]\". */\nexport function Citation({ n, title, href, ...props }: CitationProps) {\n  const label = title ? `Source ${n}: ${title}` : `Source ${n}`\n  return href ? (\n    <a data-slot=\"citation\" href={href} target=\"_blank\" rel=\"noreferrer\" aria-label={label} title={title} {...props}>{n}</a>\n  ) : (\n    <span data-slot=\"citation\" role=\"img\" aria-label={label} title={title}>{n}</span>\n  )\n}\n\nexport type SourcesProps = Omit<React.ComponentProps<'section'>, 'children'> & {\n  items: Source[]\n  /** Heading above the list, and its accessible name. */\n  label?: string\n}\n\n/** The sources an answer was built from, numbered to match its Citation chips. */\nexport function Sources({ items, label = 'Sources', ...props }: SourcesProps) {\n  const id = React.useId()\n  return (\n    <section data-slot=\"sources\" aria-labelledby={`${id}-label`} {...props}>\n      <div data-slot=\"sources-label\" id={`${id}-label`}>{label}</div>\n      <ol data-slot=\"sources-list\">\n        {items.map((s, i) => (\n          <li key={i} data-slot=\"source\" value={i + 1}>\n            <span data-slot=\"source-number\" className=\"fp-num\" aria-hidden=\"true\">{i + 1}</span>\n            <span data-slot=\"source-text\">\n              {s.href ? <a href={s.href} target=\"_blank\" rel=\"noreferrer\">{s.title}</a> : <span>{s.title}</span>}\n              {(s.note ?? host(s.href)) && <span data-slot=\"source-note\">{s.note ?? host(s.href)}</span>}\n            </span>\n          </li>\n        ))}\n      </ol>\n    </section>\n  )\n}\n"
+    }
+  ]
+}

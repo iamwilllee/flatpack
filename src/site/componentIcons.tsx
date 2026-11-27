@@ -7,7 +7,7 @@ import {
   Calendar, Upload, Tags, ToggleLeft, Wrench, ShieldAlert, BellRing, PictureInPicture2, Command,
   MousePointerClick, Menu, ScrollText, FolderTree, List, GalleryHorizontal, Expand, Users, Circle, Clock,
   Keyboard, Loader, Code, EyeOff, Sparkles, PanelBottom, ClipboardList, KeyRound, Ruler, TextCursor, SendHorizontal, Sheet, SeparatorHorizontal,
-  MessageCircle, Brain, Wrench as ToolIcon, ListTodo, ShieldQuestion,
+  MessageCircle, Brain, Wrench as ToolIcon, ListTodo, ShieldQuestion, Diff as DiffIcon, Quote,
 } from 'lucide-react'
 
 /**
@@ -29,7 +29,7 @@ export const COMPONENT_ICONS: Record<string, LucideIcon> = {
   'scroll-area': ScrollText, tree: FolderTree, 'description-list': List, carousel: GalleryHorizontal,
   lightbox: Expand, 'avatar-group': Users, 'status-dot': Circle, timestamp: Clock, kbd: Keyboard,
   drawer: PanelBottom, form: ClipboardList, 'otp-field': KeyRound, meter: Ruler, 'input-group': TextCursor, composer: SendHorizontal, 'data-table': Sheet,
-  message: MessageCircle, thinking: Brain, 'tool-call': ToolIcon, 'task-list': ListTodo, approval: ShieldQuestion,
+  message: MessageCircle, thinking: Brain, 'tool-call': ToolIcon, 'task-list': ListTodo, approval: ShieldQuestion, diff: DiffIcon, sources: Quote,
   spinner: Loader, reveal: Sparkles, 'code-block': Code, 'visually-hidden': EyeOff, primitives: SeparatorHorizontal,
 }
 
