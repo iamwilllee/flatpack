@@ -1213,7 +1213,7 @@ export const docs: ComponentDoc[] = [
     ],
     api: [
       { prop: 'role', type: '"user" | "assistant"', default: '"assistant"', desc: '谁写的。决定位置和底色', descEn: 'Who wrote it. Sets the side and the ground' },
-      { prop: 'name', type: 'string', desc: '默认头像的名字（取前两个字母）。默认「AI」或「You」', descEn: 'Name for the default avatar (its first two letters). "AI" or "You" by default' },
+      { prop: 'name', type: 'string', desc: '默认头像的名字（取前两个字母）。不传时助手显示「AI」，用户显示人形图标', descEn: 'Name for the default avatar (its first two letters). Without it the assistant shows "AI" and the user a person icon' },
       { prop: 'avatar', type: 'ReactNode', desc: '替换默认头像', descEn: 'Replaces the default avatar' },
       { prop: 'children', type: 'ReactNode', desc: '消息内容。多个子元素竖向排列', descEn: 'The content. Several children stack vertically' },
     ],

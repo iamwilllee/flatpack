@@ -638,7 +638,9 @@ describe('Message', () => {
     const { container, rerender } = render(<Message role="user">Hi</Message>)
     const root = container.querySelector('[data-slot="message"]')!
     expect(root).toHaveAttribute('data-role', 'user')
-    expect(screen.getByTitle('You')).toBeInTheDocument()
+    const you = screen.getByTitle('You')
+    expect(you.querySelector('svg')).not.toBeNull()
+    expect(you).not.toHaveTextContent('YO')
     rerender(<Message name="Bot" avatar={<span>custom</span>} className="x" data-testid="m">Hello</Message>)
     expect(screen.getByText('custom')).toBeInTheDocument()
     expect(screen.getByTestId('m')).toHaveClass('x')

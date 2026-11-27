@@ -4,7 +4,9 @@
   "type": "registry:ui",
   "title": "Message",
   "description": "Flatpack UI Message component.",
-  "dependencies": [],
+  "dependencies": [
+    "lucide-react@^1.78.0"
+  ],
   "registryDependencies": [
     "https://iamwilllee.github.io/flatpack/r/avatar.json"
   ],
@@ -12,7 +14,7 @@
     {
       "path": "src/components/ui/message.tsx",
       "type": "registry:ui",
-      "content": "import * as React from 'react'\nimport { Avatar } from '@/components/ui/avatar'\n\nexport type MessageProps = Omit<React.ComponentProps<'div'>, 'role'> & {\n  /** Who wrote it. The user's message sits on the right with a grey ground; the assistant's is plain text on the left. */\n  role?: 'user' | 'assistant'\n  /** Name for the default avatar (its first two letters). Default \"AI\" or \"You\". */\n  name?: string\n  /** Replaces the default avatar. */\n  avatar?: React.ReactNode\n}\n\n/**\n * One turn of a conversation: an avatar and the content. The content can be text or anything\n * else, such as Thinking, ToolCall and a CodeBlock stacked in the order the assistant produced them.\n */\nexport function Message({ role = 'assistant', name, avatar, children, ...props }: MessageProps) {\n  return (\n    <div data-slot=\"message\" data-role={role} {...props}>\n      {avatar ?? <Avatar size=\"sm\" name={name ?? (role === 'assistant' ? 'AI' : 'You')} />}\n      <div data-slot=\"message-body\">{children}</div>\n    </div>\n  )\n}\n"
+      "content": "import * as React from 'react'\nimport { UserRound } from 'lucide-react'\nimport { Avatar } from '@/components/ui/avatar'\n\nexport type MessageProps = Omit<React.ComponentProps<'div'>, 'role'> & {\n  /** Who wrote it. The user's message sits on the right with a grey ground; the assistant's is plain text on the left. */\n  role?: 'user' | 'assistant'\n  /** Name for the default avatar (its first two letters). Without it the assistant shows \"AI\" and the user a person icon. */\n  name?: string\n  /** Replaces the default avatar. */\n  avatar?: React.ReactNode\n}\n\n/**\n * One turn of a conversation: an avatar and the content. The content can be text or anything\n * else, such as Thinking, ToolCall and a CodeBlock stacked in the order the assistant produced them.\n */\nexport function Message({ role = 'assistant', name, avatar, children, ...props }: MessageProps) {\n  return (\n    <div data-slot=\"message\" data-role={role} {...props}>\n      {avatar ?? (name || role === 'assistant'\n        ? <Avatar size=\"sm\" name={name ?? 'AI'} />\n        // \"You\" in letters reads as \"YO\", so an unnamed user gets an icon; the title still says \"You\".\n        : <Avatar size=\"sm\" name=\"You\"><UserRound size={16} aria-hidden=\"true\" /></Avatar>)}\n      <div data-slot=\"message-body\">{children}</div>\n    </div>\n  )\n}\n"
     }
   ]
 }
