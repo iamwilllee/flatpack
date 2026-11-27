@@ -5,8 +5,8 @@
       "id": "shape",
       "zh": "形状按角色",
       "en": "Shape by role",
-      "zhDesc": "可点的单行小件（按钮、筛选项、输入框、徽章）用一种圆角，承载内容的面（卡片、图片、表格）用另一种，没有中间值。默认前者是胶囊、后者是直角。浮在页面上的层（弹窗、菜单、Toast）和装着胶囊控件的外框（Composer）单独用一种圆角，让里面的胶囊控件有一个相配的外框。想要全直角，选「直角」预设，主题也可以给内容面一个小圆角。",
-      "enDesc": "Clickable single-line parts (buttons, chips, inputs, badges) share one radius; surfaces that hold content (cards, images, tables) share another. Nothing in between. By default the first is a pill and the second is square. Layers that float above the page (dialogs, menus, toasts) and frames that hold pill controls (the Composer) get their own radius, so the pill controls inside sit in a matching frame. For all-square pick the Square preset; a theme may give surfaces a small radius."
+      "zhDesc": "可点的单行小件（按钮、筛选项、输入框、徽章）用一种圆角，承载内容的面（卡片、图片、表格、代码块）用另一种，没有中间值。默认前者是胶囊、后者是直角。浮在页面上的层（弹窗、菜单、Toast）和多行的输入框（Textarea、Composer、多选框）单独用一种圆角：多行框做不成胶囊，用这个圆角和单行输入框保持一家。想要全直角，选「直角」预设，主题也可以给内容面一个小圆角。",
+      "enDesc": "Clickable single-line parts (buttons, chips, inputs, badges) share one radius; surfaces that hold content (cards, images, tables, code) share another. Nothing in between. By default the first is a pill and the second is square. Layers that float above the page (dialogs, menus, toasts) and multi-line fields (Textarea, Composer, multi-select) get their own radius: a multi-line field cannot be a pill, so this keeps it in the same family as the single-line inputs. For all-square pick the Square preset; a theme may give surfaces a small radius."
     },
     {
       "id": "mono",
@@ -149,13 +149,13 @@
     "zh": {
       "control": "可点的单行小件",
       "surface": "承载内容的面，默认 0，主题可以改成小圆角",
-      "floating": "浮在页面上的层（弹窗、菜单、Toast）和装着胶囊控件的外框（Composer），默认 20px，直角预设下为 0",
+      "floating": "浮在页面上的层（弹窗、菜单、Toast）和多行的输入框（Textarea、Composer、多选框），默认 20px，直角预设下为 0",
       "round": "头像、单选圆点"
     },
     "en": {
       "control": "Clickable single-line parts",
       "surface": "Surfaces that hold content. 0 by default; a theme may set a small radius",
-      "floating": "Layers that float above the page (dialog, menus, toast) and frames that hold pill controls (Composer). 20px by default; 0 in the Square preset",
+      "floating": "Layers that float above the page (dialog, menus, toast) and multi-line fields (Textarea, Composer, multi-select). 20px by default; 0 in the Square preset",
       "round": "Avatars, the radio dot"
     }
   },

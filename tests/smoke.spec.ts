@@ -192,10 +192,12 @@ test('floating layers use their own radius, which themes and the square preset c
   expect(await radius({ 'data-fp-shape': 'square' }, 'dialog-content')).toBe('0px')
   expect(await radius({ 'data-fp-theme': 'catalog' }, 'dialog-content')).toBe('8px')
   expect(await radius({ 'data-fp-theme': 'sage' }, 'dialog-content')).toBe('16px')
-  // The Composer frames pill controls, so it rounds like the floating layers; a Textarea holds only text and stays square.
+  // Multi-line fields cannot be pills, so they take the same rounded radius.
   expect(await radius({}, 'composer')).toBe('20px')
-  expect(await radius({ 'data-fp-shape': 'square' }, 'composer')).toBe('0px')
-  expect(await radius({}, 'textarea')).toBe('0px')
+  expect(await radius({}, 'textarea')).toBe('20px')
+  expect(await radius({ 'data-fp-shape': 'square' }, 'textarea')).toBe('0px')
+  // Chips inside a multi-select can be removed, so they are controls: pills.
+  expect(await radius({}, 'combobox-chip')).not.toBe('0px')
   // Cards are content surfaces, not floating layers, so they stay square.
   expect(await radius({}, 'card')).toBe('0px')
 })
